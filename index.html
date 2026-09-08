@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>용쟁호투 작전 브리핑</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700;900&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#D9D5C7;
+  --paper-2:#CFCABA;
+  --ink:#1C231F;
+  --ink-soft:#454E47;
+  --ink-faint:#6E766E;
+  --rule:#B3AE9C;
+
+  --c-dragon:#2E6B62;   /* 비룡성 */
+  --c-bandit:#9B2C25;   /* 도적거점 */
+  --c-tiger:#4A7A3B;    /* 맹호성 */
+  --c-dock:#3A5C77;     /* 조운부두 */
+  --c-camp:#A8801F;     /* 장작영 */
+
+  --ok:#2E6B62;
+  --guess:#A8801F;
+  --none:#8C4A44;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--paper);
+  background-image:
+    radial-gradient(ellipse at 20% 0%, rgba(255,255,255,.35), transparent 55%),
+    radial-gradient(ellipse at 90% 100%, rgba(120,110,80,.13), transparent 50%);
+  color:var(--ink);
+  font-family:"Noto Sans KR",sans-serif;
+  font-weight:400;
+  line-height:1.75;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1040px;margin:0 auto;padding:0 28px}
+
+/* ---------- hero ---------- */
+.hero{padding:64px 0 12px}
+.stamp{
+  display:inline-block;border:1.5px solid var(--c-bandit);color:var(--c-bandit);
+  font-size:12px;letter-spacing:.22em;padding:5px 12px 4px;border-radius:2px;
+  font-weight:700;margin-bottom:26px;
+}
+h1{
+  font-family:"Noto Serif KR",serif;font-weight:900;
+  font-size:clamp(46px,9vw,88px);line-height:.98;letter-spacing:-.045em;
+  margin:0 0 18px;
+}
+.sub{font-size:16px;color:var(--ink-soft);max-width:60ch;margin:0 0 34px;font-weight:300}
+
+.clock{
+  display:flex;flex-wrap:wrap;gap:0;border-top:2px solid var(--ink);border-bottom:1px solid var(--rule);
+  margin-bottom:8px;
+}
+.clock div{padding:16px 26px 15px;border-right:1px solid var(--rule);flex:1 1 auto}
+.clock div:last-child{border-right:0}
+.clock dt{font-size:12px;color:var(--ink-faint);margin:0 0 4px;font-weight:500}
+.clock dd{margin:0;font-family:"Noto Serif KR",serif;font-weight:700;font-size:22px;letter-spacing:-.02em}
+.clock .big dd{color:var(--c-bandit);font-size:26px}
+
+/* ---------- confidence ---------- */
+.filter{
+  position:sticky;top:0;z-index:30;background:var(--paper);
+  border-bottom:1px solid var(--rule);padding:11px 0;margin-bottom:56px;
+  display:flex;gap:10px;align-items:center;flex-wrap:wrap;
+}
+.filter b{font-size:12.5px;font-weight:500;color:var(--ink-faint);margin-right:4px}
+.fbtn{
+  font-family:inherit;font-size:13px;font-weight:500;cursor:pointer;
+  background:transparent;border:1px solid var(--rule);color:var(--ink-soft);
+  padding:5px 13px;border-radius:2px;transition:background .15s,color .15s,border-color .15s;
+}
+.fbtn:hover{border-color:var(--ink-soft)}
+.fbtn[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.fbtn:focus-visible{outline:2px solid var(--c-bandit);outline-offset:2px}
+
+.tag{
+  display:inline-block;vertical-align:2px;font-size:11px;font-weight:700;
+  padding:1px 7px;border-radius:2px;letter-spacing:.02em;margin-left:8px;white-space:nowrap;
+}
+.tag.ok{background:rgba(46,107,98,.15);color:var(--ok)}
+.tag.guess{background:rgba(168,128,31,.18);color:#7E5E10}
+.tag.none{background:rgba(140,74,68,.15);color:var(--none)}
+
+.item{padding-left:16px;border-left:3px solid transparent;margin-bottom:22px}
+.item[data-c="ok"]{border-left-color:var(--ok)}
+.item[data-c="guess"]{border-left-color:var(--guess);border-left-style:dashed}
+.item[data-c="none"]{border-left-color:var(--none);border-left-style:dotted}
+.item h4{margin:0 0 4px;font-size:16.5px;font-weight:700;font-family:"Noto Serif KR",serif}
+.item p{margin:0;font-size:14.5px;color:var(--ink-soft);font-weight:300;max-width:72ch}
+
+body.only-ok .item[data-c="guess"],
+body.only-ok .item[data-c="none"],
+body.only-ok tr[data-c="guess"],
+body.only-ok tr[data-c="none"]{display:none}
+body.only-ok .dim-when-filtered{opacity:.32}
+
+/* ---------- sections ---------- */
+section{margin-bottom:78px;scroll-margin-top:70px}
+h2{
+  font-family:"Noto Serif KR",serif;font-weight:900;font-size:clamp(26px,3.6vw,36px);
+  letter-spacing:-.035em;margin:0 0 6px;
+}
+.lede{color:var(--ink-faint);font-size:14.5px;margin:0 0 30px;max-width:66ch;font-weight:300}
+
+/* ---------- map ---------- */
+.mapbox{background:rgba(28,35,31,.055);border:1px solid var(--rule);border-radius:3px;padding:18px 14px 10px}
+svg.map{width:100%;height:auto;display:block}
+.bld{cursor:pointer;transition:opacity .2s}
+.bld rect{transition:stroke-width .2s}
+.bld:focus-visible{outline:none}
+.bld:focus-visible rect{stroke-width:4}
+svg.map.focused .bld:not(.on){opacity:.16}
+.mlabel{font-family:"Noto Sans KR",sans-serif;font-size:11px;fill:var(--ink-faint);font-weight:500}
+.river{stroke:var(--c-dock);stroke-width:9;opacity:.2;fill:none;stroke-linecap:round}
+.axis{stroke:var(--ink);stroke-width:1;opacity:.16;stroke-dasharray:3 5}
+
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 0}
+.lg{
+  display:flex;align-items:center;gap:7px;cursor:pointer;font-family:inherit;
+  background:transparent;border:1px solid var(--rule);border-radius:2px;
+  padding:6px 12px;font-size:13px;color:var(--ink-soft);font-weight:500;transition:border-color .15s,background .15s;
+}
+.lg:hover{border-color:var(--ink-soft)}
+.lg[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.lg:focus-visible{outline:2px solid var(--c-bandit);outline-offset:2px}
+.sw{width:11px;height:11px;border-radius:2px;flex:none}
+.lg small{color:inherit;opacity:.6;font-weight:400}
+
+.detail{
+  margin-top:18px;border-top:2px solid var(--ink);padding-top:18px;min-height:132px;
+}
+.detail h3{margin:0 0 3px;font-family:"Noto Serif KR",serif;font-size:22px;font-weight:700}
+.detail .role{font-size:13px;font-weight:500;margin:0 0 12px}
+.detail ul{margin:0;padding-left:18px;font-size:14.5px;color:var(--ink-soft);font-weight:300}
+.detail li{margin-bottom:5px}
+.detail .placeholder{color:var(--ink-faint);font-size:14.5px;font-weight:300;margin:0}
+
+/* ---------- table ---------- */
+table{width:100%;border-collapse:collapse;font-size:14px}
+caption{text-align:left;font-size:13px;color:var(--ink-faint);padding-bottom:10px;font-weight:300}
+th{
+  text-align:left;font-weight:700;font-size:12.5px;color:var(--ink-faint);
+  border-bottom:2px solid var(--ink);padding:0 12px 8px 0;
+}
+td{padding:11px 12px 11px 0;border-bottom:1px solid var(--rule);vertical-align:top;font-weight:300;color:var(--ink-soft)}
+td.name{font-weight:700;color:var(--ink);white-space:nowrap;position:relative;padding-left:14px}
+td.name::before{content:"";position:absolute;left:0;top:15px;width:5px;height:5px;border-radius:1px;background:var(--bar)}
+td strong{font-weight:700;color:var(--ink)}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+
+/* ---------- callout ---------- */
+.key{
+  border:2px solid var(--ink);border-radius:3px;padding:24px 26px;margin:32px 0;
+  background:rgba(255,255,255,.3);
+}
+.key p{margin:0;font-family:"Noto Serif KR",serif;font-size:19px;line-height:1.6;font-weight:500;letter-spacing:-.02em}
+.key p + p{margin-top:12px;font-family:"Noto Sans KR",sans-serif;font-size:14.5px;font-weight:300;color:var(--ink-soft);letter-spacing:0}
+
+/* ---------- fork ---------- */
+.fork{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:24px}
+.branch{border:1px solid var(--rule);border-radius:3px;padding:20px 22px;background:rgba(255,255,255,.24)}
+.branch.a{border-top:4px solid var(--ok)}
+.branch.b{border-top:4px solid var(--none)}
+.branch h4{margin:0 0 3px;font-family:"Noto Serif KR",serif;font-size:18px;font-weight:700}
+.branch .cond{font-size:12.5px;color:var(--ink-faint);margin:0 0 12px;font-weight:500}
+.branch p{margin:0;font-size:14px;color:var(--ink-soft);font-weight:300}
+
+/* ---------- roster ---------- */
+.roster{border-top:2px solid var(--ink)}
+.row{display:grid;grid-template-columns:150px 76px 1fr;gap:20px;padding:18px 0;border-bottom:1px solid var(--rule);align-items:start}
+.row .who{font-family:"Noto Serif KR",serif;font-weight:700;font-size:17px}
+.row .who small{display:block;font-family:"Noto Sans KR",sans-serif;font-size:12px;color:var(--ink-faint);font-weight:400;margin-top:2px}
+.row .cnt{font-family:"Noto Serif KR",serif;font-size:24px;font-weight:900;letter-spacing:-.03em;color:var(--c-bandit);font-variant-numeric:tabular-nums}
+.row .cnt small{display:block;font-family:"Noto Sans KR",sans-serif;font-size:11px;color:var(--ink-faint);font-weight:400;letter-spacing:0}
+.row .task{font-size:14.5px;color:var(--ink-soft);font-weight:300}
+.row .task b{color:var(--ink);font-weight:700}
+
+/* ---------- trigger ---------- */
+.trig{border-top:2px solid var(--ink)}
+.trig .t{display:grid;grid-template-columns:210px 1fr;gap:20px;padding:14px 0;border-bottom:1px solid var(--rule)}
+.trig .sig{font-weight:700;font-size:14.5px}
+.trig .act{font-size:14.5px;color:var(--ink-soft);font-weight:300}
+.trig .act b{color:var(--c-bandit);font-weight:700}
+
+/* ---------- questions ---------- */
+ol.q{list-style:none;counter-reset:q;padding:0;margin:0;border-top:2px solid var(--ink)}
+ol.q li{counter-increment:q;padding:16px 0 16px 44px;border-bottom:1px solid var(--rule);position:relative;font-size:15px}
+ol.q li::before{
+  content:counter(q);position:absolute;left:0;top:16px;
+  font-family:"Noto Serif KR",serif;font-weight:900;font-size:17px;color:var(--c-bandit);
+}
+ol.q li span{display:block;font-size:13.5px;color:var(--ink-faint);font-weight:300;margin-top:2px}
+
+footer{border-top:1px solid var(--rule);padding:28px 0 60px;font-size:13px;color:var(--ink-faint);font-weight:300}
+footer p{margin:0 0 6px;max-width:70ch}
+
+@media (max-width:720px){
+  .wrap{padding:0 20px}
+  .hero{padding-top:40px}
+  .clock div{flex:1 1 100%;border-right:0;border-bottom:1px solid var(--rule);padding:13px 0}
+  .clock div:last-child{border-bottom:0}
+  .fork{grid-template-columns:1fr}
+  .row{grid-template-columns:1fr;gap:6px}
+  .row .cnt{font-size:20px}
+  .trig .t{grid-template-columns:1fr;gap:4px}
+  table{font-size:13px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<header class="hero">
+  <span class="stamp">크로스서버 동맹 PVP</span>
+  <h1>용쟁호투<br>작전 브리핑</h1>
+  <p class="sub">공개된 정보가 제한적입니다. 확인된 규칙과 경험에 기반한 추정을 구분해 정리했습니다. 추정 항목은 실제 규칙이 공개되면 결론이 바뀔 수 있습니다.</p>
+
+  <dl class="clock">
+    <div><dt>신청</dt><dd>9/9 (수) 13:00</dd></div>
+    <div><dt>매칭 상대 공개</dt><dd>9/12 (토) 21:00</dd></div>
+    <div class="big"><dt>본전투</dt><dd>9/13 (일) 21:00</dd></div>
+    <div><dt>교전 시간</dt><dd>45분</dd></div>
+  </dl>
+</header>
+
+<div class="filter">
+  <b>표시</b>
+  <button class="fbtn" id="f-all" aria-pressed="true">전체</button>
+  <button class="fbtn" id="f-ok" aria-pressed="false">확인된 규칙만</button>
+</div>
+
+<!-- ===== 전장 ===== -->
+<section id="map">
+  <h2>전장 구조</h2>
+  <p class="lede">건물 35개가 180도 회전 대칭으로 배치됩니다. 중앙일수록 가치가 높고, 강 건너 외곽으로 갈수록 보조 역할입니다. 건물을 눌러 규칙을 확인하세요.</p>
+
+  <div class="mapbox">
+    <svg class="map" id="svgmap" viewBox="0 0 900 540" role="img" aria-label="용쟁호투 전장 배치도">
+      <path class="river" d="M20 108 Q 300 84, 470 104 T 880 92"/>
+      <path class="river" d="M20 448 Q 300 470, 470 450 T 880 462"/>
+      <line class="axis" x1="450" y1="18" x2="450" y2="522"/>
+      <g id="blds"></g>
+    </svg>
+  </div>
+
+  <div class="legend" id="legend"></div>
+
+  <div class="detail" id="detail" aria-live="polite">
+    <p class="placeholder">건물을 선택하면 단계 구성과 획득 방식이 표시됩니다.</p>
+  </div>
+</section>
+
+<!-- ===== 승패 ===== -->
+<section id="score">
+  <h2>승패는 어디서 갈리는가</h2>
+  <p class="lede">건물 종류별로 산출물이 전혀 다릅니다. 이 차이가 병력 배치의 전부를 결정합니다.</p>
+
+  <table>
+    <caption>건물 35개의 실제 기여도</caption>
+    <thead>
+      <tr><th>건물</th><th class="num">개수</th><th>단계</th><th>산출물</th></tr>
+    </thead>
+    <tbody>
+      <tr data-c="ok"><td class="name" style="--bar:var(--c-dragon)">용반루<span style="font-weight:300;color:var(--ink-faint)"> (비룡성)</span></td><td class="num">3</td><td>3단계</td><td><strong>동맹 점수</strong> — 생산 기간 중 초당 산출</td></tr>
+      <tr data-c="ok"><td class="name" style="--bar:var(--c-tiger)">호거대<span style="font-weight:300;color:var(--ink-faint)"> (맹호성)</span></td><td class="num">4</td><td>3단계</td><td><strong>동맹 점수</strong> — 생산 기간 중 초당 산출</td></tr>
+      <tr data-c="ok"><td class="name" style="--bar:var(--c-bandit)">도적 거점</td><td class="num">4</td><td>2단계</td><td><strong>대량 포인트 1회</strong> — 처치 수 우세 측 독식</td></tr>
+      <tr data-c="ok"><td class="name" style="--bar:var(--c-dock)">조운 부두</td><td class="num">8</td><td>2단계</td><td>점수 없음 — 섬 이전 자격</td></tr>
+      <tr data-c="ok"><td class="name" style="--bar:var(--c-camp)">장작영</td><td class="num">16</td><td>—</td><td>점수 없음 — 이벤트 버프</td></tr>
+    </tbody>
+  </table>
+
+  <div class="key">
+    <p>35개 중 동맹 점수를 실제로 만드는 건물은 7개뿐입니다.</p>
+    <p>나머지 28개는 점수를 직접 생산하지 않습니다. 승패는 “건물을 많이 먹었는가”가 아니라 <strong>용반루·호거대 7개의 생산 기간을 누가 더 오래 소유했는가</strong>로 결정됩니다. 나머지는 이 7개를 유리하게 먹기 위한 수단이거나 개인 점수 파밍 라인입니다.</p>
+  </div>
+
+  <div class="item" data-c="ok">
+    <h4>동맹 점수와 개인 점수는 별개입니다 <span class="tag ok">확인</span></h4>
+    <p>동맹 점수로 승패를 판정하고, 개인 점수는 개인 순위에만 쓰입니다. 주력군의 승패가 동맹의 최종 승패를 결정하며, 소규모 부대의 승패는 여기에 영향을 주지 않습니다.</p>
+  </div>
+  <div class="item" data-c="ok">
+    <h4>추격 점수는 생각보다 약합니다 <span class="tag ok">확인</span></h4>
+    <p>점수 차가 50%를 넘으면 열세 측 건물의 생산량이 차이 비율만큼 상승합니다. 다만 점령 중인 건물 여러 개 중 <strong>단 1개에만</strong> 적용됩니다. 벌어진 차이를 되돌리기 어렵다는 뜻이므로, 초반 사이클이 후반보다 무겁습니다.</p>
+  </div>
+  <div class="item" data-c="none">
+    <h4>도적 거점에 추격 점수가 어떻게 적용되는지 불명 <span class="tag none">미확인</span></h4>
+    <p>도적 거점은 초당 생산이 아니라 1회 지급이라, “생산량 % 상승” 공식을 그대로 적용할 수 없습니다.</p>
+  </div>
+</section>
+
+<!-- ===== 전제 ===== -->
+<section id="assume">
+  <h2>전략의 전제</h2>
+  <p class="lede">아래는 공개 규칙이 아니라 과거 이벤트 경험에 기반한 추정입니다. 이 중 하나라도 틀리면 배치안이 바뀝니다.</p>
+
+  <div class="item" data-c="guess">
+    <h4>건물당 주둔 부대 수 제한 없음 <span class="tag guess">추정</span></h4>
+    <p>제한이 없다면 한쪽이 전 병력을 한 건물에 몰면 그 건물은 뺏기지 않습니다. 균등 분산보다 선택과 집중이 유리해집니다. 반대로 상한이 있다면 몰빵이 무효화되고 분산이 정답이 됩니다.</p>
+  </div>
+  <div class="item" data-c="guess">
+    <h4>생산 기간 중에도 소유권 탈취 가능 <span class="tag guess">추정</span></h4>
+    <p>먼저 먹는 것의 가치가 낮아지고, 최종 전투력 우위가 승부를 가릅니다. 만약 생산 기간에 소유권이 잠긴다면 방어 개념이 사라지고 쟁탈 기간 선점 속도전이 됩니다.</p>
+  </div>
+  <div class="item" data-c="guess">
+    <h4>방어 성공 판정은 “공격해온 적을 격퇴” <span class="tag guess">추정</span></h4>
+    <p>격퇴 방식이면 소수 부대를 계속 흘려보내 대군을 전투에 묶어둘 수 있습니다. 상대도 쓸 수 있는 수단이므로 방어조는 항상 여유 인원이 필요합니다.</p>
+  </div>
+  <div class="item" data-c="guess">
+    <h4>장작영 버프는 동맹 전체 적용 · 중첩 가능 <span class="tag guess">추정</span></h4>
+    <p>이벤트가 무장 레벨과 전법 레벨을 통일하기 때문에 최상위끼리는 격차가 거의 없습니다. 여기에 전원 50% 속성 보정까지 균등하게 걸리므로, 좁혀진 격차에서 <strong>외부 버프의 비중이 평소보다 훨씬 큽니다.</strong></p>
+  </div>
+  <div class="item" data-c="none">
+    <h4>구간별 지속 시간, 사이클 횟수 <span class="tag none">미확인</span></h4>
+    <p>사전 타임테이블을 짤 수 없으므로 아래 트리거 기반 운영으로 대체합니다.</p>
+  </div>
+</section>
+
+<!-- ===== 버프 ===== -->
+<section id="buff">
+  <h2>버프 투자의 손익분기</h2>
+  <p class="lede">버프가 동맹 전체에 걸린다면 도하조는 전선에서 빠지는 손실이 아니라 전체를 강화하는 투자가 됩니다.</p>
+
+  <div class="key">
+    <p>도하조 15명을 보내면 중앙 전력은 55명. 버프 배율이 1.27배를 넘으면 파견이 순이득입니다.</p>
+    <p>70 ÷ 55 = 1.27. 이 배율을 넘는 순간 도하조를 뺀 55명이 원래 70명보다 강해집니다. 게다가 버프가 중첩된다면 장작영을 더 먹을수록 배율이 곱해지므로, 중앙이 무너지지 않는 선까지는 도하조를 늘리는 쪽이 유리합니다.</p>
+  </div>
+
+  <div class="item" data-c="ok">
+    <h4>버프는 강한 유닛에 실릴 때만 값어치가 납니다 <span class="tag ok">확인</span></h4>
+    <p>일반 부대 10개에 걸면 어차피 지는 싸움이 조금 덜 집니다. 반면 호각인 대결에 걸면 우세로 뒤집힙니다. 다만 동맹 전체 적용이라면 머릿수가 많은 중간 티어에 곱해지는 총량이 더 크므로, 버프가 충분히 쌓일수록 물량 전략이 다시 유효해집니다.</p>
+  </div>
+
+  <div class="item" data-c="none">
+    <h4>휴전 시 버프가 초기화되는지 <span class="tag none">미확인 · 최대 변수</span></h4>
+    <p>장작영이 휴전에 들어가면 섬 안의 관청이 전부 시작 지점으로 되돌아갑니다. 위치만 잃는 것인지 버프까지 사라지는 것인지에 따라 전략이 정반대로 갈립니다.</p>
+  </div>
+
+  <div class="fork">
+    <div class="branch a">
+      <h4>A — 버프 유지</h4>
+      <p class="cond">귀환은 위치 손실일 뿐</p>
+      <p>사이클마다 버프가 누적됩니다. 초반부터 도하조를 크게 편성해 최대한 빨리 쌓고, 후반에 압도합니다. 초반 손실을 감수할 가치가 있습니다.</p>
+    </div>
+    <div class="branch b">
+      <h4>B — 버프 초기화</h4>
+      <p class="cond">매 사이클 처음부터</p>
+      <p>도하 왕복 + 부두 점령 + 장작영 점령 시간을 매번 지불해야 합니다. 45분 안에 회수가 어렵습니다. 도하조를 최소화하거나 포기하고 중앙에 집중합니다.</p>
+    </div>
+  </div>
+
+  <div class="item" data-c="guess" style="margin-top:26px">
+    <h4>1차 사이클을 테스트로 씁니다 <span class="tag guess">대응안</span></h4>
+    <p>개전 직후 도하조를 소규모로만 보내 전체 판돈을 걸지 않습니다. 첫 휴전에서 강제 귀환이 발생했을 때 <strong>버프가 남아 있는지 도하조 조장이 즉시 확인해 맹주에게 보고</strong>합니다. 남아 있으면 2차 사이클부터 대폭 증원, 사라지면 철수하고 중앙 집중으로 전환합니다.</p>
+  </div>
+</section>
+
+<!-- ===== 배치 ===== -->
+<section id="roster">
+  <h2>초기 배치안</h2>
+  <p class="lede">인원수보다 티어 구성이 중요합니다. 한 부대가 수십 부대를 버티는 구조라면 실제 전력 단위는 “상위 티어 부대 몇 개”입니다.</p>
+
+  <div class="roster">
+    <div class="row">
+      <div class="who">중앙 주력<small>1티어 + 2티어</small></div>
+      <div class="cnt">40–45<small>명</small></div>
+      <div class="task">용반루 3개를 중심으로 배치. <b>초반에는 소모를 피합니다.</b> 버프가 도착하기 전에 상위 티어를 갈아넣으면 버프를 실을 주체가 사라집니다. 상대가 초반에 밀고 들어오면 일부 건물을 내주더라도 병력을 보존합니다.</div>
+    </div>
+    <div class="row">
+      <div class="who">도하조<small>2티어</small></div>
+      <div class="cnt">10–12<small>명</small></div>
+      <div class="task">개전 직후 즉시 조운 부두로 진격해 도하 자격을 확보하고 장작영을 점령합니다. <b>첫 휴전의 버프 유지 여부를 관측</b>해 보고하는 역할을 겸합니다.</div>
+    </div>
+    <div class="row">
+      <div class="who">파밍조<small>3티어 + 분대</small></div>
+      <div class="cnt">15–20<small>명</small></div>
+      <div class="task">도적 거점 처치와 상대 주력 견제를 맡습니다. 승패에 영향이 없으므로 소모를 두려워할 필요가 없고, 적 부대 격파가 곧 개인 점수라 <b>임무 60,000 달성과 이해가 일치</b>합니다.</div>
+    </div>
+  </div>
+
+  <div class="item" data-c="guess" style="margin-top:30px">
+    <h4>집중 개수는 4개가 균형점입니다 <span class="tag guess">추정</span></h4>
+    <p>7개에 균등 분산하면 건물당 10명이라 상대가 20명씩 몰면 전부 잃습니다. 4개에 집중하면 건물당 17~18명으로 과반을 확보하면서 방어도 버팁니다. 다만 용반루의 점수 생산량이 호거대보다 높다면 개수가 아니라 점수 총량 기준으로 다시 계산해야 합니다.</p>
+  </div>
+  <div class="item" data-c="guess">
+    <h4>어느 4개를 고를 것인가 <span class="tag guess">추정</span></h4>
+    <p>용반루 3개는 정중앙 세로축에 있어 양측 접근 거리가 같은 최대 격전지입니다. 호거대 4개는 좌우 외곽이라 각 진영에 가까운 2개씩으로 갈릴 가능성이 높습니다. <strong>현재 정보로는 가까운 호거대 2개에 최소 인원을 두고 용반루 1개에 주력을 모으는 쪽을 권합니다.</strong> 용반루 생산량이 2배 이상으로 확인되면 중앙 3개 장악으로 전환합니다.</p>
+  </div>
+  <div class="item" data-c="ok">
+    <h4>도적 거점은 자원 효율이 가장 좋습니다 <span class="tag ok">확인</span></h4>
+    <p>도적은 PvE 대상이라 상위 티어가 필요 없습니다. 상위 부대를 전혀 쓰지 않고 큰 점수를 가져올 수 있는 유일한 창구입니다. 다만 승자독식이라 두 거점에 반씩 나누면 둘 다 질 수 있습니다. 한 곳에 집중하되, 4개 중 2개가 무작위 개방되므로 <strong>파밍조를 중앙 4개 지점 사이에 미리 대기</strong>시킵니다.</p>
+  </div>
+</section>
+
+<!-- ===== 운영 ===== -->
+<section id="trigger">
+  <h2>트리거 기반 운영</h2>
+  <p class="lede">구간 지속 시간을 모르므로 시계 대신 미니맵 알림을 신호로 씁니다. 조장 3명에게 사전 숙지시켜야 합니다.</p>
+
+  <div class="trig">
+    <div class="t"><div class="sig">쟁탈 30초 전 알림</div><div class="act">지정 건물 앞 집결 완료. 오픈 즉시 진입해 누적 점령 시간을 채웁니다.</div></div>
+    <div class="t"><div class="sig">점령 확정</div><div class="act">방어 인원만 남기고 나머지는 유격으로 전환합니다.</div></div>
+    <div class="t"><div class="sig">생산 기간</div><div class="act">점수가 실시간으로 들어오는 유일한 구간입니다. 방어 인원을 여기에 집중합니다.</div></div>
+    <div class="t"><div class="sig">휴전 30초 전 알림</div><div class="act"><b>방어를 즉시 해제합니다.</b> 어차피 소유권이 리셋되므로 서 있으면 순수 낭비입니다. 다음 목표로 출발하면 사이클당 30초 이상의 기동 이득이 생깁니다.</div></div>
+    <div class="t"><div class="sig">휴전 중</div><div class="act">도적 거점 처치와 적 부대 격파로 개인 점수를 벌어들입니다.</div></div>
+  </div>
+
+  <div class="item" data-c="ok" style="margin-top:30px">
+    <h4>열세일 때는 상대의 시계를 멈추는 것만으로 가치가 있습니다 <span class="tag ok">확인</span></h4>
+    <p>양측 모두 목표치를 못 채우면 <strong>누적 점령 시간이 더 긴 쪽</strong>이 가져갑니다. 점령이 어렵다면 상대가 목표치를 채우지 못하게 계속 끊어내는 것만으로 판정을 유리하게 만들 수 있습니다.</p>
+  </div>
+  <div class="item" data-c="ok">
+    <h4>주력군에게 개인 임무를 요구하지 마십시오 <span class="tag ok">확인</span></h4>
+    <p>개인 점수는 건물 공격과 적 부대 격파로 들어오는데, 이는 점령 유지와 충돌합니다. 지키고 있으면 개인 점수가 안 쌓이고, 개인 점수를 쫓으면 점령이 흔들립니다. <strong>임무 보상은 소규모 부대가 가져간다</strong>고 사전에 공지해두면 갈등이 적습니다.</p>
+  </div>
+</section>
+
+<!-- ===== 확인 ===== -->
+<section id="todo">
+  <h2>본전투 전 확인할 것</h2>
+  <p class="lede">확인되면 배치가 크게 달라지는 순서입니다. 규칙 탭이 열리면 위에서부터 봐주십시오.</p>
+  <ol class="q">
+    <li>휴전 시 버프가 초기화되는가<span>A / B 분기점. 도하조 규모가 여기서 결정됩니다.</span></li>
+    <li>장작영 버프의 배율과 지속 시간<span>1.27배 손익분기 대비 어느 쪽인지.</span></li>
+    <li>건물당 주둔 부대 수 상한이 있는가<span>있다면 몰빵 전략이 무효가 되고 균등 분산이 정답이 됩니다.</span></li>
+    <li>생산 기간 중 소유권 이전이 가능한가<span>불가능하다면 방어조가 필요 없어지고 선점 속도전이 됩니다.</span></li>
+    <li>45분 내 사이클 횟수<span>2회면 테스트 여유가 빠듯하고, 4회 이상이면 충분합니다.</span></li>
+    <li>맵 태그의 용반루 “2”가 무엇을 뜻하는가<span>점수 가중치라면 중앙 집중도를 높여야 합니다. 개체 수라면 용반루는 6개가 됩니다.</span></li>
+    <li>양측 시작 지점 위치<span>점대칭 구조라 어느 건물이 우리 쪽에 가까운지가 초반 동선을 결정합니다.</span></li>
+    <li>장작영 16개가 공용인가 진영별 8개씩인가<span>뒷마당이면 무혈 점령, 공용이면 도하 후 교전이 발생합니다.</span></li>
+    <li>조운 부두 외에 강을 건널 경로가 있는가<span>유일 통로라면 부두의 전략 가치가 크게 올라갑니다.</span></li>
+    <li>주력군과 소규모 부대의 정원<span>전원 참가 시 최대 70명을 어떻게 쪼갤지의 기준입니다.</span></li>
+  </ol>
+</section>
+
+<footer>
+  <p>공개 공지와 이벤트 안내 이미지에서 확인된 내용, 그리고 과거 이벤트 경험에 기반한 추정을 함께 정리한 문서입니다. 추정 항목은 실제 규칙과 다를 수 있습니다.</p>
+  <p>호거대와 맹호성, 용반루와 비룡성은 각각 같은 건물이며 번역 표기가 다릅니다. 최종 확정 명칭은 확인되지 않았습니다.</p>
+  <p>작성 기준 2026년 9월 8일 · 본전투 D-5</p>
+</footer>
+
+</div>
+
+<script>
+const TYPES = {
+  dragon:{ name:"용반루 (비룡성)", color:"var(--c-dragon)", count:3, role:"동맹 점수 · 최우선 목표",
+    bullets:["휴전 → 쟁탈 → 생산 3단계로 순환하며, 휴전마다 소유권이 초기화됩니다.",
+             "쟁탈 기간에는 공성 없이 즉시 점령할 수 있고, 누적 점령 시간이 목표치에 도달하면 확정됩니다.",
+             "양측 모두 목표치에 미달하면 누적 시간이 더 긴 쪽이 가져갑니다.",
+             "맵 정중앙 세로축을 독점합니다. 양측 접근 거리가 같은 최대 격전지입니다.",
+             "맵 태그 숫자가 유일하게 2입니다. 점수 가중치일 가능성이 있으나 미확인입니다."] },
+  tiger:{ name:"호거대 (맹호성)", color:"var(--c-tiger)", count:4, role:"동맹 점수 · 거리 이점",
+    bullets:["용반루와 동일한 3단계 사이클과 점령 판정을 따릅니다.",
+             "좌우 외곽에 2개씩 배치되어, 각 진영에 가까운 쪽이 방어하기 쉽습니다.",
+             "거리 이점이 있으므로 최소 인원으로 유지하고 남는 병력을 중앙에 돌리는 편이 효율적입니다."] },
+  bandit:{ name:"도적 거점", color:"var(--c-bandit)", count:4, role:"대량 포인트 1회 · 승자독식",
+    bullets:["휴전과 쟁탈 2단계뿐이며 생산 기간이 없습니다.",
+             "오픈 시 4개 중 2개가 무작위로 개방됩니다. 사전 배치가 불가능하므로 기동력이 전부입니다.",
+             "참가자 전원에게 공격 횟수가 부여됩니다. 유한 자원이라 낭비하면 회수할 수 없습니다.",
+             "휴전 진입 시 도적을 더 많이 처치한 측이 대량 포인트를 1회 획득합니다. 2등은 0점입니다.",
+             "양쪽에 병력을 반씩 나누면 둘 다 질 수 있습니다. 한 곳에 집중하십시오.",
+             "PvE 대상이라 상위 티어가 필요 없습니다. 자원 효율이 가장 좋은 창구입니다."] },
+  dock:{ name:"조운 부두", color:"var(--c-dock)", count:8, role:"점수 없음 · 도하 게이트",
+    bullets:["휴전과 쟁탈 2단계뿐입니다.",
+             "강 위에 위치하며, 섬으로 이전하거나 섬 내부 장작영을 점령하기 위한 선행 조건입니다.",
+             "누적 점령 시간이 목표에 도달하면 즉시 섬으로 이전할 수 있습니다.",
+             "동맹 점수를 직접 만들지 않습니다. 여기 투입한 병력은 그만큼 중앙에서 빠집니다."] },
+  camp:{ name:"장작영", color:"var(--c-camp)", count:16, role:"점수 없음 · 이벤트 버프",
+    bullets:["누적 점령 시간에 따라 이벤트 버프를 획득합니다.",
+             "강 건너편에 있어 본대 전선과 물리적으로 단절됩니다. 보낸 병력은 중앙에 즉시 돌아올 수 없습니다.",
+             "휴전에 진입하면 섬 안의 관청이 전부 시작 지점으로 귀환하고 이전 대기 시간이 초기화됩니다.",
+             "버프까지 초기화되는지는 확인되지 않았습니다. 이 문서의 최대 변수입니다.",
+             "버프가 동맹 전체에 걸리고 중첩된다면, 투자 가치가 급격히 올라갑니다."] }
+};
+
+const LAYOUT = [
+  ...[70,175,280,385,490,595,700,805].map(x=>({t:"camp",x,y:42})),
+  ...[190,370,550,730].map(x=>({t:"dock",x,y:138})),
+  {t:"tiger",x:120,y:212},{t:"tiger",x:120,y:330},
+  {t:"tiger",x:780,y:212},{t:"tiger",x:780,y:330},
+  {t:"bandit",x:330,y:222},{t:"bandit",x:570,y:222},
+  {t:"bandit",x:330,y:320},{t:"bandit",x:570,y:320},
+  {t:"dragon",x:450,y:200},{t:"dragon",x:450,y:271},{t:"dragon",x:450,y:342},
+  ...[190,370,550,730].map(x=>({t:"dock",x,y:412})),
+  ...[70,175,280,385,490,595,700,805].map(x=>({t:"camp",x,y:498}))
+];
+
+const svg=document.getElementById("svgmap"), g=document.getElementById("blds");
+const detail=document.getElementById("detail"), legend=document.getElementById("legend");
+const NS="http://www.w3.org/2000/svg";
+let active=null;
+
+LAYOUT.forEach(b=>{
+  const t=TYPES[b.t];
+  const el=document.createElementNS(NS,"g");
+  el.setAttribute("class","bld"); el.dataset.t=b.t;
+  el.setAttribute("tabindex","0"); el.setAttribute("role","button");
+  el.setAttribute("aria-label",t.name);
+  const w=b.t==="camp"?46:b.t==="dock"?40:52, h=b.t==="camp"?26:b.t==="dock"?24:32;
+  const r=document.createElementNS(NS,"rect");
+  r.setAttribute("x",b.x-w/2); r.setAttribute("y",b.y-h/2);
+  r.setAttribute("width",w); r.setAttribute("height",h); r.setAttribute("rx","3");
+  r.setAttribute("fill",t.color); r.setAttribute("fill-opacity",".16");
+  r.setAttribute("stroke",t.color); r.setAttribute("stroke-width","2");
+  el.appendChild(r);
+  el.addEventListener("click",()=>pick(b.t));
+  el.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();pick(b.t);}});
+  g.appendChild(el);
+});
+
+[["dragon",450,378],["tiger",120,368],["bandit",330,358],["dock",730,176],["camp",805,80]].forEach(([t,x,y])=>{
+  const tx=document.createElementNS(NS,"text");
+  tx.setAttribute("class","mlabel"); tx.setAttribute("x",x); tx.setAttribute("y",y);
+  tx.setAttribute("text-anchor","middle"); tx.textContent=TYPES[t].name.split(" ")[0];
+  g.appendChild(tx);
+});
+
+Object.entries(TYPES).forEach(([k,t])=>{
+  const b=document.createElement("button");
+  b.className="lg"; b.dataset.t=k; b.setAttribute("aria-pressed","false");
+  b.innerHTML=`<span class="sw" style="background:${t.color}"></span>${t.name} <small>${t.count}</small>`;
+  b.addEventListener("click",()=>pick(k));
+  legend.appendChild(b);
+});
+
+function pick(k){
+  if(active===k){
+    active=null; svg.classList.remove("focused");
+    document.querySelectorAll(".bld.on").forEach(e=>e.classList.remove("on"));
+    document.querySelectorAll(".lg").forEach(e=>e.setAttribute("aria-pressed","false"));
+    detail.innerHTML='<p class="placeholder">건물을 선택하면 단계 구성과 획득 방식이 표시됩니다.</p>';
+    return;
+  }
+  active=k; const t=TYPES[k];
+  svg.classList.add("focused");
+  document.querySelectorAll(".bld").forEach(e=>e.classList.toggle("on",e.dataset.t===k));
+  document.querySelectorAll(".lg").forEach(e=>e.setAttribute("aria-pressed",String(e.dataset.t===k)));
+  detail.innerHTML=`<h3>${t.name} <span style="font-family:'Noto Sans KR';font-size:14px;font-weight:400;color:var(--ink-faint)">${t.count}개</span></h3>
+    <p class="role" style="color:${t.color}">${t.role}</p>
+    <ul>${t.bullets.map(x=>`<li>${x}</li>`).join("")}</ul>`;
+}
+
+const all=document.getElementById("f-all"), ok=document.getElementById("f-ok");
+function mode(v){
+  document.body.classList.toggle("only-ok",v);
+  all.setAttribute("aria-pressed",String(!v)); ok.setAttribute("aria-pressed",String(v));
+}
+all.addEventListener("click",()=>mode(false));
+ok.addEventListener("click",()=>mode(true));
+</script>
+</body>
+</html>
