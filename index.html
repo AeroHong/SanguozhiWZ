@@ -215,9 +215,30 @@ footer p{margin:0 0 6px;max-width:70ch}
   table{font-size:13px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* ---------- visitor badge ---------- */
+.visit-badge{
+  position:fixed;top:14px;right:14px;z-index:100;
+  background:var(--paper-2);border:1px solid var(--rule);border-radius:3px;
+  padding:8px 13px;box-shadow:0 2px 8px rgba(0,0,0,.1);
+  display:flex;flex-direction:column;gap:3px;
+}
+.visit-badge .vb-row{display:flex;align-items:baseline;justify-content:space-between;gap:16px}
+.visit-badge .vb-k{font-size:11px;color:var(--ink-faint);font-weight:500}
+.visit-badge .vb-v{font-family:"Noto Serif KR",serif;font-weight:700;font-size:14px;color:var(--ink);font-variant-numeric:tabular-nums}
+@media (max-width:720px){
+  .visit-badge{top:8px;right:8px;padding:6px 10px}
+  .visit-badge .vb-k{font-size:10px}
+  .visit-badge .vb-v{font-size:13px}
+}
 </style>
 </head>
 <body>
+
+<div class="visit-badge" aria-live="polite">
+  <div class="vb-row"><span class="vb-k">총 방문</span><span class="vb-v" id="vTotal">—</span></div>
+  <div class="vb-row"><span class="vb-k">오늘 방문</span><span class="vb-v" id="vToday">—</span></div>
+</div>
 
 <div class="wrap">
 
@@ -557,6 +578,40 @@ function mode(v){
 }
 all.addEventListener("click",()=>mode(false));
 ok.addEventListener("click",()=>mode(true));
+
+/* ---------- visitor counter (CounterAPI.dev v2, public counter) ---------- */
+(function(){
+  const WORKSPACE="aerohongs-team-5448";
+  const COUNTER="first-counter-5448";
+  const API=`https://api.counterapi.dev/v2/${WORKSPACE}/${COUNTER}`;
+  const todayKey="d"+new Date().toISOString().slice(0,10).replace(/-/g,"");
+  const totalEl=document.getElementById("vTotal"), todayEl=document.getElementById("vToday");
+  const seenFlag="yjht_seen_"+todayKey, cacheKey="yjht_cache_"+todayKey;
+
+  function render(total,today){
+    totalEl.textContent = total!=null ? total.toLocaleString("ko-KR") : "—";
+    todayEl.textContent = today!=null ? today.toLocaleString("ko-KR") : "—";
+  }
+
+  let cached=null;
+  try{ cached=JSON.parse(sessionStorage.getItem(cacheKey)); }catch(e){}
+
+  if(cached && sessionStorage.getItem(seenFlag)){
+    render(cached.total, cached.today);
+    return;
+  }
+
+  fetch(`${API}/up`).then(r=>r.json())
+    .then(()=>fetch(`${API}/stats`).then(r=>r.json()))
+    .then(s=>{
+      const total=s?.data?.up_count, today=s?.data?.stats?.today?.up;
+      try{
+        sessionStorage.setItem(seenFlag,"1");
+        sessionStorage.setItem(cacheKey, JSON.stringify({total,today}));
+      }catch(e){}
+      render(total,today);
+    }).catch(()=>render(null,null));
+})();
 </script>
 </body>
 </html>
