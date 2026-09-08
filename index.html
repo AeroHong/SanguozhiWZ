@@ -37,39 +37,39 @@ body{
   color:var(--ink);
   font-family:"Noto Sans KR",sans-serif;
   font-weight:400;
-  line-height:1.75;
+  line-height:1.62;
   -webkit-font-smoothing:antialiased;
 }
 .wrap{max-width:1040px;margin:0 auto;padding:0 28px}
 
 /* ---------- hero ---------- */
-.hero{padding:64px 0 12px}
+.hero{padding:48px 0 8px}
 .stamp{
   display:inline-block;border:1.5px solid var(--c-bandit);color:var(--c-bandit);
   font-size:12px;letter-spacing:.22em;padding:5px 12px 4px;border-radius:2px;
-  font-weight:700;margin-bottom:26px;
+  font-weight:700;margin-bottom:20px;
 }
 h1{
   font-family:"Noto Serif KR",serif;font-weight:900;
-  font-size:clamp(46px,9vw,88px);line-height:.98;letter-spacing:-.045em;
-  margin:0 0 18px;
+  font-size:clamp(40px,8vw,76px);line-height:.98;letter-spacing:-.045em;
+  margin:0 0 14px;
 }
-.sub{font-size:16px;color:var(--ink-soft);max-width:60ch;margin:0 0 34px;font-weight:300}
+.sub{font-size:15.5px;color:var(--ink-soft);max-width:60ch;margin:0 0 24px;font-weight:300}
 
 .clock{
   display:flex;flex-wrap:wrap;gap:0;border-top:2px solid var(--ink);border-bottom:1px solid var(--rule);
   margin-bottom:8px;
 }
-.clock div{padding:16px 26px 15px;border-right:1px solid var(--rule);flex:1 1 auto}
+.clock div{padding:12px 22px 11px;border-right:1px solid var(--rule);flex:1 1 auto}
 .clock div:last-child{border-right:0}
 .clock dt{font-size:12px;color:var(--ink-faint);margin:0 0 4px;font-weight:500}
-.clock dd{margin:0;font-family:"Noto Serif KR",serif;font-weight:700;font-size:22px;letter-spacing:-.02em}
-.clock .big dd{color:var(--c-bandit);font-size:26px}
+.clock dd{margin:0;font-family:"Noto Serif KR",serif;font-weight:700;font-size:20px;letter-spacing:-.02em}
+.clock .big dd{color:var(--c-bandit);font-size:23px}
 
 /* ---------- confidence ---------- */
 .filter{
   position:sticky;top:0;z-index:30;background:var(--paper);
-  border-bottom:1px solid var(--rule);padding:11px 0;margin-bottom:56px;
+  border-bottom:1px solid var(--rule);padding:10px 0;margin-bottom:36px;
   display:flex;gap:10px;align-items:center;flex-wrap:wrap;
 }
 .filter b{font-size:12.5px;font-weight:500;color:var(--ink-faint);margin-right:4px}
@@ -90,12 +90,22 @@ h1{
 .tag.guess{background:rgba(168,128,31,.18);color:#7E5E10}
 .tag.none{background:rgba(140,74,68,.15);color:var(--none)}
 
-.item{padding-left:16px;border-left:3px solid transparent;margin-bottom:22px}
+.item{padding-left:16px;border-left:3px solid transparent;margin-bottom:16px}
 .item[data-c="ok"]{border-left-color:var(--ok)}
 .item[data-c="guess"]{border-left-color:var(--guess);border-left-style:dashed}
 .item[data-c="none"]{border-left-color:var(--none);border-left-style:dotted}
-.item h4{margin:0 0 4px;font-size:16.5px;font-weight:700;font-family:"Noto Serif KR",serif}
-.item p{margin:0;font-size:14.5px;color:var(--ink-soft);font-weight:300;max-width:72ch}
+.item h4{margin:0 0 3px;font-size:16px;font-weight:700;font-family:"Noto Serif KR",serif}
+.item p{margin:0;font-size:14px;color:var(--ink-soft);font-weight:300;max-width:72ch}
+
+.items{display:grid;grid-template-columns:1fr 1fr;gap:2px 28px;margin-top:4px}
+.items .item{margin-bottom:14px}
+
+.warn{color:var(--none);font-weight:700}
+.tnote{font-size:12.5px;color:var(--ink-soft);font-weight:300;margin:8px 0 0;max-width:70ch}
+.notewarn{
+  font-size:13px;font-weight:500;color:#7E5E10;margin:10px 0 0;padding:8px 12px;
+  border-left:3px dashed var(--guess);background:rgba(168,128,31,.08);max-width:74ch;
+}
 
 body.only-ok .item[data-c="guess"],
 body.only-ok .item[data-c="none"],
@@ -104,12 +114,12 @@ body.only-ok tr[data-c="none"]{display:none}
 body.only-ok .dim-when-filtered{opacity:.32}
 
 /* ---------- sections ---------- */
-section{margin-bottom:78px;scroll-margin-top:70px}
+section{margin-bottom:54px;scroll-margin-top:64px}
 h2{
-  font-family:"Noto Serif KR",serif;font-weight:900;font-size:clamp(26px,3.6vw,36px);
-  letter-spacing:-.035em;margin:0 0 6px;
+  font-family:"Noto Serif KR",serif;font-weight:900;font-size:clamp(23px,3.2vw,32px);
+  letter-spacing:-.035em;margin:0 0 5px;
 }
-.lede{color:var(--ink-faint);font-size:14.5px;margin:0 0 30px;max-width:66ch;font-weight:300}
+.lede{color:var(--ink-faint);font-size:14px;margin:0 0 18px;max-width:66ch;font-weight:300}
 
 /* ---------- map ---------- */
 .mapbox{background:rgba(28,35,31,.055);border:1px solid var(--rule);border-radius:3px;padding:18px 14px 10px}
@@ -145,74 +155,77 @@ svg.map.focused .bld:not(.on){opacity:.16}
 .detail .placeholder{color:var(--ink-faint);font-size:14.5px;font-weight:300;margin:0}
 
 /* ---------- table ---------- */
-table{width:100%;border-collapse:collapse;font-size:14px}
-caption{text-align:left;font-size:13px;color:var(--ink-faint);padding-bottom:10px;font-weight:300}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+caption{text-align:left;font-size:12.5px;color:var(--ink-faint);padding-bottom:8px;font-weight:300}
 th{
-  text-align:left;font-weight:700;font-size:12.5px;color:var(--ink-faint);
-  border-bottom:2px solid var(--ink);padding:0 12px 8px 0;
+  text-align:left;font-weight:700;font-size:12px;color:var(--ink-faint);
+  border-bottom:2px solid var(--ink);padding:0 12px 6px 0;
 }
-td{padding:11px 12px 11px 0;border-bottom:1px solid var(--rule);vertical-align:top;font-weight:300;color:var(--ink-soft)}
+td{padding:8px 12px 8px 0;border-bottom:1px solid var(--rule);vertical-align:top;font-weight:300;color:var(--ink-soft)}
 td.name{font-weight:700;color:var(--ink);white-space:nowrap;position:relative;padding-left:14px}
-td.name::before{content:"";position:absolute;left:0;top:15px;width:5px;height:5px;border-radius:1px;background:var(--bar)}
+td.name::before{content:"";position:absolute;left:0;top:13px;width:5px;height:5px;border-radius:1px;background:var(--bar)}
 td strong{font-weight:700;color:var(--ink)}
 .num{font-variant-numeric:tabular-nums;white-space:nowrap}
+tr.hl td{background:rgba(255,255,255,.4)}
+tfoot td, .tfoot{font-size:12.5px;color:var(--ink-faint);font-weight:300;padding-top:8px;border-bottom:0}
 
 /* ---------- callout ---------- */
 .key{
-  border:2px solid var(--ink);border-radius:3px;padding:24px 26px;margin:32px 0;
+  border:2px solid var(--ink);border-radius:3px;padding:16px 20px;margin:18px 0;
   background:rgba(255,255,255,.3);
 }
-.key p{margin:0;font-family:"Noto Serif KR",serif;font-size:19px;line-height:1.6;font-weight:500;letter-spacing:-.02em}
-.key p + p{margin-top:12px;font-family:"Noto Sans KR",sans-serif;font-size:14.5px;font-weight:300;color:var(--ink-soft);letter-spacing:0}
+.key p{margin:0;font-family:"Noto Serif KR",serif;font-size:17px;line-height:1.5;font-weight:500;letter-spacing:-.02em}
+.key p + p{margin-top:8px;font-family:"Noto Sans KR",sans-serif;font-size:13.5px;font-weight:300;color:var(--ink-soft);letter-spacing:0}
 
 /* ---------- fork ---------- */
-.fork{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:24px}
-.branch{border:1px solid var(--rule);border-radius:3px;padding:20px 22px;background:rgba(255,255,255,.24)}
+.fork{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
+.branch{border:1px solid var(--rule);border-radius:3px;padding:15px 18px;background:rgba(255,255,255,.24)}
 .branch.a{border-top:4px solid var(--ok)}
 .branch.b{border-top:4px solid var(--none)}
-.branch h4{margin:0 0 3px;font-family:"Noto Serif KR",serif;font-size:18px;font-weight:700}
-.branch .cond{font-size:12.5px;color:var(--ink-faint);margin:0 0 12px;font-weight:500}
-.branch p{margin:0;font-size:14px;color:var(--ink-soft);font-weight:300}
+.branch h4{margin:0 0 3px;font-family:"Noto Serif KR",serif;font-size:17px;font-weight:700}
+.branch .cond{font-size:12px;color:var(--ink-faint);margin:0 0 8px;font-weight:500}
+.branch p{margin:0;font-size:13.5px;color:var(--ink-soft);font-weight:300}
 
 /* ---------- roster ---------- */
 .roster{border-top:2px solid var(--ink)}
-.row{display:grid;grid-template-columns:150px 76px 1fr;gap:20px;padding:18px 0;border-bottom:1px solid var(--rule);align-items:start}
-.row .who{font-family:"Noto Serif KR",serif;font-weight:700;font-size:17px}
+.row{display:grid;grid-template-columns:150px 76px 1fr;gap:16px;padding:13px 0;border-bottom:1px solid var(--rule);align-items:start}
+.row .who{font-family:"Noto Serif KR",serif;font-weight:700;font-size:16px}
 .row .who small{display:block;font-family:"Noto Sans KR",sans-serif;font-size:12px;color:var(--ink-faint);font-weight:400;margin-top:2px}
-.row .cnt{font-family:"Noto Serif KR",serif;font-size:24px;font-weight:900;letter-spacing:-.03em;color:var(--c-bandit);font-variant-numeric:tabular-nums}
+.row .cnt{font-family:"Noto Serif KR",serif;font-size:22px;font-weight:900;letter-spacing:-.03em;color:var(--c-bandit);font-variant-numeric:tabular-nums}
 .row .cnt small{display:block;font-family:"Noto Sans KR",sans-serif;font-size:11px;color:var(--ink-faint);font-weight:400;letter-spacing:0}
-.row .task{font-size:14.5px;color:var(--ink-soft);font-weight:300}
+.row .task{font-size:14px;color:var(--ink-soft);font-weight:300}
 .row .task b{color:var(--ink);font-weight:700}
 
 /* ---------- trigger ---------- */
 .trig{border-top:2px solid var(--ink)}
-.trig .t{display:grid;grid-template-columns:210px 1fr;gap:20px;padding:14px 0;border-bottom:1px solid var(--rule)}
-.trig .sig{font-weight:700;font-size:14.5px}
-.trig .act{font-size:14.5px;color:var(--ink-soft);font-weight:300}
+.trig .t{display:grid;grid-template-columns:200px 1fr;gap:16px;padding:10px 0;border-bottom:1px solid var(--rule)}
+.trig .sig{font-weight:700;font-size:14px}
+.trig .act{font-size:14px;color:var(--ink-soft);font-weight:300}
 .trig .act b{color:var(--c-bandit);font-weight:700}
 
 /* ---------- questions ---------- */
 ol.q{list-style:none;counter-reset:q;padding:0;margin:0;border-top:2px solid var(--ink)}
-ol.q li{counter-increment:q;padding:16px 0 16px 44px;border-bottom:1px solid var(--rule);position:relative;font-size:15px}
+ol.q li{counter-increment:q;padding:11px 0 11px 40px;border-bottom:1px solid var(--rule);position:relative;font-size:14.5px}
 ol.q li::before{
-  content:counter(q);position:absolute;left:0;top:16px;
-  font-family:"Noto Serif KR",serif;font-weight:900;font-size:17px;color:var(--c-bandit);
+  content:counter(q);position:absolute;left:0;top:11px;
+  font-family:"Noto Serif KR",serif;font-weight:900;font-size:16px;color:var(--c-bandit);
 }
-ol.q li span{display:block;font-size:13.5px;color:var(--ink-faint);font-weight:300;margin-top:2px}
+ol.q li span{display:block;font-size:13px;color:var(--ink-faint);font-weight:300;margin-top:2px}
 
-footer{border-top:1px solid var(--rule);padding:28px 0 60px;font-size:13px;color:var(--ink-faint);font-weight:300}
+footer{border-top:1px solid var(--rule);padding:22px 0 50px;font-size:13px;color:var(--ink-faint);font-weight:300}
 footer p{margin:0 0 6px;max-width:70ch}
 
 @media (max-width:720px){
   .wrap{padding:0 20px}
-  .hero{padding-top:40px}
-  .clock div{flex:1 1 100%;border-right:0;border-bottom:1px solid var(--rule);padding:13px 0}
+  .hero{padding-top:34px}
+  .clock div{flex:1 1 100%;border-right:0;border-bottom:1px solid var(--rule);padding:11px 0}
   .clock div:last-child{border-bottom:0}
+  .items{grid-template-columns:1fr}
   .fork{grid-template-columns:1fr}
   .row{grid-template-columns:1fr;gap:6px}
   .row .cnt{font-size:20px}
   .trig .t{grid-template-columns:1fr;gap:4px}
-  table{font-size:13px}
+  table{font-size:12.5px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 
@@ -261,10 +274,68 @@ footer p{margin:0 0 6px;max-width:70ch}
   <button class="fbtn" id="f-ok" aria-pressed="false">확인된 규칙만</button>
 </div>
 
+<!-- ===== 전투 조건 ===== -->
+<section id="condition">
+  <h2>전투 조건</h2>
+  <p class="lede">평소의 육성 격차 대부분이 전장에 들어오는 순간 사라집니다. 무엇이 지워지고 무엇이 남는지가 전략의 출발점입니다.</p>
+
+  <div class="key">
+    <p>이 이벤트는 스펙 격차를 의도적으로 지웁니다.</p>
+    <p>무장 레벨과 전법 레벨이 통일되고, 전원에게 같은 속성 보정이 걸리며, 원래 지도의 버프도 적용되지 않습니다. 남는 차이는 장비, 전투매, 도감 완성도, 그리고 조직력입니다.</p>
+  </div>
+
+  <table>
+    <caption>전장 진입 시 적용되는 조건</caption>
+    <thead>
+      <tr><th>항목</th><th>처리</th><th class="num">신뢰도</th></tr>
+    </thead>
+    <tbody>
+      <tr data-c="ok"><td>무장 레벨</td><td>이벤트 내 동일 레벨로 통일</td><td class="num"><span class="tag ok">확인</span></td></tr>
+      <tr data-c="ok"><td>기본 전법 · 전법 레벨</td><td>이벤트 내 동일 레벨로 통일</td><td class="num"><span class="tag ok">확인</span></td></tr>
+      <tr data-c="ok"><td>이벤트 속성 보정</td><td>모든 참가 군주에게 50% 적용</td><td class="num"><span class="tag ok">확인</span></td></tr>
+      <tr data-c="ok"><td>원래 지도의 버프 · 디버프</td><td>적용되지 않음</td><td class="num"><span class="tag ok">확인</span></td></tr>
+      <tr data-c="ok"><td>전투 판정</td><td>"부대 방어·3" 이후의 버프 연구 속성만 반영</td><td class="num"><span class="tag ok">확인</span></td></tr>
+      <tr data-c="ok" class="hl"><td><strong>장비</strong></td><td><strong>원 서버의 것을 그대로 사용</strong></td><td class="num"><span class="tag ok">확인</span></td></tr>
+      <tr data-c="ok" class="hl"><td><strong>전투매</strong></td><td><strong>원 서버의 것을 그대로 사용</strong></td><td class="num"><span class="tag ok">확인</span></td></tr>
+      <tr data-c="ok"><td>지원 장비 · 지원 전투매</td><td>이벤트 내에서만 쓸 수 있는 별도 지원품 제공</td><td class="num"><span class="tag ok">확인</span></td></tr>
+    </tbody>
+  </table>
+  <p class="tnote">장비와 전투매는 통일 대상이 아닙니다. 완전 평준화를 원했다면 이것도 통일했을 텐데 남겨뒀다는 건, 축적분의 가치를 일부 유지하려는 의도로 보입니다.</p>
+
+  <div class="items" style="margin-top:20px">
+    <div class="item" data-c="ok">
+      <h4>도감이 빈약할수록 빌릴 수 있는 폭이 넓습니다 <span class="tag ok">확인</span></h4>
+      <p>각 참가자는 지원 무장 1명, 지원 전법 2개, 지원 전투매 4기를 선택할 수 있습니다. 지원 무장과 전법의 선택 범위는 <strong>도감에 아직 보유하지 않은</strong> 것으로 제한됩니다. 도감에 부족한 것이 없으면 무장 1명의 능력치 강화로 대체됩니다. 자율 선택 내용은 이 이벤트에서만 적용됩니다.</p>
+    </div>
+    <div class="item" data-c="ok">
+      <h4>편성 정보는 미러링 데이터입니다 <span class="tag ok">확인</span></h4>
+      <p>원클릭 불러오기로 기존 편성을 그대로 복사할 수 있고, 이벤트 편성에서 부대를 수정해도 원래 편성에는 영향이 없습니다. 다만 무장 상세정보 확인, 승급, 초기화는 불가능하며, 무장 위치 교체와 전법·장비 교체는 모두 빠른 편성 기능에서 해야 합니다.</p>
+    </div>
+    <div class="item" data-c="none">
+      <h4>강화 효과의 크기는 확인되지 않았습니다 <span class="tag none">미확인</span></h4>
+      <p>공지는 "구체적인 강화 효과는 이벤트 자율 선택 화면에 따름"이라고만 합니다. 따라서 <strong>전법 2개를 빌리는 쪽과 무장 1명을 강화하는 쪽 중 무엇이 유리한지 판단할 수 없습니다.</strong> 도감 보유 여부의 판정 시점, 부분 보유 시의 처리도 불명확합니다.</p>
+    </div>
+  </div>
+
+  <table style="margin-top:26px">
+    <caption>장비 · 전투매 · 전법 준비 우선순위</caption>
+    <thead>
+      <tr><th class="num">순위</th><th>항목</th><th>근거</th></tr>
+    </thead>
+    <tbody>
+      <tr data-c="guess"><td class="num">1</td><td><strong>장비 강화</strong></td><td>통일 대상이 아니라 투자가 그대로 반영됨</td></tr>
+      <tr data-c="guess"><td class="num">2</td><td><strong>전투매 레벨</strong></td><td>통일 대상이 아니며 부대 버프로 직결됨</td></tr>
+      <tr data-c="guess"><td class="num">3</td><td>전법 조합 점검</td><td>레벨은 통일되므로 조합만 확인</td></tr>
+      <tr data-c="guess"><td class="num warn">보류</td><td>전법 · 무장 신규 확보</td><td>도감을 채우면 대여 폭이 줄어들 수 있음. 강화 효과 확인 후 판단</td></tr>
+    </tbody>
+  </table>
+  <p class="notewarn">⚠ 4번은 추정입니다. 강화 효과 수치가 공개되기 전에는 맹 공지로 돌리지 마십시오. 준비 화면이 열리는 9/12(토) 이후에 판단합니다.</p>
+</section>
+
 <!-- ===== 전장 ===== -->
 <section id="map">
   <h2>전장 구조</h2>
-  <p class="lede">건물 35개가 180도 회전 대칭으로 배치됩니다. 중앙일수록 가치가 높고, 강 건너 외곽으로 갈수록 보조 역할입니다. 건물을 눌러 규칙을 확인하세요.</p>
+  <p class="lede">스펙이 평준화된 상태에서 싸울 무대입니다. 건물 35개가 180도 회전 대칭으로 배치됩니다. 중앙일수록 가치가 높고, 강 건너 외곽으로 갈수록 보조 역할입니다. 건물을 눌러 규칙을 확인하세요.</p>
 
   <div class="mapbox">
     <svg class="map" id="svgmap" viewBox="0 0 900 540" role="img" aria-label="용쟁호투 전장 배치도">
@@ -306,17 +377,19 @@ footer p{margin:0 0 6px;max-width:70ch}
     <p>나머지 28개는 점수를 직접 생산하지 않습니다. 승패는 “건물을 많이 먹었는가”가 아니라 <strong>용반루·호거대 7개의 생산 기간을 누가 더 오래 소유했는가</strong>로 결정됩니다. 나머지는 이 7개를 유리하게 먹기 위한 수단이거나 개인 점수 파밍 라인입니다.</p>
   </div>
 
-  <div class="item" data-c="ok">
-    <h4>동맹 점수와 개인 점수는 별개입니다 <span class="tag ok">확인</span></h4>
-    <p>동맹 점수로 승패를 판정하고, 개인 점수는 개인 순위에만 쓰입니다. 주력군의 승패가 동맹의 최종 승패를 결정하며, 소규모 부대의 승패는 여기에 영향을 주지 않습니다.</p>
-  </div>
-  <div class="item" data-c="ok">
-    <h4>추격 점수는 생각보다 약합니다 <span class="tag ok">확인</span></h4>
-    <p>점수 차가 50%를 넘으면 열세 측 건물의 생산량이 차이 비율만큼 상승합니다. 다만 점령 중인 건물 여러 개 중 <strong>단 1개에만</strong> 적용됩니다. 벌어진 차이를 되돌리기 어렵다는 뜻이므로, 초반 사이클이 후반보다 무겁습니다.</p>
-  </div>
-  <div class="item" data-c="none">
-    <h4>도적 거점에 추격 점수가 어떻게 적용되는지 불명 <span class="tag none">미확인</span></h4>
-    <p>도적 거점은 초당 생산이 아니라 1회 지급이라, “생산량 % 상승” 공식을 그대로 적용할 수 없습니다.</p>
+  <div class="items">
+    <div class="item" data-c="ok">
+      <h4>동맹 점수와 개인 점수는 별개입니다 <span class="tag ok">확인</span></h4>
+      <p>동맹 점수로 승패를 판정하고, 개인 점수는 개인 순위에만 쓰입니다. 주력군의 승패가 동맹의 최종 승패를 결정하며, 소규모 부대의 승패는 여기에 영향을 주지 않습니다.</p>
+    </div>
+    <div class="item" data-c="ok">
+      <h4>추격 점수는 생각보다 약합니다 <span class="tag ok">확인</span></h4>
+      <p>점수 차가 50%를 넘으면 열세 측 건물의 생산량이 차이 비율만큼 상승합니다. 다만 점령 중인 건물 여러 개 중 <strong>단 1개에만</strong> 적용됩니다. 벌어진 차이를 되돌리기 어렵다는 뜻이므로, 초반 사이클이 후반보다 무겁습니다.</p>
+    </div>
+    <div class="item" data-c="none">
+      <h4>도적 거점에 추격 점수가 어떻게 적용되는지 불명 <span class="tag none">미확인</span></h4>
+      <p>도적 거점은 초당 생산이 아니라 1회 지급이라, “생산량 % 상승” 공식을 그대로 적용할 수 없습니다.</p>
+    </div>
   </div>
 </section>
 
@@ -325,25 +398,27 @@ footer p{margin:0 0 6px;max-width:70ch}
   <h2>전략의 전제</h2>
   <p class="lede">아래는 공개 규칙이 아니라 과거 이벤트 경험에 기반한 추정입니다. 이 중 하나라도 틀리면 배치안이 바뀝니다.</p>
 
-  <div class="item" data-c="guess">
-    <h4>건물당 주둔 부대 수 제한 없음 <span class="tag guess">추정</span></h4>
-    <p>제한이 없다면 한쪽이 전 병력을 한 건물에 몰면 그 건물은 뺏기지 않습니다. 균등 분산보다 선택과 집중이 유리해집니다. 반대로 상한이 있다면 몰빵이 무효화되고 분산이 정답이 됩니다.</p>
-  </div>
-  <div class="item" data-c="guess">
-    <h4>생산 기간 중에도 소유권 탈취 가능 <span class="tag guess">추정</span></h4>
-    <p>먼저 먹는 것의 가치가 낮아지고, 최종 전투력 우위가 승부를 가릅니다. 만약 생산 기간에 소유권이 잠긴다면 방어 개념이 사라지고 쟁탈 기간 선점 속도전이 됩니다.</p>
-  </div>
-  <div class="item" data-c="guess">
-    <h4>방어 성공 판정은 “공격해온 적을 격퇴” <span class="tag guess">추정</span></h4>
-    <p>격퇴 방식이면 소수 부대를 계속 흘려보내 대군을 전투에 묶어둘 수 있습니다. 상대도 쓸 수 있는 수단이므로 방어조는 항상 여유 인원이 필요합니다.</p>
-  </div>
-  <div class="item" data-c="guess">
-    <h4>장작영 버프는 동맹 전체 적용 · 중첩 가능 <span class="tag guess">추정</span></h4>
-    <p>이벤트가 무장 레벨과 전법 레벨을 통일하기 때문에 최상위끼리는 격차가 거의 없습니다. 여기에 전원 50% 속성 보정까지 균등하게 걸리므로, 좁혀진 격차에서 <strong>외부 버프의 비중이 평소보다 훨씬 큽니다.</strong></p>
-  </div>
-  <div class="item" data-c="none">
-    <h4>구간별 지속 시간, 사이클 횟수 <span class="tag none">미확인</span></h4>
-    <p>사전 타임테이블을 짤 수 없으므로 아래 트리거 기반 운영으로 대체합니다.</p>
+  <div class="items">
+    <div class="item" data-c="guess">
+      <h4>건물당 주둔 부대 수 제한 없음 <span class="tag guess">추정</span></h4>
+      <p>제한이 없다면 한쪽이 전 병력을 한 건물에 몰면 그 건물은 뺏기지 않습니다. 균등 분산보다 선택과 집중이 유리해집니다. 반대로 상한이 있다면 몰빵이 무효화되고 분산이 정답이 됩니다.</p>
+    </div>
+    <div class="item" data-c="guess">
+      <h4>생산 기간 중에도 소유권 탈취 가능 <span class="tag guess">추정</span></h4>
+      <p>먼저 먹는 것의 가치가 낮아지고, 최종 전투력 우위가 승부를 가릅니다. 만약 생산 기간에 소유권이 잠긴다면 방어 개념이 사라지고 쟁탈 기간 선점 속도전이 됩니다.</p>
+    </div>
+    <div class="item" data-c="guess">
+      <h4>방어 성공 판정은 “공격해온 적을 격퇴” <span class="tag guess">추정</span></h4>
+      <p>격퇴 방식이면 소수 부대를 계속 흘려보내 대군을 전투에 묶어둘 수 있습니다. 상대도 쓸 수 있는 수단이므로 방어조는 항상 여유 인원이 필요합니다.</p>
+    </div>
+    <div class="item" data-c="guess">
+      <h4>장작영 버프는 동맹 전체 적용 · 중첩 가능 <span class="tag guess">추정</span></h4>
+      <p>이벤트가 무장 레벨과 전법 레벨을 통일하기 때문에 최상위끼리는 격차가 거의 없습니다. 여기에 전원 50% 속성 보정까지 균등하게 걸리므로, 좁혀진 격차에서 <strong>외부 버프의 비중이 평소보다 훨씬 큽니다.</strong></p>
+    </div>
+    <div class="item" data-c="none">
+      <h4>구간별 지속 시간, 사이클 횟수 <span class="tag none">미확인</span></h4>
+      <p>사전 타임테이블을 짤 수 없으므로 아래 트리거 기반 운영으로 대체합니다.</p>
+    </div>
   </div>
 </section>
 
@@ -357,14 +432,15 @@ footer p{margin:0 0 6px;max-width:70ch}
     <p>70 ÷ 55 = 1.27. 이 배율을 넘는 순간 도하조를 뺀 55명이 원래 70명보다 강해집니다. 게다가 버프가 중첩된다면 장작영을 더 먹을수록 배율이 곱해지므로, 중앙이 무너지지 않는 선까지는 도하조를 늘리는 쪽이 유리합니다.</p>
   </div>
 
-  <div class="item" data-c="ok">
-    <h4>버프는 강한 유닛에 실릴 때만 값어치가 납니다 <span class="tag ok">확인</span></h4>
-    <p>일반 부대 10개에 걸면 어차피 지는 싸움이 조금 덜 집니다. 반면 호각인 대결에 걸면 우세로 뒤집힙니다. 다만 동맹 전체 적용이라면 머릿수가 많은 중간 티어에 곱해지는 총량이 더 크므로, 버프가 충분히 쌓일수록 물량 전략이 다시 유효해집니다.</p>
-  </div>
-
-  <div class="item" data-c="none">
-    <h4>휴전 시 버프가 초기화되는지 <span class="tag none">미확인 · 최대 변수</span></h4>
-    <p>장작영이 휴전에 들어가면 섬 안의 관청이 전부 시작 지점으로 되돌아갑니다. 위치만 잃는 것인지 버프까지 사라지는 것인지에 따라 전략이 정반대로 갈립니다.</p>
+  <div class="items">
+    <div class="item" data-c="ok">
+      <h4>버프는 강한 유닛에 실릴 때만 값어치가 납니다 <span class="tag ok">확인</span></h4>
+      <p>일반 부대 10개에 걸면 어차피 지는 싸움이 조금 덜 집니다. 반면 호각인 대결에 걸면 우세로 뒤집힙니다. 다만 동맹 전체 적용이라면 머릿수가 많은 중간 티어에 곱해지는 총량이 더 크므로, 버프가 충분히 쌓일수록 물량 전략이 다시 유효해집니다.</p>
+    </div>
+    <div class="item" data-c="none">
+      <h4>휴전 시 버프가 초기화되는지 <span class="tag none">미확인 · 최대 변수</span></h4>
+      <p>장작영이 휴전에 들어가면 섬 안의 관청이 전부 시작 지점으로 되돌아갑니다. 위치만 잃는 것인지 버프까지 사라지는 것인지에 따라 전략이 정반대로 갈립니다.</p>
+    </div>
   </div>
 
   <div class="fork">
@@ -380,7 +456,7 @@ footer p{margin:0 0 6px;max-width:70ch}
     </div>
   </div>
 
-  <div class="item" data-c="guess" style="margin-top:26px">
+  <div class="item" data-c="guess" style="margin-top:18px">
     <h4>1차 사이클을 테스트로 씁니다 <span class="tag guess">대응안</span></h4>
     <p>개전 직후 도하조를 소규모로만 보내 전체 판돈을 걸지 않습니다. 첫 휴전에서 강제 귀환이 발생했을 때 <strong>버프가 남아 있는지 도하조 조장이 즉시 확인해 맹주에게 보고</strong>합니다. 남아 있으면 2차 사이클부터 대폭 증원, 사라지면 철수하고 중앙 집중으로 전환합니다.</p>
   </div>
@@ -409,17 +485,19 @@ footer p{margin:0 0 6px;max-width:70ch}
     </div>
   </div>
 
-  <div class="item" data-c="guess" style="margin-top:30px">
-    <h4>집중 개수는 4개가 균형점입니다 <span class="tag guess">추정</span></h4>
-    <p>7개에 균등 분산하면 건물당 10명이라 상대가 20명씩 몰면 전부 잃습니다. 4개에 집중하면 건물당 17~18명으로 과반을 확보하면서 방어도 버팁니다. 다만 용반루의 점수 생산량이 호거대보다 높다면 개수가 아니라 점수 총량 기준으로 다시 계산해야 합니다.</p>
-  </div>
-  <div class="item" data-c="guess">
-    <h4>어느 4개를 고를 것인가 <span class="tag guess">추정</span></h4>
-    <p>용반루 3개는 정중앙 세로축에 있어 양측 접근 거리가 같은 최대 격전지입니다. 호거대 4개는 좌우 외곽이라 각 진영에 가까운 2개씩으로 갈릴 가능성이 높습니다. <strong>현재 정보로는 가까운 호거대 2개에 최소 인원을 두고 용반루 1개에 주력을 모으는 쪽을 권합니다.</strong> 용반루 생산량이 2배 이상으로 확인되면 중앙 3개 장악으로 전환합니다.</p>
-  </div>
-  <div class="item" data-c="ok">
-    <h4>도적 거점은 자원 효율이 가장 좋습니다 <span class="tag ok">확인</span></h4>
-    <p>도적은 PvE 대상이라 상위 티어가 필요 없습니다. 상위 부대를 전혀 쓰지 않고 큰 점수를 가져올 수 있는 유일한 창구입니다. 다만 승자독식이라 두 거점에 반씩 나누면 둘 다 질 수 있습니다. 한 곳에 집중하되, 4개 중 2개가 무작위 개방되므로 <strong>파밍조를 중앙 4개 지점 사이에 미리 대기</strong>시킵니다.</p>
+  <div class="items" style="margin-top:22px">
+    <div class="item" data-c="guess">
+      <h4>집중 개수는 4개가 균형점입니다 <span class="tag guess">추정</span></h4>
+      <p>7개에 균등 분산하면 건물당 10명이라 상대가 20명씩 몰면 전부 잃습니다. 4개에 집중하면 건물당 17~18명으로 과반을 확보하면서 방어도 버팁니다. 다만 용반루의 점수 생산량이 호거대보다 높다면 개수가 아니라 점수 총량 기준으로 다시 계산해야 합니다.</p>
+    </div>
+    <div class="item" data-c="guess">
+      <h4>어느 4개를 고를 것인가 <span class="tag guess">추정</span></h4>
+      <p>용반루 3개는 정중앙 세로축에 있어 양측 접근 거리가 같은 최대 격전지입니다. 호거대 4개는 좌우 외곽이라 각 진영에 가까운 2개씩으로 갈릴 가능성이 높습니다. <strong>현재 정보로는 가까운 호거대 2개에 최소 인원을 두고 용반루 1개에 주력을 모으는 쪽을 권합니다.</strong> 용반루 생산량이 2배 이상으로 확인되면 중앙 3개 장악으로 전환합니다.</p>
+    </div>
+    <div class="item" data-c="ok">
+      <h4>도적 거점은 자원 효율이 가장 좋습니다 <span class="tag ok">확인</span></h4>
+      <p>도적은 PvE 대상이라 상위 티어가 필요 없습니다. 상위 부대를 전혀 쓰지 않고 큰 점수를 가져올 수 있는 유일한 창구입니다. 다만 승자독식이라 두 거점에 반씩 나누면 둘 다 질 수 있습니다. 한 곳에 집중하되, 4개 중 2개가 무작위 개방되므로 <strong>파밍조를 중앙 4개 지점 사이에 미리 대기</strong>시킵니다.</p>
+    </div>
   </div>
 </section>
 
@@ -436,13 +514,15 @@ footer p{margin:0 0 6px;max-width:70ch}
     <div class="t"><div class="sig">휴전 중</div><div class="act">도적 거점 처치와 적 부대 격파로 개인 점수를 벌어들입니다.</div></div>
   </div>
 
-  <div class="item" data-c="ok" style="margin-top:30px">
-    <h4>열세일 때는 상대의 시계를 멈추는 것만으로 가치가 있습니다 <span class="tag ok">확인</span></h4>
-    <p>양측 모두 목표치를 못 채우면 <strong>누적 점령 시간이 더 긴 쪽</strong>이 가져갑니다. 점령이 어렵다면 상대가 목표치를 채우지 못하게 계속 끊어내는 것만으로 판정을 유리하게 만들 수 있습니다.</p>
-  </div>
-  <div class="item" data-c="ok">
-    <h4>주력군에게 개인 임무를 요구하지 마십시오 <span class="tag ok">확인</span></h4>
-    <p>개인 점수는 건물 공격과 적 부대 격파로 들어오는데, 이는 점령 유지와 충돌합니다. 지키고 있으면 개인 점수가 안 쌓이고, 개인 점수를 쫓으면 점령이 흔들립니다. <strong>임무 보상은 소규모 부대가 가져간다</strong>고 사전에 공지해두면 갈등이 적습니다.</p>
+  <div class="items" style="margin-top:22px">
+    <div class="item" data-c="ok">
+      <h4>열세일 때는 상대의 시계를 멈추는 것만으로 가치가 있습니다 <span class="tag ok">확인</span></h4>
+      <p>양측 모두 목표치를 못 채우면 <strong>누적 점령 시간이 더 긴 쪽</strong>이 가져갑니다. 점령이 어렵다면 상대가 목표치를 채우지 못하게 계속 끊어내는 것만으로 판정을 유리하게 만들 수 있습니다.</p>
+    </div>
+    <div class="item" data-c="ok">
+      <h4>주력군에게 개인 임무를 요구하지 마십시오 <span class="tag ok">확인</span></h4>
+      <p>개인 점수는 건물 공격과 적 부대 격파로 들어오는데, 이는 점령 유지와 충돌합니다. 지키고 있으면 개인 점수가 안 쌓이고, 개인 점수를 쫓으면 점령이 흔들립니다. <strong>임무 보상은 소규모 부대가 가져간다</strong>고 사전에 공지해두면 갈등이 적습니다.</p>
+    </div>
   </div>
 </section>
 
@@ -453,6 +533,8 @@ footer p{margin:0 0 6px;max-width:70ch}
   <ol class="q">
     <li>휴전 시 버프가 초기화되는가<span>A / B 분기점. 도하조 규모가 여기서 결정됩니다.</span></li>
     <li>장작영 버프의 배율과 지속 시간<span>1.27배 손익분기 대비 어느 쪽인지.</span></li>
+    <li>자율 선택의 무장 강화 효과 수치<span>전법 2개 대여와 비교해 무엇이 유리한지 판단 기준입니다.</span></li>
+    <li>지원 장비 · 지원 전투매의 스펙<span>이보다 나은 부위에만 강화를 집중하기 위함입니다.</span></li>
     <li>건물당 주둔 부대 수 상한이 있는가<span>있다면 몰빵 전략이 무효가 되고 균등 분산이 정답이 됩니다.</span></li>
     <li>생산 기간 중 소유권 이전이 가능한가<span>불가능하다면 방어조가 필요 없어지고 선점 속도전이 됩니다.</span></li>
     <li>45분 내 사이클 횟수<span>2회면 테스트 여유가 빠듯하고, 4회 이상이면 충분합니다.</span></li>
