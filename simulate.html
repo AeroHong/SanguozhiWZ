@@ -129,6 +129,7 @@ input[type=range]{flex:1 1 100%;accent-color:var(--ink);cursor:pointer}
   <h1>45분, 이렇게 흘러갑니다</h1>
   <p class="sub">재생을 누르면 본전투 21:00~21:45가 압축 재생됩니다. 건물이 쟁탈→산출/정산→정비를 도는 흐름과, <b>중앙 주력·도하조·파밍조</b> 3부대가 그 시간에 맞춰 무엇을 해야 하는지를 함께 보여줍니다.</p>
   <p class="warn">가정: 건물 쪽은 우리 동맹이 맹호성 3개·비룡성 4개·도적거점·조운부두·장작영을 전부, 두 사이클 모두 지켰다고 가정한 <b>최상 시나리오</b>입니다. 부대 임무는 작전 브리핑의 "09 전략"에 정리한 배치안을 그대로 시간표로 옮긴 것입니다. 실전은 상대와의 쟁탈에 따라 달라집니다.</p>
+  <p class="warn" style="border-left-style:solid">타임라인(아래 그래프) 아무 곳이나 클릭하거나 드래그하면 그 시점으로 바로 이동합니다.</p>
 
   <div class="panel">
     <div class="toprow">
@@ -215,13 +216,16 @@ const SQUADS = [
   { key:'main', name:'중앙 주력', color:'#7A5C1E',
     segs:[
       {type:'idle',  s:0,  e:10, label:'맹호성 앞 대기 · 소모 회피'},
-      {type:'fight', s:10, e:12, label:'총공격 · 최종 점유 확정'},
-      {type:'score', s:12, e:15, label:'산출 확정 · 방어 불필요, 휴식'},
-      {type:'idle',  s:15, e:23, label:'정비 대기'},
-      {type:'idle',  s:23, e:33, label:'경계 · 소모 회피 (2차 쟁탈 대비)'},
-      {type:'fight', s:33, e:35, label:'총공격 · 최종 점유 확정'},
-      {type:'score', s:35, e:38, label:'산출 확정 · 휴식'},
-      {type:'idle',  s:38, e:45, label:'정비 · 전투 종료 대기'},
+      {type:'fight', s:10, e:12, label:'맹호성 총공격 · 최종 점유 확정'},
+      {type:'idle',  s:12, e:18, label:'비룡성으로 재편성 · 소모 회피'},
+      {type:'fight', s:18, e:20, label:'비룡성 총공격 · 최종 점유 확정'},
+      {type:'score', s:20, e:23, label:'비룡성 산출 확정 · 휴식'},
+      {type:'idle',  s:23, e:33, label:'맹호성 앞 대기 · 소모 회피 (2차)'},
+      {type:'fight', s:33, e:35, label:'맹호성 총공격 · 최종 점유 확정'},
+      {type:'score', s:35, e:38, label:'맹호성 산출 확정 · 휴식'},
+      {type:'idle',  s:38, e:40, label:'비룡성으로 재편성'},
+      {type:'fight', s:40, e:42, label:'비룡성 총공격 · 최종 점유 확정'},
+      {type:'score', s:42, e:45, label:'비룡성 산출 확정 · 전투 종료 대기'},
     ]},
   { key:'river', name:'도하조', color:'#3A5C77',
     segs:[
@@ -440,6 +444,30 @@ document.querySelectorAll('[data-speed]').forEach(btn=>{
     document.querySelectorAll('[data-speed]').forEach(b=>b.setAttribute('aria-pressed', String(b===btn)));
   });
 });
+
+// drag/click directly on the timeline to scrub
+function xToMinutes(clientX){
+  const tracks = document.querySelectorAll('.gtrack');
+  if(!tracks.length) return 0;
+  const rect = tracks[0].getBoundingClientRect();
+  const pct = Math.min(1, Math.max(0, (clientX-rect.left)/rect.width));
+  return pct*TOTAL;
+}
+function stopForDrag(){
+  playing = false; playBtn.textContent = '▶ 재생'; clearInterval(timerId);
+}
+let dragging = false;
+gantt.style.cursor = 'pointer';
+gantt.addEventListener('mousedown', e=>{
+  dragging = true; stopForDrag(); render(xToMinutes(e.clientX)); e.preventDefault();
+});
+window.addEventListener('mousemove', e=>{ if(dragging) render(xToMinutes(e.clientX)); });
+window.addEventListener('mouseup', ()=>{ dragging = false; });
+gantt.addEventListener('touchstart', e=>{
+  dragging = true; stopForDrag(); render(xToMinutes(e.touches[0].clientX));
+}, {passive:true});
+gantt.addEventListener('touchmove', e=>{ if(dragging) render(xToMinutes(e.touches[0].clientX)); }, {passive:true});
+gantt.addEventListener('touchend', ()=>{ dragging = false; });
 
 window.addEventListener('resize', ()=>positionPlayhead(parseFloat(scrubEl.value)));
 render(0);
