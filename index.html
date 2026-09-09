@@ -243,6 +243,34 @@ footer p{margin:0 0 6px;max-width:74ch}
   .visit-badge .vb-k{font-size:10px}
   .visit-badge .vb-v{font-size:13px}
 }
+
+/* ---------- side section nav ---------- */
+.sidenav{
+  position:fixed;left:12px;top:50%;transform:translateY(-50%);z-index:90;
+  display:flex;flex-direction:column;gap:5px;
+  opacity:.25;transition:opacity .25s;
+}
+.sidenav:hover{opacity:.96}
+.sidenav a{
+  display:block;width:24px;height:24px;line-height:24px;border-radius:50%;
+  text-align:center;text-decoration:none;
+  font-family:"Noto Serif KR",serif;font-weight:700;font-size:10.5px;
+  color:var(--ink-soft);background:rgba(255,255,255,.5);
+  transition:background .15s,color .15s;
+}
+.sidenav a:hover{background:var(--ink);color:var(--paper)}
+@media (max-width:900px){ .sidenav{display:none} }
+
+/* ---------- top nav ---------- */
+.topnav{display:flex;gap:10px;flex-wrap:wrap;padding-top:20px;margin-bottom:-4px}
+.topnav a{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:"Noto Sans KR",sans-serif;font-weight:700;font-size:12.5px;
+  color:var(--ink-soft);border:1px solid var(--rule);border-radius:20px;
+  padding:6px 14px;text-decoration:none;background:rgba(255,255,255,.35);
+  transition:border-color .15s,color .15s;
+}
+.topnav a:hover{border-color:var(--ink-soft);color:var(--ink)}
 </style>
 </head>
 <body>
@@ -252,7 +280,25 @@ footer p{margin:0 0 6px;max-width:74ch}
   <div class="vb-row"><span class="vb-k">오늘 방문</span><span class="vb-v" id="vToday">—</span></div>
 </div>
 
+<nav class="sidenav" aria-label="섹션 바로가기">
+  <a href="#join" title="참가 자격·신청">01</a>
+  <a href="#org" title="참가 조직 구조">02</a>
+  <a href="#prep" title="이벤트 준비·편성">03</a>
+  <a href="#buildings" title="전장 건물 5종">04</a>
+  <a href="#timeline" title="45분 작전 시계표">05</a>
+  <a href="#score" title="동맹 포인트·추격 메커니즘">06</a>
+  <a href="#personal" title="개인 포인트">07</a>
+  <a href="#reward" title="보상">08</a>
+  <a href="#strategy" title="전략">09</a>
+  <a href="#todo" title="남은 확인 사항">10</a>
+</nav>
+
 <div class="wrap">
+
+<nav class="topnav">
+  <a href="simulate.html" target="_blank" rel="noopener">▶ 45분 시뮬레이션</a>
+  <a href="reward.html" target="_blank" rel="noopener">🎁 보상 총정리</a>
+</nav>
 
 <header class="hero">
   <img class="heroart" src="images/hero-title.jpg" alt="용쟁호투 — 비룡성과 맹호성이 격돌하는 크로스서버 동맹 PVP 이벤트">
@@ -444,11 +490,18 @@ footer p{margin:0 0 6px;max-width:74ch}
       </div>
     </div>
 
-    <div class="card" data-c="guess" style="--bar:var(--ink-faint)">
-      <div class="cbody" style="padding-top:16px">
-        <h4>배치·개수는 추정입니다 <span class="tag guess">추정</span></h4>
-        <p class="role" style="color:var(--ink-faint)">이전 자료 기반</p>
-        <p style="font-size:13.5px;color:var(--ink-soft);font-weight:300;margin:0">이번 규칙 화면은 각 건물의 정확한 개수·좌표를 명시하지 않았습니다. 이전 시즌 자료 기준으로 맹호성 3개(중앙 세로축)·비룡성 4개(좌우 외곽 2개씩)·도적 거점 4개·조운 부두 8개·장작영 16개, 총 35개 건물이 180도 점대칭으로 배치될 것으로 추정합니다. <strong>본전투 진입 후 실제 배치를 다시 확인해야 합니다.</strong></p>
+    <div class="card" data-c="ok" style="--bar:var(--ink-soft)">
+      <img src="images/map-distribution.jpg" alt="건물 분포도 — 게임 내 화면 캡처">
+      <div class="cbody">
+        <h4>배치·개수 <span class="tag ok">확인</span></h4>
+        <p class="role" style="color:var(--ink-soft)">게임 내 "건물 분포" 화면 캡처</p>
+        <ul>
+          <li>맹호성 <b>3개</b> — 정중앙 세로축 한 줄</li>
+          <li>비룡성 <b>4개</b> — 맹호성을 감싸는 바깥 사각형 네 모서리</li>
+          <li>도적 거점 <b>4개</b> — 맹호성과 비룡성 사이 대각선(안쪽 마름모)</li>
+          <li>조운 부두 <b>8개</b> — 남북 강 위에 4개씩</li>
+          <li>장작영 <b>16개</b> — 맵 맨 위·아래 가장자리에 8개씩</li>
+        </ul>
       </div>
     </div>
   </div>
@@ -685,25 +738,20 @@ footer p{margin:0 0 6px;max-width:74ch}
 <!-- ===== 확인 필요 ===== -->
 <section id="todo">
   <h2><span class="n">10</span>본전투 전 남은 확인 사항</h2>
-  <p class="lede">이전 판의 12개 항목 중 대부분이 이번 규칙 공개로 해소되었습니다. 남은 것은 아래 4가지입니다.</p>
+  <p class="lede">이전 판의 12개 항목 중 대부분이 이번 규칙 공개로 해소되었습니다. 남은 것은 아래 3가지입니다.</p>
   <ol style="list-style:none;counter-reset:q;padding:0;margin:0;border-top:2px solid var(--ink)">
     <li style="counter-increment:q;padding:11px 0 11px 40px;border-bottom:1px solid var(--rule);position:relative;font-size:14.5px">
       <span style="position:absolute;left:0;top:11px;font-family:'Noto Serif KR',serif;font-weight:900;font-size:16px;color:var(--c-bandit)">1</span>
-      맹호성·비룡성의 정확한 개수와 배치 좌표
-      <span style="display:block;font-size:13px;color:var(--ink-faint);font-weight:300;margin-top:2px">이전 시즌 자료(3개·4개, 중앙/외곽) 기준으로 추정했을 뿐 이번 규칙 화면엔 명시되지 않았습니다.</span>
-    </li>
-    <li style="counter-increment:q;padding:11px 0 11px 40px;border-bottom:1px solid var(--rule);position:relative;font-size:14.5px">
-      <span style="position:absolute;left:0;top:11px;font-family:'Noto Serif KR',serif;font-weight:900;font-size:16px;color:var(--c-bandit)">2</span>
       장작영 버프의 배율과 중첩 여부
       <span style="display:block;font-size:13px;color:var(--ink-faint);font-weight:300;margin-top:2px">만료 시간은 확인됐지만("지정된 시간 유지") 정확한 분·초와 배율, 여러 개 점령 시 중첩 여부는 비공개입니다.</span>
     </li>
     <li style="counter-increment:q;padding:11px 0 11px 40px;border-bottom:1px solid var(--rule);position:relative;font-size:14.5px">
-      <span style="position:absolute;left:0;top:11px;font-family:'Noto Serif KR',serif;font-weight:900;font-size:16px;color:var(--c-bandit)">3</span>
+      <span style="position:absolute;left:0;top:11px;font-family:'Noto Serif KR',serif;font-weight:900;font-size:16px;color:var(--c-bandit)">2</span>
       건물당 주둔 부대 수 상한 여부
       <span style="display:block;font-size:13px;color:var(--ink-faint);font-weight:300;margin-top:2px">있다면 몰빵 전략이 무효가 되고 분산이 정답이 됩니다.</span>
     </li>
     <li style="counter-increment:q;padding:11px 0 11px 40px;border-bottom:1px solid var(--rule);position:relative;font-size:14.5px">
-      <span style="position:absolute;left:0;top:11px;font-family:'Noto Serif KR',serif;font-weight:900;font-size:16px;color:var(--c-bandit)">4</span>
+      <span style="position:absolute;left:0;top:11px;font-family:'Noto Serif KR',serif;font-weight:900;font-size:16px;color:var(--c-bandit)">3</span>
       지원 무장 강화 효과의 정확한 수치
       <span style="display:block;font-size:13px;color:var(--ink-faint);font-weight:300;margin-top:2px">전법 2개 대여와 비교해 무엇이 유리한지는 준비 화면(토요일 09:00 이후)을 직접 열어야 판단할 수 있습니다.</span>
     </li>
@@ -712,7 +760,7 @@ footer p{margin:0 0 6px;max-width:74ch}
 
 <footer>
   <p>게임 내 "이벤트 규칙"(이벤트 규칙 · 이벤트 건물 · 단계 시간 · 개인 포인트 · 이벤트 보상) 전체 화면을 캡처해 재구성한 문서입니다. 캡처 시점: 2026-09-09.</p>
-  <p>건물 배치·개수(맹호성/비룡성 각각 몇 개, 어느 위치)는 규칙 화면에 명시되지 않아 이전 시즌 자료를 기반으로 추정했습니다. 본전투 진입 후 실제 미니맵으로 재확인하십시오.</p>
+  <p>건물 배치·개수는 게임 내 "건물 분포" 화면 캡처로 확인했습니다(맹호성 3·비룡성 4·도적거점 4·조운부두 8·장작영 16, 총 35개). 이 배치도가 매 시즌 동일하게 유지되는지는 별도 확인이 필요합니다.</p>
   <p>작성 기준 2026년 9월 9일</p>
 </footer>
 
