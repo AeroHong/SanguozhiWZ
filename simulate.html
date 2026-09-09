@@ -62,6 +62,8 @@ input[type=range]{flex:1 1 100%;accent-color:var(--ink);cursor:pointer}
 
 /* ---------- gantt w/ playhead ---------- */
 .gantt{position:relative;margin-top:6px}
+.gsection{font-size:11px;font-weight:700;color:var(--ink-faint);letter-spacing:.06em;margin:0 0 8px}
+.gsection.mid{border-top:1px dashed var(--rule);padding-top:14px;margin-top:14px}
 .grow{display:grid;grid-template-columns:76px 1fr;gap:10px;align-items:center;margin-bottom:8px}
 .glabel{font-size:12px;font-weight:700;color:var(--ink)}
 .gbar{position:relative;display:flex;height:20px;border-radius:2px;overflow:hidden;border:1px solid rgba(0,0,0,.12)}
@@ -69,22 +71,33 @@ input[type=range]{flex:1 1 100%;accent-color:var(--ink);cursor:pointer}
 .gbar .fight{background:var(--fight)}
 .gbar .score{background:var(--score)}
 .gbar .idle{background:var(--idle)}
+.gbar::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:repeating-linear-gradient(to right,
+    rgba(0,0,0,.22) 0, rgba(0,0,0,.22) 1px, transparent 1px, transparent 11.111%);
+}
 .gtrack{position:relative;margin-left:86px}
 .playhead{position:absolute;top:-2px;bottom:-2px;width:2px;background:#1C231F;z-index:5;box-shadow:0 0 0 1px rgba(255,255,255,.6)}
 .playhead::before{content:"";position:absolute;top:-6px;left:-4px;width:10px;height:10px;background:var(--ink);border-radius:50% 50% 50% 0;transform:rotate(45deg)}
+.gaxis{display:grid;grid-template-columns:76px 1fr;gap:10px;margin:2px 0 4px}
+.gaxis .marks{display:flex;justify-content:space-between;font-size:10px;color:var(--ink-faint);font-variant-numeric:tabular-nums}
 .glegend{display:flex;gap:16px;margin-top:14px;font-size:11.5px;color:var(--ink-soft)}
 .glegend i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px;vertical-align:-1px}
 
-/* ---------- building status chips ---------- */
-.chips{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:24px 0}
+/* ---------- status chips ---------- */
+.chipgroup{margin-top:26px}
+.grouptitle{font-family:"Noto Serif KR",serif;font-weight:700;font-size:15px;margin-bottom:10px}
+.chips{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:8px}
 .chip{border-radius:4px;padding:12px 14px;border:1px solid var(--rule);background:rgba(255,255,255,.3)}
+.chip.squad{border-color:#B3AE9C;background:rgba(255,255,255,.45)}
 .chip .cname{font-family:"Noto Serif KR",serif;font-weight:700;font-size:14.5px;display:flex;align-items:center;gap:6px}
 .chip .dot{width:8px;height:8px;border-radius:50%;flex:none}
 .chip .cphase{font-size:12px;font-weight:700;margin-top:4px}
 .chip .cphase.fight{color:var(--fight)}
 .chip .cphase.score{color:var(--score)}
 .chip .cphase.idle{color:var(--ink-faint)}
-.chip .ctimer{font-size:11px;color:var(--ink-faint);margin-top:2px;font-variant-numeric:tabular-nums}
+.chip .corder{font-size:13px;font-weight:700;color:var(--ink);margin-top:5px;line-height:1.45}
+.chip .ctimer{font-size:11px;color:var(--ink-faint);margin-top:5px;font-variant-numeric:tabular-nums}
 
 /* ---------- log ---------- */
 .logbox{
@@ -94,6 +107,7 @@ input[type=range]{flex:1 1 100%;accent-color:var(--ink);cursor:pointer}
 }
 .logbox .row{opacity:0;animation:fade .3s forwards}
 .logbox .row b{color:#E8C97A}
+.logbox .row b.sq{color:#7FB3D5}
 @keyframes fade{to{opacity:1}}
 .logbox .t{color:#8FA394;margin-right:8px}
 
@@ -104,7 +118,7 @@ input[type=range]{flex:1 1 100%;accent-color:var(--ink);cursor:pointer}
 @media (max-width:640px){
   .toprow{flex-direction:column;align-items:flex-start}
   .score{text-align:left}
-  .grow{grid-template-columns:56px 1fr}
+  .grow,.gaxis{grid-template-columns:56px 1fr}
   .gtrack{margin-left:66px}
 }
 </style>
@@ -113,8 +127,8 @@ input[type=range]{flex:1 1 100%;accent-color:var(--ink);cursor:pointer}
 <div class="wrap">
   <a class="back" href="index.html">← 작전 브리핑으로 돌아가기</a>
   <h1>45분, 이렇게 흘러갑니다</h1>
-  <p class="sub">재생을 누르면 본전투 21:00~21:45가 압축 재생됩니다. 건물이 쟁탈→산출/정산→정비를 도는 흐름과, 그에 따라 동맹 포인트가 쌓이는 감각을 미리 느껴보는 용도입니다.</p>
-  <p class="warn">가정: 우리 동맹이 맹호성 3개·비룡성 4개·도적거점·조운부두·장작영을 전부, 두 사이클 모두 지켰다고 가정한 <b>최상 시나리오</b>입니다. 실전은 상대와의 쟁탈에 따라 달라집니다.</p>
+  <p class="sub">재생을 누르면 본전투 21:00~21:45가 압축 재생됩니다. 건물이 쟁탈→산출/정산→정비를 도는 흐름과, <b>중앙 주력·도하조·파밍조</b> 3부대가 그 시간에 맞춰 무엇을 해야 하는지를 함께 보여줍니다.</p>
+  <p class="warn">가정: 건물 쪽은 우리 동맹이 맹호성 3개·비룡성 4개·도적거점·조운부두·장작영을 전부, 두 사이클 모두 지켰다고 가정한 <b>최상 시나리오</b>입니다. 부대 임무는 작전 브리핑의 "09 전략"에 정리한 배치안을 그대로 시간표로 옮긴 것입니다. 실전은 상대와의 쟁탈에 따라 달라집니다.</p>
 
   <div class="panel">
     <div class="toprow">
@@ -132,19 +146,39 @@ input[type=range]{flex:1 1 100%;accent-color:var(--ink);cursor:pointer}
   </div>
 
   <div class="gantt">
+    <div class="gsection">건물 상태</div>
     <div class="grow"><div class="glabel">맹호성</div></div>
     <div class="grow"><div class="glabel">비룡성</div></div>
     <div class="grow"><div class="glabel">도적거점</div></div>
     <div class="grow"><div class="glabel">조운부두</div></div>
     <div class="grow"><div class="glabel">장작영</div></div>
+    <div class="gsection mid">부대 임무</div>
+    <div class="grow"><div class="glabel">중앙 주력</div></div>
+    <div class="grow"><div class="glabel">도하조</div></div>
+    <div class="grow"><div class="glabel">파밍조</div></div>
+    <div class="gaxis">
+      <div></div>
+      <div class="marks">
+        <span>0</span><span>5</span><span>10</span><span>15</span><span>20</span>
+        <span>25</span><span>30</span><span>35</span><span>40</span><span>45분</span>
+      </div>
+    </div>
     <div class="glegend">
-      <span><i style="background:var(--fight)"></i>쟁탈</span>
-      <span><i style="background:var(--score)"></i>산출</span>
-      <span><i style="background:var(--idle)"></i>정비/대기</span>
+      <span><i style="background:var(--fight)"></i>전투/쟁탈</span>
+      <span><i style="background:var(--score)"></i>산출·확보 유지</span>
+      <span><i style="background:var(--idle)"></i>대기·이동</span>
     </div>
   </div>
 
-  <div class="chips" id="chips"></div>
+  <div class="chipgroup">
+    <div class="grouptitle">🚩 지금 우리 부대는</div>
+    <div class="chips" id="squadChips"></div>
+  </div>
+
+  <div class="chipgroup">
+    <div class="grouptitle">건물 상태</div>
+    <div class="chips" id="chips"></div>
+  </div>
 
   <div class="logbox" id="log"></div>
 
@@ -176,23 +210,62 @@ const BUILDINGS = [
 
 const PHASE_LABEL = {fight:'쟁탈 중', score:'산출 중', idle:'정비/대기'};
 
-// build gantt bars
+// 3부대 운영 임무 — 작전 브리핑 "09 전략" 배치안을 시간표로 옮긴 것 (추정/독트린 기반)
+const SQUADS = [
+  { key:'main', name:'중앙 주력', color:'#7A5C1E',
+    segs:[
+      {type:'idle',  s:0,  e:10, label:'맹호성 앞 대기 · 소모 회피'},
+      {type:'fight', s:10, e:12, label:'총공격 · 최종 점유 확정'},
+      {type:'score', s:12, e:15, label:'산출 확정 · 방어 불필요, 휴식'},
+      {type:'idle',  s:15, e:23, label:'정비 대기'},
+      {type:'idle',  s:23, e:33, label:'경계 · 소모 회피 (2차 쟁탈 대비)'},
+      {type:'fight', s:33, e:35, label:'총공격 · 최종 점유 확정'},
+      {type:'score', s:35, e:38, label:'산출 확정 · 휴식'},
+      {type:'idle',  s:38, e:45, label:'정비 · 전투 종료 대기'},
+    ]},
+  { key:'river', name:'도하조', color:'#3A5C77',
+    segs:[
+      {type:'idle',  s:0,  e:11, label:'조운부두로 진격 중'},
+      {type:'fight', s:11, e:13, label:'조운부두 쟁탈 · 속도전'},
+      {type:'fight', s:13, e:19, label:'장작영 진입 · 쟁탈전'},
+      {type:'score', s:19, e:33, label:'부두·장작영 확보 · 버프 유지 로테이션'},
+      {type:'fight', s:33, e:35, label:'조운부두 2차 쟁탈'},
+      {type:'fight', s:35, e:41, label:'장작영 2차 쟁탈'},
+      {type:'score', s:41, e:45, label:'버프 갱신 완료 · 유지'},
+    ]},
+  { key:'farm', name:'파밍조', color:'#9B2C25',
+    segs:[
+      {type:'idle',  s:0,  e:13, label:'중앙 대기 · 개활지 정찰'},
+      {type:'fight', s:13, e:23, label:'도적거점 공격 · 개인점수 파밍'},
+      {type:'score', s:23, e:35, label:'비룡성 개인점수 파밍 · 재정비'},
+      {type:'fight', s:35, e:45, label:'도적거점 2차 공격 · 마무리'},
+    ]},
+];
+
+// build gantt bars (buildings + squads share the same bar renderer)
 const gantt = document.querySelector('.gantt');
-BUILDINGS.forEach((b,i)=>{
-  const row = gantt.children[i];
+const growRows = Array.from(gantt.querySelectorAll('.grow'));
+function buildBar(segs, row){
   const track = document.createElement('div');
   track.className = 'gtrack';
   const bar = document.createElement('div');
   bar.className = 'gbar';
-  b.segs.forEach(([type,s,e])=>{
+  segs.forEach(seg=>{
     const span = document.createElement('span');
-    span.className = type;
-    span.style.flex = (e-s);
+    span.className = seg.type;
+    span.style.flex = (seg.e-seg.s);
     bar.appendChild(span);
   });
   track.appendChild(bar);
   row.appendChild(track);
+}
+BUILDINGS.forEach((b,i)=>{
+  buildBar(b.segs.map(([type,s,e])=>({type,s,e})), growRows[i]);
 });
+SQUADS.forEach((sq,i)=>{
+  buildBar(sq.segs, growRows[BUILDINGS.length+i]);
+});
+
 // single shared playhead overlay, positioned across the whole gantt block
 const playhead = document.createElement('div');
 playhead.className = 'playhead';
@@ -200,19 +273,19 @@ gantt.style.position = 'relative';
 gantt.appendChild(playhead);
 
 function positionPlayhead(t){
-  // compute pixel offset relative to first gtrack's bar
-  const track = document.querySelector('.gtrack');
-  if(!track) return;
-  const barRect = track.getBoundingClientRect();
+  const tracks = document.querySelectorAll('.gtrack');
+  if(!tracks.length) return;
+  const firstRect = tracks[0].getBoundingClientRect();
+  const lastRect = tracks[tracks.length-1].getBoundingClientRect();
   const wrapRect = gantt.getBoundingClientRect();
   const pct = t/TOTAL;
-  const x = (barRect.left - wrapRect.left) + barRect.width*pct;
+  const x = (firstRect.left - wrapRect.left) + firstRect.width*pct;
   playhead.style.left = x+'px';
-  playhead.style.top = (track.parentElement.offsetTop - 2)+'px';
-  playhead.style.height = (document.querySelectorAll('.grow').length * (document.querySelector('.grow').offsetHeight+8))+'px';
+  playhead.style.top = (tracks[0].parentElement.offsetTop - 2)+'px';
+  playhead.style.height = (lastRect.bottom - firstRect.top + 4)+'px';
 }
 
-// chips
+// building status chips
 const chipsEl = document.getElementById('chips');
 BUILDINGS.forEach(b=>{
   const c = document.createElement('div');
@@ -223,7 +296,23 @@ BUILDINGS.forEach(b=>{
   chipsEl.appendChild(c);
 });
 
-// events for log
+// squad order chips
+const squadChipsEl = document.getElementById('squadChips');
+SQUADS.forEach(sq=>{
+  const c = document.createElement('div');
+  c.className = 'chip squad';
+  c.innerHTML = `<div class="cname"><span class="dot" style="background:${sq.color}"></span>${sq.name}</div>
+    <div class="corder" id="ord-${sq.key}">—</div>
+    <div class="ctimer" id="tmq-${sq.key}"></div>`;
+  squadChipsEl.appendChild(c);
+});
+
+function squadPhaseAt(sq,t){
+  for(const seg of sq.segs){ if(t>=seg.s && t<seg.e) return seg; }
+  return sq.segs[sq.segs.length-1];
+}
+
+// events for log (건물 + 부대 임무 통합)
 const EVENTS = [{t:0, text:'개전! 45분 전투 시작'}];
 BUILDINGS.forEach(b=>{
   b.segs.forEach(([type,s])=>{
@@ -231,6 +320,11 @@ BUILDINGS.forEach(b=>{
     if(type==='score') EVENTS.push({t:s, text:`<b>${b.name}</b> 산출 확정 — 초당 ${(b.rate*b.count).toLocaleString()}점 × 3분`});
   });
   (b.payouts||[]).forEach(p=> EVENTS.push({t:p.t, text:`<b>${b.name}</b> 정산 — <b>+${(p.amt*b.count).toLocaleString()}점</b>`}));
+});
+SQUADS.forEach(sq=>{
+  sq.segs.forEach(seg=>{
+    EVENTS.push({t:seg.s, text:`<b class="sq">${sq.name}</b> ${seg.label}`});
+  });
 });
 EVENTS.push({t:45, text:'전투 종료 — 최종 포인트 집계'});
 EVENTS.sort((a,b)=>a.t-b.t);
@@ -287,6 +381,13 @@ function render(t){
     el.className = 'cphase '+ph.type;
     const remain = Math.max(0, ph.e-t);
     tm.textContent = ph.type==='fight' ? ('쟁탈 종료까지 '+fmt(remain)) : (ph.e<45 ? ('다음 전환까지 '+fmt(remain)) : '');
+  });
+
+  SQUADS.forEach(sq=>{
+    const seg = squadPhaseAt(sq,t);
+    document.getElementById('ord-'+sq.key).textContent = seg.label;
+    const remain = Math.max(0, seg.e-t);
+    document.getElementById('tmq-'+sq.key).textContent = seg.e<45 ? ('다음 임무 전환까지 '+fmt(remain)) : ('전투 종료까지 '+fmt(remain));
   });
 
   // log: show events up to t, newest first
