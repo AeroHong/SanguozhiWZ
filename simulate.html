@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>용쟁호투 45분 시뮬레이션</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700;900&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#D9D5C7;
+  --ink:#1C231F;
+  --ink-soft:#454E47;
+  --ink-faint:#6E766E;
+  --rule:#B3AE9C;
+
+  --c-mh:#A8461F;
+  --c-br:#2E6B62;
+  --c-bandit:#9B2C25;
+  --c-dock:#3A5C77;
+  --c-camp:#A8801F;
+
+  --fight:#B3401C;
+  --score:#2E6B62;
+  --idle:#9E9784;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--paper);
+  background-image:radial-gradient(ellipse at 20% 0%, rgba(255,255,255,.35), transparent 55%),
+    radial-gradient(ellipse at 90% 100%, rgba(120,110,80,.13), transparent 50%);
+  color:var(--ink);font-family:"Noto Sans KR",sans-serif;font-weight:400;line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:920px;margin:0 auto;padding:0 24px 60px}
+.back{display:inline-block;font-size:13px;color:var(--ink-faint);text-decoration:none;border:1px solid var(--rule);padding:5px 12px;border-radius:2px;margin:24px 0 18px}
+.back:hover{border-color:var(--ink-soft);color:var(--ink-soft)}
+
+h1{font-family:"Noto Serif KR",serif;font-weight:900;font-size:clamp(28px,5vw,42px);letter-spacing:-.03em;margin:0 0 8px}
+.sub{font-size:14.5px;color:var(--ink-soft);max-width:64ch;margin:0 0 6px;font-weight:300}
+.warn{font-size:12.5px;color:var(--ink-faint);font-weight:300;margin:0 0 26px;max-width:64ch;border-left:3px dashed var(--rule);padding-left:10px}
+
+/* ---------- control panel ---------- */
+.panel{border:2px solid var(--ink);border-radius:5px;padding:20px 22px;background:rgba(255,255,255,.32);margin-bottom:26px}
+.toprow{display:flex;flex-wrap:wrap;gap:18px;align-items:center;justify-content:space-between;margin-bottom:16px}
+.clock{font-family:"Noto Serif KR",serif;font-weight:900;font-size:clamp(30px,5vw,42px);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.clock small{font-family:"Noto Sans KR",sans-serif;font-weight:400;font-size:14px;color:var(--ink-faint);margin-left:6px}
+.score{text-align:right}
+.score .num{font-family:"Noto Serif KR",serif;font-weight:900;font-size:clamp(24px,4.4vw,34px);color:var(--score);font-variant-numeric:tabular-nums;transition:transform .12s}
+.score .num.bump{transform:scale(1.08)}
+.score .lab{font-size:11px;color:var(--ink-faint);letter-spacing:.05em}
+
+.ctrls{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+button.btn{
+  font-family:"Noto Serif KR",serif;font-weight:700;font-size:14px;cursor:pointer;
+  background:var(--ink);color:var(--paper);border:none;padding:9px 20px;border-radius:3px;
+}
+button.btn.secondary{background:transparent;color:var(--ink-soft);border:1px solid var(--rule);font-family:"Noto Sans KR",sans-serif;font-weight:500;font-size:13px;padding:8px 14px}
+button.btn.secondary[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+input[type=range]{flex:1 1 100%;accent-color:var(--ink);cursor:pointer}
+
+/* ---------- gantt w/ playhead ---------- */
+.gantt{position:relative;margin-top:6px}
+.grow{display:grid;grid-template-columns:76px 1fr;gap:10px;align-items:center;margin-bottom:8px}
+.glabel{font-size:12px;font-weight:700;color:var(--ink)}
+.gbar{position:relative;display:flex;height:20px;border-radius:2px;overflow:hidden;border:1px solid rgba(0,0,0,.12)}
+.gbar span{display:block;height:100%}
+.gbar .fight{background:var(--fight)}
+.gbar .score{background:var(--score)}
+.gbar .idle{background:var(--idle)}
+.gtrack{position:relative;margin-left:86px}
+.playhead{position:absolute;top:-2px;bottom:-2px;width:2px;background:#1C231F;z-index:5;box-shadow:0 0 0 1px rgba(255,255,255,.6)}
+.playhead::before{content:"";position:absolute;top:-6px;left:-4px;width:10px;height:10px;background:var(--ink);border-radius:50% 50% 50% 0;transform:rotate(45deg)}
+.glegend{display:flex;gap:16px;margin-top:14px;font-size:11.5px;color:var(--ink-soft)}
+.glegend i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+
+/* ---------- building status chips ---------- */
+.chips{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:24px 0}
+.chip{border-radius:4px;padding:12px 14px;border:1px solid var(--rule);background:rgba(255,255,255,.3)}
+.chip .cname{font-family:"Noto Serif KR",serif;font-weight:700;font-size:14.5px;display:flex;align-items:center;gap:6px}
+.chip .dot{width:8px;height:8px;border-radius:50%;flex:none}
+.chip .cphase{font-size:12px;font-weight:700;margin-top:4px}
+.chip .cphase.fight{color:var(--fight)}
+.chip .cphase.score{color:var(--score)}
+.chip .cphase.idle{color:var(--ink-faint)}
+.chip .ctimer{font-size:11px;color:var(--ink-faint);margin-top:2px;font-variant-numeric:tabular-nums}
+
+/* ---------- log ---------- */
+.logbox{
+  border:1px solid var(--rule);border-radius:4px;background:rgba(28,35,31,.92);
+  color:#D9D5C7;padding:14px 16px;height:260px;overflow-y:auto;font-size:12.5px;
+  font-family:"Noto Sans KR",monospace,sans-serif;line-height:2;
+}
+.logbox .row{opacity:0;animation:fade .3s forwards}
+.logbox .row b{color:#E8C97A}
+@keyframes fade{to{opacity:1}}
+.logbox .t{color:#8FA394;margin-right:8px}
+
+.endbanner{text-align:center;padding:20px;margin-top:16px;border:2px solid var(--score);border-radius:5px;background:rgba(46,107,98,.1);display:none}
+.endbanner.show{display:block}
+.endbanner p{margin:0;font-family:"Noto Serif KR",serif;font-weight:900;font-size:20px;color:var(--score)}
+
+@media (max-width:640px){
+  .toprow{flex-direction:column;align-items:flex-start}
+  .score{text-align:left}
+  .grow{grid-template-columns:56px 1fr}
+  .gtrack{margin-left:66px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="index.html">← 작전 브리핑으로 돌아가기</a>
+  <h1>45분, 이렇게 흘러갑니다</h1>
+  <p class="sub">재생을 누르면 본전투 21:00~21:45가 압축 재생됩니다. 건물이 쟁탈→산출/정산→정비를 도는 흐름과, 그에 따라 동맹 포인트가 쌓이는 감각을 미리 느껴보는 용도입니다.</p>
+  <p class="warn">가정: 우리 동맹이 맹호성 3개·비룡성 4개·도적거점·조운부두·장작영을 전부, 두 사이클 모두 지켰다고 가정한 <b>최상 시나리오</b>입니다. 실전은 상대와의 쟁탈에 따라 달라집니다.</p>
+
+  <div class="panel">
+    <div class="toprow">
+      <div class="clock" id="clock">00:00 <small>/ 45:00</small></div>
+      <div class="score"><div class="num" id="scoreNum">0</div><div class="lab">누적 동맹 포인트 (최상 시나리오)</div></div>
+    </div>
+    <div class="ctrls">
+      <button class="btn" id="playBtn">▶ 재생</button>
+      <button class="btn secondary" id="resetBtn">처음부터</button>
+      <button class="btn secondary" data-speed="30">30×</button>
+      <button class="btn secondary" data-speed="60" aria-pressed="true">60×</button>
+      <button class="btn secondary" data-speed="150">150×</button>
+      <input type="range" id="scrub" min="0" max="45" step="0.05" value="0">
+    </div>
+  </div>
+
+  <div class="gantt">
+    <div class="grow"><div class="glabel">맹호성</div></div>
+    <div class="grow"><div class="glabel">비룡성</div></div>
+    <div class="grow"><div class="glabel">도적거점</div></div>
+    <div class="grow"><div class="glabel">조운부두</div></div>
+    <div class="grow"><div class="glabel">장작영</div></div>
+    <div class="glegend">
+      <span><i style="background:var(--fight)"></i>쟁탈</span>
+      <span><i style="background:var(--score)"></i>산출</span>
+      <span><i style="background:var(--idle)"></i>정비/대기</span>
+    </div>
+  </div>
+
+  <div class="chips" id="chips"></div>
+
+  <div class="logbox" id="log"></div>
+
+  <div class="endbanner" id="endbanner">
+    <p>⚑ 전투 종료 — 승리 확정</p>
+  </div>
+</div>
+
+<script>
+const NS = "http://www.w3.org/2000/svg";
+const TOTAL = 45; // minutes
+
+// [type, start, end] in minutes, 0-indexed continuous timeline
+const BUILDINGS = [
+  { key:'mh', name:'맹호성', color:'var(--c-mh)', count:3, rate:20,
+    segs:[['fight',0,12],['score',12,15],['idle',15,23],['fight',23,35],['score',35,38],['idle',38,45]] },
+  { key:'br', name:'비룡성', color:'var(--c-br)', count:4, rate:15,
+    segs:[['idle',0,5],['fight',5,20],['score',20,23],['idle',23,27],['fight',27,42],['score',42,45]] },
+  { key:'bandit', name:'도적거점', color:'var(--c-bandit)', count:1, rate:0,
+    segs:[['idle',0,13],['fight',13,23],['idle',23,35],['fight',35,45]],
+    payouts:[{t:23,amt:4000},{t:45,amt:4000}] },
+  { key:'dock', name:'조운부두', color:'var(--c-dock)', count:1, rate:0,
+    segs:[['idle',0,11],['fight',11,19],['idle',19,33],['fight',33,41],['idle',41,45]],
+    payouts:[{t:19,amt:400},{t:41,amt:400}] },
+  { key:'camp', name:'장작영', color:'var(--c-camp)', count:1, rate:0,
+    segs:[['idle',0,13],['fight',13,19],['idle',19,35],['fight',35,41],['idle',41,45]],
+    payouts:[{t:19,amt:180},{t:41,amt:180}] },
+];
+
+const PHASE_LABEL = {fight:'쟁탈 중', score:'산출 중', idle:'정비/대기'};
+
+// build gantt bars
+const gantt = document.querySelector('.gantt');
+BUILDINGS.forEach((b,i)=>{
+  const row = gantt.children[i];
+  const track = document.createElement('div');
+  track.className = 'gtrack';
+  const bar = document.createElement('div');
+  bar.className = 'gbar';
+  b.segs.forEach(([type,s,e])=>{
+    const span = document.createElement('span');
+    span.className = type;
+    span.style.flex = (e-s);
+    bar.appendChild(span);
+  });
+  track.appendChild(bar);
+  row.appendChild(track);
+});
+// single shared playhead overlay, positioned across the whole gantt block
+const playhead = document.createElement('div');
+playhead.className = 'playhead';
+gantt.style.position = 'relative';
+gantt.appendChild(playhead);
+
+function positionPlayhead(t){
+  // compute pixel offset relative to first gtrack's bar
+  const track = document.querySelector('.gtrack');
+  if(!track) return;
+  const barRect = track.getBoundingClientRect();
+  const wrapRect = gantt.getBoundingClientRect();
+  const pct = t/TOTAL;
+  const x = (barRect.left - wrapRect.left) + barRect.width*pct;
+  playhead.style.left = x+'px';
+  playhead.style.top = (track.parentElement.offsetTop - 2)+'px';
+  playhead.style.height = (document.querySelectorAll('.grow').length * (document.querySelector('.grow').offsetHeight+8))+'px';
+}
+
+// chips
+const chipsEl = document.getElementById('chips');
+BUILDINGS.forEach(b=>{
+  const c = document.createElement('div');
+  c.className = 'chip';
+  c.innerHTML = `<div class="cname"><span class="dot" style="background:${b.color}"></span>${b.name}</div>
+    <div class="cphase" id="ph-${b.key}">—</div>
+    <div class="ctimer" id="tm-${b.key}"></div>`;
+  chipsEl.appendChild(c);
+});
+
+// events for log
+const EVENTS = [{t:0, text:'개전! 45분 전투 시작'}];
+BUILDINGS.forEach(b=>{
+  b.segs.forEach(([type,s])=>{
+    if(type==='fight') EVENTS.push({t:s, text:`<b>${b.name}</b> 쟁탈전 개시`});
+    if(type==='score') EVENTS.push({t:s, text:`<b>${b.name}</b> 산출 확정 — 초당 ${(b.rate*b.count).toLocaleString()}점 × 3분`});
+  });
+  (b.payouts||[]).forEach(p=> EVENTS.push({t:p.t, text:`<b>${b.name}</b> 정산 — <b>+${(p.amt*b.count).toLocaleString()}점</b>`}));
+});
+EVENTS.push({t:45, text:'전투 종료 — 최종 포인트 집계'});
+EVENTS.sort((a,b)=>a.t-b.t);
+
+function fmt(min){
+  const m = Math.floor(min), s = Math.floor((min-m)*60);
+  return String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+}
+
+function phaseAt(b,t){
+  for(const [type,s,e] of b.segs){ if(t>=s && t<e) return {type,s,e}; }
+  const last = b.segs[b.segs.length-1];
+  return {type:last[0], s:last[1], e:last[2]};
+}
+
+function pointsAt(t){
+  let total=0;
+  BUILDINGS.forEach(b=>{
+    b.segs.forEach(([type,s,e])=>{
+      if(type==='score'){
+        const dur = Math.max(0, Math.min(t,e)-s);
+        total += dur*60*b.rate*b.count;
+      }
+    });
+    (b.payouts||[]).forEach(p=>{ if(t>=p.t) total += p.amt*b.count; });
+  });
+  return Math.round(total);
+}
+
+const clockEl = document.getElementById('clock');
+const scoreEl = document.getElementById('scoreNum');
+const scrubEl = document.getElementById('scrub');
+const logEl = document.getElementById('log');
+const endBanner = document.getElementById('endbanner');
+let lastScore = 0;
+let loggedUpTo = -1;
+
+function render(t){
+  clockEl.innerHTML = fmt(t)+' <small>/ 45:00</small>';
+  const pts = pointsAt(t);
+  if(pts !== lastScore){
+    scoreEl.textContent = pts.toLocaleString();
+    scoreEl.classList.remove('bump'); void scoreEl.offsetWidth; scoreEl.classList.add('bump');
+    lastScore = pts;
+  }
+  scrubEl.value = t;
+  positionPlayhead(t);
+
+  BUILDINGS.forEach(b=>{
+    const ph = phaseAt(b,t);
+    const el = document.getElementById('ph-'+b.key);
+    const tm = document.getElementById('tm-'+b.key);
+    el.textContent = PHASE_LABEL[ph.type];
+    el.className = 'cphase '+ph.type;
+    const remain = Math.max(0, ph.e-t);
+    tm.textContent = ph.type==='fight' ? ('쟁탈 종료까지 '+fmt(remain)) : (ph.e<45 ? ('다음 전환까지 '+fmt(remain)) : '');
+  });
+
+  // log: show events up to t, newest first
+  if(Math.floor(t*20) !== loggedUpTo){
+    loggedUpTo = Math.floor(t*20);
+    const visible = EVENTS.filter(e=>e.t<=t);
+    logEl.innerHTML = visible.slice().reverse().map(e=>
+      `<div class="row"><span class="t">${fmt(e.t)}</span>${e.text}</div>`
+    ).join('');
+  }
+  endBanner.classList.toggle('show', t>=45);
+}
+
+let playing = false, speed = 60, timerId = null, lastFrame = null;
+function tick(){
+  if(!playing) return;
+  const now = performance.now();
+  if(lastFrame==null) lastFrame = now;
+  const dtSec = (now-lastFrame)/1000;
+  lastFrame = now;
+  let t = parseFloat(scrubEl.value) + (speed*dtSec)/60;
+  if(t>=45){ t=45; playing=false; playBtn.textContent='▶ 재생'; clearInterval(timerId); }
+  render(t);
+}
+
+const playBtn = document.getElementById('playBtn');
+playBtn.addEventListener('click', ()=>{
+  playing = !playing;
+  playBtn.textContent = playing ? '⏸ 일시정지' : '▶ 재생';
+  if(playing){
+    if(parseFloat(scrubEl.value) >= 45) scrubEl.value = 0;
+    lastFrame = null;
+    clearInterval(timerId);
+    timerId = setInterval(tick, 50);
+  } else {
+    clearInterval(timerId);
+  }
+});
+document.getElementById('resetBtn').addEventListener('click', ()=>{
+  playing = false; playBtn.textContent = '▶ 재생'; clearInterval(timerId);
+  scrubEl.value = 0; render(0);
+});
+scrubEl.addEventListener('input', ()=>{
+  playing = false; playBtn.textContent = '▶ 재생'; clearInterval(timerId);
+  render(parseFloat(scrubEl.value));
+});
+document.querySelectorAll('[data-speed]').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    speed = parseInt(btn.dataset.speed,10);
+    document.querySelectorAll('[data-speed]').forEach(b=>b.setAttribute('aria-pressed', String(b===btn)));
+  });
+});
+
+window.addEventListener('resize', ()=>positionPlayhead(parseFloat(scrubEl.value)));
+render(0);
+</script>
+</body>
+</html>
