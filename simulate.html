@@ -74,6 +74,7 @@ button.btn.live[aria-pressed="true"]{background:var(--fight);color:#fff;border-c
 .gsection.mid{border-top:1px dashed var(--rule);padding-top:14px;margin-top:14px}
 .grow{display:grid;grid-template-columns:76px 1fr;gap:10px;align-items:center;margin-bottom:8px}
 .glabel{font-size:12px;font-weight:700;color:var(--ink)}
+.bicon-sm{width:13px;height:13px;object-fit:contain;vertical-align:-2px;margin-right:3px}
 .gbar{position:relative;display:flex;height:20px;border-radius:2px;overflow:hidden;border:1px solid rgba(0,0,0,.12)}
 .gbar span{display:block;height:100%}
 .gbar .fight{background:var(--fight)}
@@ -162,11 +163,11 @@ button.btn.live[aria-pressed="true"]{background:var(--fight);color:#fff;border-c
 
   <div class="gantt">
     <div class="gsection">건물 상태</div>
-    <div class="grow"><div class="glabel">맹호성</div></div>
-    <div class="grow"><div class="glabel">비룡성</div></div>
-    <div class="grow"><div class="glabel">도적거점</div></div>
-    <div class="grow"><div class="glabel">조운부두</div></div>
-    <div class="grow"><div class="glabel">장작영</div></div>
+    <div class="grow"><div class="glabel"><img class="bicon-sm" src="images/icon-maengho.png" alt="">맹호성</div></div>
+    <div class="grow"><div class="glabel"><img class="bicon-sm" src="images/icon-biryong.png" alt="">비룡성</div></div>
+    <div class="grow"><div class="glabel"><img class="bicon-sm" src="images/icon-bandit.png" alt="">도적거점</div></div>
+    <div class="grow"><div class="glabel"><img class="bicon-sm" src="images/icon-dock.png" alt="">조운부두</div></div>
+    <div class="grow"><div class="glabel"><img class="bicon-sm" src="images/icon-camp.png" alt="">장작영</div></div>
     <div class="gsection mid">부대 임무</div>
     <div class="grow"><div class="glabel">중앙 주력</div></div>
     <div class="grow"><div class="glabel">도하조</div></div>
@@ -208,17 +209,17 @@ const TOTAL = 45; // minutes
 
 // [type, start, end] in minutes, 0-indexed continuous timeline
 const BUILDINGS = [
-  { key:'mh', name:'맹호성', color:'var(--c-mh)', count:3, rate:20,
+  { key:'mh', name:'맹호성', color:'var(--c-mh)', icon:'images/icon-maengho.png', count:3, rate:20,
     segs:[['fight',0,12],['score',12,15],['idle',15,23],['fight',23,35],['score',35,38],['idle',38,45]] },
-  { key:'br', name:'비룡성', color:'var(--c-br)', count:4, rate:15,
+  { key:'br', name:'비룡성', color:'var(--c-br)', icon:'images/icon-biryong.png', count:4, rate:15,
     segs:[['idle',0,5],['fight',5,20],['score',20,23],['idle',23,27],['fight',27,42],['score',42,45]] },
-  { key:'bandit', name:'도적거점', color:'var(--c-bandit)', count:1, rate:0,
+  { key:'bandit', name:'도적거점', color:'var(--c-bandit)', icon:'images/icon-bandit.png', count:1, rate:0,
     segs:[['idle',0,13],['fight',13,23],['idle',23,35],['fight',35,45]],
     payouts:[{t:23,amt:4000},{t:45,amt:4000}] },
-  { key:'dock', name:'조운부두', color:'var(--c-dock)', count:1, rate:0,
+  { key:'dock', name:'조운부두', color:'var(--c-dock)', icon:'images/icon-dock.png', count:1, rate:0,
     segs:[['idle',0,11],['fight',11,19],['idle',19,33],['fight',33,41],['idle',41,45]],
     payouts:[{t:19,amt:400},{t:41,amt:400}] },
-  { key:'camp', name:'장작영', color:'var(--c-camp)', count:1, rate:0,
+  { key:'camp', name:'장작영', color:'var(--c-camp)', icon:'images/icon-camp.png', count:1, rate:0,
     segs:[['idle',0,13],['fight',13,19],['idle',19,35],['fight',35,41],['idle',41,45]],
     payouts:[{t:19,amt:180},{t:41,amt:180}] },
 ];
@@ -308,7 +309,7 @@ const chipsEl = document.getElementById('chips');
 BUILDINGS.forEach(b=>{
   const c = document.createElement('div');
   c.className = 'chip';
-  c.innerHTML = `<div class="cname"><span class="dot" style="background:${b.color}"></span>${b.name}</div>
+  c.innerHTML = `<div class="cname"><img class="bicon-sm" src="${b.icon}" alt="">${b.name}</div>
     <div class="cphase" id="ph-${b.key}">—</div>
     <div class="ctimer" id="tm-${b.key}"></div>`;
   chipsEl.appendChild(c);
