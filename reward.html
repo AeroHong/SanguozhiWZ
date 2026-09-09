@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>용쟁호투 보상 총정리</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700;900&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#D9D5C7;
+  --paper-2:#CFCABA;
+  --ink:#1C231F;
+  --ink-soft:#454E47;
+  --ink-faint:#6E766E;
+  --rule:#B3AE9C;
+  --gold:#A8801F;
+  --gem:#2E6B62;
+  --win:#2E6B62;
+  --lose:#8C4A44;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--paper);
+  background-image:
+    radial-gradient(ellipse at 20% 0%, rgba(255,255,255,.35), transparent 55%),
+    radial-gradient(ellipse at 90% 100%, rgba(120,110,80,.13), transparent 50%);
+  color:var(--ink);
+  font-family:"Noto Sans KR",sans-serif;
+  font-weight:400;
+  line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:920px;margin:0 auto;padding:0 28px}
+
+.hero{padding:40px 0 8px;text-align:center}
+.heroart{width:100%;height:auto;display:block;border-radius:4px;margin-bottom:26px;box-shadow:0 6px 24px rgba(0,0,0,.25)}
+.back{display:inline-block;font-size:13px;color:var(--ink-faint);text-decoration:none;border:1px solid var(--rule);padding:5px 12px;border-radius:2px;margin-bottom:18px}
+.back:hover{border-color:var(--ink-soft);color:var(--ink-soft)}
+.stamp{
+  display:inline-block;border:1.5px solid var(--gold);color:#7E5E10;
+  font-size:12px;letter-spacing:.22em;padding:5px 12px 4px;border-radius:2px;
+  font-weight:700;margin-bottom:18px;
+}
+h1{
+  font-family:"Noto Serif KR",serif;font-weight:900;
+  font-size:clamp(34px,7vw,58px);line-height:1.08;letter-spacing:-.03em;
+  margin:0 0 16px;
+}
+.sub{font-size:16px;color:var(--ink-soft);max-width:56ch;margin:0 auto 34px;font-weight:300}
+
+section{margin-bottom:64px;text-align:center}
+h2{
+  font-family:"Noto Serif KR",serif;font-weight:900;font-size:clamp(24px,4vw,32px);
+  letter-spacing:-.03em;margin:0 0 8px;
+}
+.lede{color:var(--ink-faint);font-size:14.5px;margin:0 auto 26px;max-width:56ch;font-weight:300}
+
+.shot{max-width:100%;height:auto;border-radius:4px;border:1px solid var(--rule);box-shadow:0 4px 18px rgba(0,0,0,.14);display:block;margin:0 auto}
+
+/* ---------- compare bars ---------- */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:28px;text-align:left}
+.cbox{border-radius:4px;padding:20px 22px;border:2px solid var(--rule)}
+.cbox.win{border-color:var(--win);background:rgba(46,107,98,.07)}
+.cbox.lose{border-color:var(--lose);background:rgba(140,74,68,.05)}
+.cbox .clabel{font-family:"Noto Serif KR",serif;font-weight:900;font-size:19px;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.cbox.win .clabel{color:var(--win)}
+.cbox.lose .clabel{color:var(--lose)}
+.cbox .crow{display:flex;justify-content:space-between;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--rule);font-size:13.5px;color:var(--ink-soft)}
+.cbox .crow:last-child{border-bottom:0}
+.cbox .crow b{font-family:"Noto Serif KR",serif;font-weight:700;font-size:16px;color:var(--ink);font-variant-numeric:tabular-nums}
+
+.key{
+  border:2px solid var(--ink);border-radius:3px;padding:18px 24px;margin:26px 0 0;
+  background:rgba(255,255,255,.35);text-align:left;
+}
+.key p{margin:0;font-family:"Noto Serif KR",serif;font-size:18px;line-height:1.5;font-weight:700;letter-spacing:-.02em}
+.key p + p{margin-top:8px;font-family:"Noto Sans KR",sans-serif;font-size:13.5px;font-weight:300;color:var(--ink-soft);letter-spacing:0}
+
+/* ---------- ladder ---------- */
+.ladder{text-align:left;margin-top:28px;border-top:2px solid var(--ink)}
+.lstep{display:grid;grid-template-columns:100px 1fr 130px;gap:16px;align-items:center;padding:14px 0;border-bottom:1px solid var(--rule)}
+.lstep .pt{font-family:"Noto Serif KR",serif;font-weight:900;font-size:19px;color:var(--gold);font-variant-numeric:tabular-nums}
+.lstep .desc{font-size:13.5px;color:var(--ink-soft)}
+.lstep .give{font-size:13px;color:var(--ink);font-weight:700;text-align:right}
+
+/* ---------- podium ---------- */
+.podium{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:28px;align-items:end}
+.pod{border-radius:4px;padding:18px 14px 20px;text-align:center;border:2px solid var(--rule);background:rgba(255,255,255,.3)}
+.pod.p1{border-color:#B8862B;background:rgba(184,134,43,.1);padding-top:6px}
+.pod.p2{border-color:#8892A0;background:rgba(136,146,160,.1)}
+.pod.p3{border-color:#B08256;background:rgba(176,130,86,.1)}
+.pod .medal{font-family:"Noto Serif KR",serif;font-weight:900;font-size:15px;letter-spacing:.1em;margin-bottom:6px}
+.pod.p1 .medal{color:#B8862B;font-size:22px}
+.pod.p2 .medal{color:#6D7684}
+.pod.p3 .medal{color:#96633A}
+.pod .grow{font-size:12.5px;color:var(--ink-soft);margin-top:8px;line-height:1.9}
+.pod .grow b{color:var(--ink);font-family:"Noto Serif KR",serif;font-variant-numeric:tabular-nums}
+
+.tblwrap{overflow-x:auto;margin-top:30px}
+table{width:100%;border-collapse:collapse;font-size:13.5px;text-align:left}
+th{text-align:left;font-weight:700;font-size:12px;color:var(--ink-faint);border-bottom:2px solid var(--ink);padding:0 12px 6px 0}
+td{padding:9px 12px 9px 0;border-bottom:1px solid var(--rule);color:var(--ink-soft);font-weight:300}
+td.rank{font-family:"Noto Serif KR",serif;font-weight:900;color:var(--ink);white-space:nowrap}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+
+.cta{
+  margin-top:40px;padding:30px 24px;border-radius:6px;
+  background:linear-gradient(135deg, rgba(46,107,98,.14), rgba(168,128,31,.14));
+  border:2px solid var(--ink);
+}
+.cta p.big{font-family:"Noto Serif KR",serif;font-weight:900;font-size:clamp(20px,3.2vw,26px);margin:0 0 8px;letter-spacing:-.02em}
+.cta p.small{font-size:14px;color:var(--ink-soft);font-weight:300;margin:0;max-width:56ch;margin:0 auto}
+
+footer{border-top:1px solid var(--rule);padding:26px 0 50px;font-size:13px;color:var(--ink-faint);font-weight:300;text-align:center}
+footer p{margin:0 0 12px}
+footer a{color:var(--ink-soft)}
+
+@media (max-width:640px){
+  .wrap{padding:0 18px}
+  .compare{grid-template-columns:1fr}
+  .podium{grid-template-columns:1fr}
+  .pod.p1{order:-1}
+  .lstep{grid-template-columns:1fr;gap:2px;text-align:left}
+  .lstep .give{text-align:left}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <a class="back" href="index.html">← 작전 브리핑으로 돌아가기</a>
+  <img class="heroart" src="images/hero-title.jpg" alt="용쟁호투">
+  <span class="stamp">용쟁호투 · 보상 총정리</span>
+  <h1>45분,<br>우리가 챙길 것들</h1>
+  <p class="sub">이겨도 남고, 져도 남습니다. 개인 포인트만 쌓아도 랭킹 보상이 있고, 임무만 채워도 별도로 받습니다. 아래는 게임 내 "이벤트 보상" 화면을 그대로 옮긴 실제 수치입니다.</p>
+</header>
+
+<!-- ===== 승패 보상 ===== -->
+<section id="winlose">
+  <h2>이겨도, 져도 남는다</h2>
+  <p class="lede">패배해도 절반 이상은 보장됩니다. 그래도 이기는 쪽이 훨씬 큽니다 — 그 차이를 만드는 건 결국 우리 모두의 45분입니다.</p>
+
+  <img class="shot" src="images/reward-winlose.jpg" alt="승패 보상 비교">
+
+  <div class="compare">
+    <div class="cbox win">
+      <div class="clabel">🏆 승리 측</div>
+      <div class="crow"><span>보석</span><b>500,000</b></div>
+      <div class="crow"><span>자원 수레 (1만 단위)</span><b>150 × 2종</b></div>
+      <div class="crow"><span>군량</span><b>600</b></div>
+      <div class="crow"><span>보물 상자</span><b>20</b></div>
+      <div class="crow"><span>둥지(계란)</span><b>10</b></div>
+    </div>
+    <div class="cbox lose">
+      <div class="clabel">패배 측</div>
+      <div class="crow"><span>보석</span><b>300,000</b></div>
+      <div class="crow"><span>자원 수레 (1만 단위)</span><b>75 × 2종</b></div>
+      <div class="crow"><span>군량</span><b>400</b></div>
+      <div class="crow"><span>보물 상자</span><b>10</b></div>
+      <div class="crow"><span>둥지(계란)</span><b>5</b></div>
+    </div>
+  </div>
+
+  <div class="key">
+    <p>보석 1.7배, 자원 수레 2배 — 승리의 값어치는 명확합니다.</p>
+    <p>패배해도 보석 300,000·수레 75×2를 그대로 받습니다. 참가 자체가 손해는 아니라는 뜻입니다. 다만 승리 시 자원 수레는 정확히 2배, 계란(성장 자원)도 2배입니다. 초반 23분에 만들어지는 격차 하나하나가 결국 이 차이로 돌아옵니다.</p>
+  </div>
+</section>
+
+<!-- ===== 임무 보상 ===== -->
+<section id="mission">
+  <h2>혼자서도 채울 수 있는 목표</h2>
+  <p class="lede">동맹 승패와 무관하게, 내가 쌓은 개인 포인트만큼 확정으로 받습니다. 주력군이 아니어도 상관없습니다.</p>
+
+  <img class="shot" src="images/reward-mission.jpg" alt="임무 보상 사다리">
+
+  <div class="ladder">
+    <div class="lstep"><div class="pt">10만</div><div class="desc">가장 낮은 목표 — 건물 점령 몇 초, 도적 몇 마리면 충분합니다</div><div class="give">군량 10 · 가속 5</div></div>
+    <div class="lstep"><div class="pt">20만</div><div class="desc">비룡성 250초 점령(초당 800점)이면 도달</div><div class="give">군량 10 · 가속 10</div></div>
+    <div class="lstep"><div class="pt">40만</div><div class="desc">중반 정도 참여로 자연스럽게 도달하는 구간</div><div class="give">군량 15 · 가속 15</div></div>
+    <div class="lstep"><div class="pt">60만</div><div class="desc"><b>보석 50,000 처음 등장</b> — 여기서부터 체감이 달라집니다</div><div class="give">보석 50,000 · 군량 20 · 가속 15</div></div>
+    <div class="lstep"><div class="pt">120만</div><div class="desc">적극 참여자 목표 구간</div><div class="give">보석 50,000 · 군량 25 · 가속 15</div></div>
+  </div>
+</section>
+
+<!-- ===== 개인 랭킹 ===== -->
+<section id="rank">
+  <h2>1등이 아니어도 챙깁니다</h2>
+  <p class="lede">상위권과 중하위권의 격차가 크지 않게 설계되어 있습니다. 참여만 하면 어느 구간이든 보상이 남습니다.</p>
+
+  <img class="shot" src="images/reward-rank123.jpg" alt="개인 포인트 랭킹 1~3위 보상">
+
+  <div class="podium">
+    <div class="pod p2">
+      <div class="medal">2위</div>
+      <div class="grow">골드 <b>350</b><br>보석 <b>100,000</b><br>가속 <b>45개</b><br>수레 <b>130×3</b></div>
+    </div>
+    <div class="pod p1">
+      <div class="medal">★ 1위 ★</div>
+      <div class="grow">골드 <b>400</b><br>보석 <b>100,000</b><br>가속 <b>50개</b><br>수레 <b>150×3</b></div>
+    </div>
+    <div class="pod p3">
+      <div class="medal">3위</div>
+      <div class="grow">골드 <b>300</b><br>보석 <b>100,000</b><br>가속 <b>40개</b><br>수레 <b>120×3</b></div>
+    </div>
+  </div>
+
+  <img class="shot" style="margin-top:24px" src="images/reward-rank-tail.jpg" alt="6위부터 100위까지 보상">
+
+  <div class="tblwrap">
+  <table>
+    <caption style="text-align:left;font-size:12.5px;color:var(--ink-faint);padding-bottom:8px;font-weight:300">개인 포인트 랭킹 보상 전 구간</caption>
+    <thead><tr><th>순위</th><th class="num">골드</th><th class="num">보석</th><th class="num">가속(6분)</th><th class="num">자원 수레×3종</th></tr></thead>
+    <tbody>
+      <tr><td class="rank">1위</td><td class="num">400</td><td class="num">100,000</td><td class="num">50</td><td class="num">150</td></tr>
+      <tr><td class="rank">2위</td><td class="num">350</td><td class="num">100,000</td><td class="num">45</td><td class="num">130</td></tr>
+      <tr><td class="rank">3위</td><td class="num">300</td><td class="num">100,000</td><td class="num">40</td><td class="num">120</td></tr>
+      <tr><td class="rank">4~5위</td><td class="num">250</td><td class="num">80,000</td><td class="num">35</td><td class="num">100</td></tr>
+      <tr><td class="rank">6~10위</td><td class="num">200</td><td class="num">50,000</td><td class="num">30</td><td class="num">80</td></tr>
+      <tr><td class="rank">11~30위</td><td class="num">150</td><td class="num">30,000</td><td class="num">20</td><td class="num">70</td></tr>
+      <tr><td class="rank">31~100위</td><td class="num">100</td><td class="num">20,000</td><td class="num">10</td><td class="num">50</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="cta">
+    <p class="big">100위 안에만 들어도 보석 20,000 + 자원 수레 150.</p>
+    <p class="small">동맹 40명 중 100등 안에 못 드는 게 더 어렵습니다. 건물 하나만 붙잡고 있어도, 도적 거점 몇 번만 처치해도 순위는 쌓입니다. 자세한 배치와 타이밍은 <a href="index.html" style="color:var(--win);font-weight:700">작전 브리핑</a>에서 확인하세요.</p>
+  </div>
+</section>
+
+<footer>
+  <p>게임 내 "이벤트 보상" 화면(승패 보상 · 임무 보상 · 개인 포인트 보상)을 캡처해 재구성했습니다.</p>
+  <p><a href="index.html">← 용쟁호투 작전 브리핑 전체 보기</a></p>
+</footer>
+
+</div>
+</body>
+</html>
