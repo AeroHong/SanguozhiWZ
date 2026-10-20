@@ -138,13 +138,13 @@ footer a{color:var(--ink-soft)}
   <img class="heroart" src="images/hero-title.jpg" alt="용쟁호투">
   <span class="stamp">용쟁호투 · 보상 총정리</span>
   <h1>45분,<br>우리가 챙길 것들</h1>
-  <p class="sub">이겨도 남고, 져도 남습니다. 개인 포인트만 쌓아도 랭킹 보상이 있고, 임무만 채워도 별도로 받습니다. 아래는 게임 내 "이벤트 보상" 화면을 그대로 옮긴 실제 수치입니다.</p>
+  <p class="sub">이겨도 남고, 져도 남습니다. 재개 시즌부터 보상은 <b>동맹 승패 보상</b>과 <b>개인 포인트 구간 보상</b> 두 가지로 정리되었고, 둘 다 이벤트 종료 후 우편으로 함께 옵니다.</p>
 </header>
 
 <!-- ===== 승패 보상 ===== -->
 <section id="winlose">
   <h2>이겨도, 져도 남는다</h2>
-  <p class="lede">패배해도 절반 이상은 보장됩니다. 그래도 이기는 쪽이 훨씬 큽니다 — 그 차이를 만드는 건 결국 우리 모두의 45분입니다.</p>
+  <p class="lede">패배해도 절반 이상은 보장됩니다. 그래도 이기는 쪽이 훨씬 큽니다 — 그 차이를 만드는 건 결국 우리 모두의 45분입니다. <span style="color:var(--lose);font-weight:500">아래 수치는 이전 시즌 캡처 기준이며, 재개 시즌 값은 공지 후 갱신합니다.</span></p>
 
   <img class="shot" src="images/reward-winlose.jpg" alt="승패 보상 비교">
 
@@ -173,70 +173,49 @@ footer a{color:var(--ink-soft)}
   </div>
 </section>
 
-<!-- ===== 임무 보상 ===== -->
-<section id="mission">
-  <h2>혼자서도 채울 수 있는 목표</h2>
-  <p class="lede">동맹 승패와 무관하게, 내가 쌓은 개인 포인트만큼 확정으로 받습니다. 주력군이 아니어도 상관없습니다.</p>
-
-  <img class="shot" src="images/reward-mission.jpg" alt="임무 보상 사다리">
+<!-- ===== 개인 포인트 구간 보상 ===== -->
+<section id="tier">
+  <h2>내 점수만 채우면 됩니다</h2>
+  <p class="lede">재개 시즌부터 <b>개인 랭킹과 이벤트 임무 보상은 폐지</b>되었습니다. 대신 이벤트가 끝날 때 내 개인 포인트가 도달한 구간에 따라 보상을 받습니다. 남과 경쟁하지 않습니다.</p>
 
   <div class="ladder">
-    <div class="lstep"><div class="pt">10만</div><div class="desc">가장 낮은 목표 — 건물 점령 몇 초, 도적 몇 마리면 충분합니다</div><div class="give">군량 10 · 가속 5</div></div>
-    <div class="lstep"><div class="pt">20만</div><div class="desc">비룡성 250초 점령(초당 800점)이면 도달</div><div class="give">군량 10 · 가속 10</div></div>
-    <div class="lstep"><div class="pt">40만</div><div class="desc">중반 정도 참여로 자연스럽게 도달하는 구간</div><div class="give">군량 15 · 가속 15</div></div>
-    <div class="lstep"><div class="pt">60만</div><div class="desc"><b>보석 50,000 처음 등장</b> — 여기서부터 체감이 달라집니다</div><div class="give">보석 50,000 · 군량 20 · 가속 15</div></div>
-    <div class="lstep"><div class="pt">120만</div><div class="desc">적극 참여자 목표 구간</div><div class="give">보석 50,000 · 군량 25 · 가속 15</div></div>
-  </div>
-</section>
-
-<!-- ===== 개인 랭킹 ===== -->
-<section id="rank">
-  <h2>1등이 아니어도 챙깁니다</h2>
-  <p class="lede">상위권과 중하위권의 격차가 크지 않게 설계되어 있습니다. 참여만 하면 어느 구간이든 보상이 남습니다.</p>
-
-  <img class="shot" src="images/reward-rank123.jpg" alt="개인 포인트 랭킹 1~3위 보상">
-
-  <div class="podium">
-    <div class="pod p2">
-      <div class="medal">2위</div>
-      <div class="grow">골드 <b>350</b><br>보석 <b>100,000</b><br>가속 <b>45개</b><br>수레 <b>130×3</b></div>
-    </div>
-    <div class="pod p1">
-      <div class="medal">★ 1위 ★</div>
-      <div class="grow">골드 <b>400</b><br>보석 <b>100,000</b><br>가속 <b>50개</b><br>수레 <b>150×3</b></div>
-    </div>
-    <div class="pod p3">
-      <div class="medal">3위</div>
-      <div class="grow">골드 <b>300</b><br>보석 <b>100,000</b><br>가속 <b>40개</b><br>수레 <b>120×3</b></div>
-    </div>
+    <div class="lstep"><div class="pt">1종만</div><div class="desc">도달한 <b>가장 높은 구간 하나</b>의 보상만 지급(하위 구간 누적 아님)</div><div class="give">우편 발송</div></div>
+    <div class="lstep"><div class="pt">승 / 패</div><div class="desc">같은 구간이라도 <b>승리 측 / 패배 측 보상표가 따로</b> — 주력군이 이기면 개인 보상도 커집니다</div><div class="give">시즌마다 다름</div></div>
+    <div class="lstep"><div class="pt">탭</div><div class="desc">이벤트 화면 <b>개인 보상</b> 탭을 열면 현재 포인트로 도달 가능한 구간으로 자동 이동</div><div class="give">게임 내 확인</div></div>
   </div>
 
-  <img class="shot" style="margin-top:24px" src="images/reward-rank-tail.jpg" alt="6위부터 100위까지 보상">
+  <div class="compare">
+    <div class="cbox win">
+      <div class="clabel">🏆 승리 측 구간 보상</div>
+      <div class="crow"><span>구간별 수치</span><b>공지 후 반영</b></div>
+    </div>
+    <div class="cbox lose">
+      <div class="clabel">패배 측 구간 보상</div>
+      <div class="crow"><span>구간별 수치</span><b>공지 후 반영</b></div>
+    </div>
+  </div>
 
   <div class="tblwrap">
   <table>
-    <caption style="text-align:left;font-size:12.5px;color:var(--ink-faint);padding-bottom:8px;font-weight:300">개인 포인트 랭킹 보상 전 구간</caption>
-    <thead><tr><th>순위</th><th class="num">골드</th><th class="num">보석</th><th class="num">가속(6분)</th><th class="num">자원 수레×3종</th></tr></thead>
+    <caption style="text-align:left;font-size:12.5px;color:var(--ink-faint);padding-bottom:8px;font-weight:300">작전 초안대로 움직이면 쌓이는 개인 포인트 (추정 · 점령 개인 포인트 기준값이 그대로라는 가정)</caption>
+    <thead><tr><th>구간</th><th class="num">주둔 시간</th><th class="num">초당</th><th class="num">포인트</th></tr></thead>
     <tbody>
-      <tr><td class="rank">1위</td><td class="num">400</td><td class="num">100,000</td><td class="num">50</td><td class="num">150</td></tr>
-      <tr><td class="rank">2위</td><td class="num">350</td><td class="num">100,000</td><td class="num">45</td><td class="num">130</td></tr>
-      <tr><td class="rank">3위</td><td class="num">300</td><td class="num">100,000</td><td class="num">40</td><td class="num">120</td></tr>
-      <tr><td class="rank">4~5위</td><td class="num">250</td><td class="num">80,000</td><td class="num">35</td><td class="num">100</td></tr>
-      <tr><td class="rank">6~10위</td><td class="num">200</td><td class="num">50,000</td><td class="num">30</td><td class="num">80</td></tr>
-      <tr><td class="rank">11~30위</td><td class="num">150</td><td class="num">30,000</td><td class="num">20</td><td class="num">70</td></tr>
-      <tr><td class="rank">31~100위</td><td class="num">100</td><td class="num">20,000</td><td class="num">10</td><td class="num">50</td></tr>
+      <tr><td class="rank">맹호성 과반</td><td class="num">6분 (360초)</td><td class="num">500</td><td class="num">180,000</td></tr>
+      <tr><td class="rank">비룡성 과반</td><td class="num">7.5분 (450초)</td><td class="num">800</td><td class="num">360,000</td></tr>
+      <tr><td class="rank">1사이클 합계</td><td class="num"></td><td class="num"></td><td class="num">540,000</td></tr>
+      <tr><td class="rank">2사이클 합계</td><td class="num"></td><td class="num"></td><td class="num"><b>약 1,080,000</b></td></tr>
     </tbody>
   </table>
   </div>
 
   <div class="cta">
-    <p class="big">100위 안에만 들어도 보석 20,000 + 자원 수레 150.</p>
-    <p class="small">동맹 40명 중 100등 안에 못 드는 게 더 어렵습니다. 건물 하나만 붙잡고 있어도, 도적 거점 몇 번만 처치해도 순위는 쌓입니다. 자세한 배치와 타이밍은 <a href="index.html" style="color:var(--win);font-weight:700">작전 브리핑</a>에서 확인하세요.</p>
+    <p class="big">작전대로 움직이는 것이 곧 개인 보상 극대화입니다.</p>
+    <p class="small">맹호성·비룡성 과반 주둔만으로 두 사이클이면 100만 포인트 안팎이 쌓입니다(교전·도적거점 처치 포인트 별도). 구간 보상표가 공지되면 어느 구간까지 닿는지 여기에 표시하겠습니다. 배치와 타이밍은 <a href="index.html#strategy" style="color:var(--win);font-weight:700">작전 브리핑</a>에서 확인하세요.</p>
   </div>
 </section>
 
 <footer>
-  <p>게임 내 "이벤트 보상" 화면(승패 보상 · 임무 보상 · 개인 포인트 보상)을 캡처해 재구성했습니다.</p>
+  <p>승패 보상은 이전 시즌 게임 내 "이벤트 보상" 화면 캡처 기준입니다. 개인 랭킹·임무 보상은 재개 시즌 패치(2026-10)로 폐지되어 개인 포인트 구간 보상으로 교체했습니다.</p>
   <p><a href="index.html">← 용쟁호투 작전 브리핑 전체 보기</a></p>
 </footer>
 

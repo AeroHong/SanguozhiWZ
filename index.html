@@ -216,6 +216,21 @@ tfoot td, .tfoot{font-size:12.5px;color:var(--ink-faint);font-weight:300;padding
 .glegend{display:flex;gap:16px;margin-top:12px;font-size:12px;color:var(--ink-soft)}
 .glegend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
 
+/* ---------- patch summary ---------- */
+.patch{
+  border:2px solid var(--c-bandit);border-radius:3px;padding:16px 20px 12px;margin:18px 0 8px;
+  background:rgba(155,44,37,.05);
+}
+.patch h3{margin:0 0 8px;font-family:"Noto Serif KR",serif;font-weight:900;font-size:18px;letter-spacing:-.02em;color:var(--c-bandit)}
+.patch ul{margin:0;padding-left:18px;font-size:14px;color:var(--ink-soft);font-weight:300}
+.patch li{margin-bottom:5px}
+.patch b{color:var(--ink);font-weight:700}
+
+.checklist{list-style:none;counter-reset:ck;padding:0;margin:18px 0 0;border-top:2px solid var(--ink)}
+.checklist li{counter-increment:ck;position:relative;padding:9px 0 9px 34px;border-bottom:1px solid var(--rule);font-size:14px;color:var(--ink-soft);font-weight:300}
+.checklist li::before{content:counter(ck);position:absolute;left:0;top:8px;font-family:"Noto Serif KR",serif;font-weight:900;font-size:15px;color:var(--c-bandit)}
+.checklist b{color:var(--ink);font-weight:700}
+
 footer{border-top:1px solid var(--rule);padding:22px 0 50px;font-size:13px;color:var(--ink-faint);font-weight:300}
 footer p{margin:0 0 6px;max-width:74ch}
 
@@ -290,13 +305,14 @@ footer p{margin:0 0 6px;max-width:74ch}
   <a href="#join" title="참가 자격·신청">01</a>
   <a href="#org" title="참가 조직 구조">02</a>
   <a href="#prep" title="이벤트 준비·편성">03</a>
-  <a href="#buildings" title="전장 건물 5종">04</a>
-  <a href="#timeline" title="45분 작전 시계표">05</a>
-  <a href="#score" title="동맹 포인트·추격 메커니즘">06</a>
-  <a href="#personal" title="개인 포인트">07</a>
-  <a href="#reward" title="보상">08</a>
-  <a href="#strategy" title="전략">09</a>
-  <a href="#todo" title="남은 확인 사항">10</a>
+  <a href="#tactics" title="이벤트 책략">04</a>
+  <a href="#buildings" title="전장 건물 5종">05</a>
+  <a href="#timeline" title="45분 작전 시계표">06</a>
+  <a href="#score" title="동맹 포인트·추격 메커니즘">07</a>
+  <a href="#personal" title="개인 포인트">08</a>
+  <a href="#reward" title="보상">09</a>
+  <a href="#strategy" title="전략">10</a>
+  <a href="#todo" title="남은 확인 사항">11</a>
 </nav>
 
 <div class="wrap">
@@ -309,17 +325,31 @@ footer p{margin:0 0 6px;max-width:74ch}
 <header class="hero">
   <img class="heroart" src="images/hero-title.jpg" alt="용쟁호투 — 비룡성과 맹호성이 격돌하는 크로스서버 동맹 PVP 이벤트">
   <span class="stamp">크로스서버 동맹 PVP · 게임 내 공식 규칙 반영판</span>
-  <span class="stamp live">개정 2026-09-09</span>
+  <span class="stamp live">개정 2026-10-20 · 재개 시즌 패치 반영</span>
   <h1>용쟁호투 작전 브리핑</h1>
-  <p class="sub">게임 내 "이벤트 규칙" 전체 화면(신청 조건부터 45분 타임라인, 산출 수치, 보상까지)을 캡처해 재구성한 자료입니다. 이전 버전에서 "미확인"이었던 항목 대부분이 이번에 수치로 확정되었습니다. 여전히 게임 화면에 명시되지 않은 부분만 추정/미확인으로 남겨두었습니다.</p>
+  <p class="sub">게임 내 "이벤트 규칙" 전체 화면(신청 조건부터 45분 타임라인, 산출 수치, 보상까지)을 캡처해 재구성한 자료에, 이벤트 재개와 함께 공지된 개편 내용을 반영했습니다. 패치 공지에 수치가 없는 항목은 "미확인"으로 남겨두고, 시즌 시작 후 게임 화면으로 채웁니다.</p>
 
   <dl class="clock">
     <div><dt>신청 시작</dt><dd>매주 수 01:00</dd></div>
     <div><dt>매칭 상대 공개</dt><dd>매주 토 09:00</dd></div>
-    <div class="big"><dt>본전투 시작</dt><dd>매주 일 21:00</dd></div>
-    <div><dt>교전 시간</dt><dd>45분 (21:45 종료)</dd></div>
+    <div class="big"><dt>본전투 시작</dt><dd>매주 일 21:30</dd></div>
+    <div><dt>교전 시간</dt><dd>45분 (22:15 종료)</dd></div>
   </dl>
 </header>
+
+<aside class="patch" aria-labelledby="patch-h">
+  <h3 id="patch-h">재개 시즌, 무엇이 바뀌었나</h3>
+  <ul>
+    <li><b>시작 21:30</b>으로 30분 늦춰짐. 행군 속도는 원 서버 지도와 동일.</li>
+    <li><b>주력군·분대가 서로 다른 전장</b>에서 각자 매칭 상대와 싸웁니다. 분대는 더 이상 주력군 전장의 파밍 인력이 아닙니다.</li>
+    <li><b>조운부두·장작영 속성 버프 폐지</b> — 이제 1회성 포인트만 줍니다. 버프 운영이 목적이던 도하조는 의미가 사라졌습니다.</li>
+    <li><b>건물당 주둔 상한 30부대</b>. 한 건물 몰빵이 불가능해져 분산 배치가 기본이 됩니다.</li>
+    <li><b>책략 시스템 개편</b> — 개인 책략 3종, 동맹 책략 5종(대장 사용). 대장은 <b>5명</b>.</li>
+    <li><b>맹호성 포인트 가산 버프</b> 신설, <b>도적거점 포인트는 라운드마다 증가</b>, 중앙 비룡성은 3급으로 하향.</li>
+    <li><b>개인 랭킹·이벤트 임무 폐지</b> → 개인 포인트 <b>구간 보상</b>(승리/패배 측 별도)으로 교체.</li>
+    <li>그 외: 참가 관리 즉시 개방·자동 배정, 성 이전 조건 완화, 공격 범위 제한 취소, 채팅·좌표 이동·미니맵 등 UI 개선.</li>
+  </ul>
+</aside>
 
 <div class="filter">
   <b>표시</b>
@@ -338,12 +368,12 @@ footer p{margin:0 0 6px;max-width:74ch}
       <p>동맹 생성일 15일 초과, 서버 랭킹 상위 20위 이내, 최소 동맹원 40명. 세 조건을 모두 충족해야 동맹 관리자(맹주·부맹주)가 수요일 01:00부터 신청할 수 있습니다. 신청이 완료되면 조건과 무관하게 <strong>모든 동맹원이 참가 가능</strong>합니다.</p>
     </div>
     <div class="item" data-c="ok">
-      <h4>준비 단계는 토요일 09:00부터 <span class="tag ok">확인</span></h4>
-      <p>매칭 상대가 공개되면 관리자는 상대 전력을 보고 참가 조를 편성할 수 있습니다. 이 시점부터 기존 부대 편성을 원클릭으로 불러와 지원 무장·전법·매를 고르는 이벤트 준비가 열립니다.</p>
+      <h4>참가 관리·이벤트 준비는 신청 즉시 열립니다 <span class="tag ok">확인</span></h4>
+      <p>예전에는 토요일 09:00 매칭 공개 후에야 열렸지만, 이제는 <strong>동맹 신청이 완료되는 즉시</strong> 참가 관리(인원 배정)와 이벤트 준비(편성 복제, 지원 무장·전법·매 선택) 화면에 들어갈 수 있습니다. 매칭 상대는 여전히 토요일 09:00에 공개됩니다.</p>
     </div>
     <div class="item" data-c="ok">
       <h4>전시 기간은 종료 후 1일 <span class="tag ok">확인</span></h4>
-      <p>일요일 21:45 종료 직후 승패·개인 랭킹에 따라 보상이 우편 발송됩니다. 이벤트 데이터(전투 기록·상대 전략)는 월요일 01:00까지만 열람할 수 있습니다.</p>
+      <p>일요일 22:15 종료 직후 승패 보상과 개인 포인트 구간 보상이 우편 발송됩니다(부전승 보상도 종료 후 발송). 이벤트 데이터(전투 기록·상대 전략)는 월요일 01:00까지만 열람할 수 있습니다.</p>
     </div>
   </div>
 </section>
@@ -351,23 +381,38 @@ footer p{margin:0 0 6px;max-width:74ch}
 <!-- ===== 조직 구조 ===== -->
 <section id="org">
   <h2><span class="n">02</span>참가 조직 구조</h2>
-  <p class="lede">맹주·부맹주가 인원을 어떻게 나누느냐가 승패를 직접 결정합니다. 주력군 밖의 인원은 승패에 관여하지 않습니다.</p>
+  <p class="lede">맹주·부맹주가 인원을 어떻게 나누느냐가 승패를 직접 결정합니다. 이번 시즌부터 주력군과 분대는 <strong>서로 다른 전장</strong>에서 싸웁니다.</p>
 
   <div class="key">
-    <p>주력군의 승패 = 동맹의 최종 승패입니다.</p>
-    <p>분대는 개인 포인트 파밍과 견제만 담당하며 동맹 승패에는 영향을 주지 않습니다. 주력군에 배정되지 못한 인원은 자동으로 분대에 합류합니다.</p>
+    <p>주력군과 분대는 별도의 매칭 풀에서 각자 다른 상대를 만납니다.</p>
+    <p>분대 매칭 로직은 주력군과 동일합니다. 따라서 분대는 더 이상 주력군 전장 안의 파밍·견제 인력이 아니고, <strong>주력군 전장의 모든 임무는 주력군 인원만으로</strong> 수행해야 합니다. 주력군의 승패가 동맹 승패를 결정한다는 원칙은 유지되는 것으로 보이나, 분대 전장 결과가 동맹 승패에 반영되는지는 공지에 없습니다.</p>
   </div>
 
   <div class="items">
     <div class="item" data-c="ok">
-      <h4>대장은 번영도 상위 3명이 기본값 <span class="tag ok">확인</span></h4>
-      <p>주력군·분대 각각 팀 내 번영도 상위 3명이 자동으로 대장을 맡습니다. 맹주·부맹주가 이 인선을 다시 조정할 수 있습니다. 대장만 지휘 기능과 이벤트 계책을 사용할 수 있으므로, 실제 전투 감각이 있는 인원으로 재조정하는 것이 유효합니다.</p>
+      <h4>대장은 5명 <span class="tag ok">확인</span></h4>
+      <p>동맹 대장 인원이 5명으로 늘었습니다. 대장만 지휘 기능과 <a href="#tactics">동맹 책략</a>을 사용할 수 있으므로, 번영도보다 실제 전투 감각이 있는 인원으로 인선하는 것이 유효합니다. 기본값이 여전히 "번영도 상위"로 자동 지정되는지는 <span class="tag none">미확인</span></p>
     </div>
-    <div class="item" data-c="guess">
-      <h4>주력군 정원은 별도 공지 필요 <span class="tag none">미확인</span></h4>
-      <p>주력군·분대 각각의 정원 상한은 규칙 화면에 명시되지 않았습니다. 동맹원이 전원 참가할 경우 몇 명까지 주력군에 넣을 수 있는지는 실제 준비 화면(토요일 09:00 이후)에서 확인해야 합니다.</p>
+    <div class="item" data-c="ok">
+      <h4>신청 종료 5분 전 자동 배정 · 잠금 <span class="tag ok">확인</span></h4>
+      <p>미배정 인원은 번영도 순으로 주력군에 먼저 채워지고, 넘치면 분대로 갑니다. 미배정 인원이 없는데 주력군이 미달이면 분대 인원이 번영도 순으로 주력군에 끌어올려집니다. <strong>이 시점에 인원이 최종 잠금</strong>되어 이후 재배정이 불가능합니다.</p>
+    </div>
+    <div class="item" data-c="ok">
+      <h4>분대 배정은 주력군 정원을 채운 뒤에만 <span class="tag ok">확인</span></h4>
+      <p>동맹 참가 인원이 주력군 정원을 충족해야 분대 전장으로 인원을 보낼 수 있습니다. 배정한 인원은 맹주·부맹주가 다시 "미배정"으로 되돌릴 수 있고, 미배정 인원이 남아 있으면 관리자 화면에 레드닷이 뜹니다.</p>
+    </div>
+    <div class="item" data-c="none">
+      <h4>주력군·분대 정원과 신청 종료 시각 <span class="tag none">미확인</span></h4>
+      <p>각 팀의 정원 상한과 신청 종료 시각(=자동 배정·잠금 시각의 기준)이 공지에 없습니다. 참가 관리 화면에서 확인해야 합니다.</p>
     </div>
   </div>
+
+  <ol class="checklist">
+    <li><b>신청 직후</b> 참가 관리에서 주력군 인원부터 수동 배정 — 자동 배정은 번영도순이라 실전 감각과 다를 수 있습니다.</li>
+    <li><b>대장 5명</b> 인선 — 동맹 책략을 쓸 사람들입니다.</li>
+    <li><b>신청 종료 5분 전까지</b> 배정 확정 — 이후 잠금.</li>
+    <li>본전투 입장 시 <b>전장 전환 버튼</b>으로 본인 소속 전장(주력군/분대)에 들어왔는지 확인.</li>
+  </ol>
 </section>
 
 <!-- ===== 이벤트 준비 ===== -->
@@ -391,6 +436,10 @@ footer p{margin:0 0 6px;max-width:74ch}
       <tr data-c="ok"><td>지원 장비 · 지원 전투매</td><td>이벤트 내에서만 쓸 수 있는 별도 지원품 제공</td><td class="num"><span class="tag ok">확인</span></td></tr>
       <tr data-c="ok"><td>편성 정보</td><td>원클릭 복제. 이벤트 편성에서 수정해도 원본은 영향 없음</td><td class="num"><span class="tag ok">확인</span></td></tr>
       <tr data-c="ok"><td>무장 상세정보 · 레벨업 · 초기화</td><td>이벤트 편성 내에서는 불가능</td><td class="num"><span class="tag ok">확인</span></td></tr>
+      <tr data-c="ok" class="hl"><td><strong>행군 속도</strong></td><td><strong>원 서버 지도와 동일</strong> (재개 시즌 변경)</td><td class="num"><span class="tag ok">확인</span></td></tr>
+      <tr data-c="ok"><td>공격 범위 제한</td><td>취소됨 (재개 시즌 변경)</td><td class="num"><span class="tag ok">확인</span></td></tr>
+      <tr data-c="ok"><td>성 이전</td><td>모든 부대가 관청에 있지 않아도 가능. 이전 완료 시 관청 밖 부대는 자동 복귀</td><td class="num"><span class="tag ok">확인</span></td></tr>
+      <tr data-c="none"><td>성 이전 시 길 연결 필요 여부</td><td>규칙 설명에 추가됐다고만 공지 — 내용은 게임 내 규칙 화면 확인 필요</td><td class="num"><span class="tag none">미확인</span></td></tr>
     </tbody>
   </table>
   </div>
@@ -408,10 +457,57 @@ footer p{margin:0 0 6px;max-width:74ch}
   </div>
 </section>
 
+<!-- ===== 책략 ===== -->
+<section id="tactics">
+  <h2><span class="n">04</span>이벤트 책략</h2>
+  <p class="lede">재개 시즌에 전면 개편되었습니다. <strong>개인 책략</strong>은 각자 자기 부대에, <strong>동맹 책략</strong>은 대장(5명)이 전체 동맹원에게 씁니다. 아군·적군의 책략 사용 현황(발동 중 잔여 시간 / 종료 / 미사용)이 전장에 표시되므로, 상대가 언제 무엇을 썼는지 보고 대응할 수 있습니다.</p>
+
+  <div class="tblwrap">
+  <table>
+    <caption>개인 책략 — 동시에 1종만, 사용 간격 5분</caption>
+    <thead><tr><th>책략</th><th>효과</th><th>쓰는 때</th></tr></thead>
+    <tbody>
+      <tr data-c="ok"><td class="name" style="--bar:var(--ink-soft)">구사부상</td><td>이벤트 의원의 부상병 치료 즉시 100% 완료</td><td>총력전 직후 병력 즉시 복구</td></tr>
+      <tr data-c="ok"><td class="name" style="--bar:var(--ink-soft)">귀부신공</td><td>관청 방어 수치 즉시 100% 회복</td><td>관청이 집중 공격받을 때</td></tr>
+      <tr data-c="ok"><td class="name" style="--bar:var(--ink-soft)">기일정공</td><td>현재 성 이전 대기 시간 즉시 100% 감소</td><td>목표 건물 근처로 즉시 전진 배치</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="tblwrap" style="margin-top:22px">
+  <table>
+    <caption>동맹 책략 — 대장 사용, 전체 동맹원 적용</caption>
+    <thead><tr><th>책략</th><th>효과</th><th class="num">지속</th><th>쓰는 때</th></tr></thead>
+    <tbody>
+      <tr data-c="ok" class="hl"><td class="name" style="--bar:var(--fight)">횡소천군</td><td>부대 공격 속성 +6%</td><td class="num">300초</td><td>맹호성·비룡성 과반 확보 총력전 개시</td></tr>
+      <tr data-c="ok" class="hl"><td class="name" style="--bar:var(--fight)">견불가최</td><td>부대 방어 속성 +6%</td><td class="num">300초</td><td>위와 동시에 — 과반 채우는 동안 버티기</td></tr>
+      <tr data-c="ok"><td class="name" style="--bar:var(--c-dock)">급속 행군</td><td>행군 속도 +50%</td><td class="num">300초</td><td>개전 직후 전진, 도적거점·부두로의 이동</td></tr>
+      <tr data-c="ok"><td class="name" style="--bar:var(--score)">묘수회춘</td><td>이벤트 의원 치료 속도 +100%</td><td class="num">180초</td><td>1·2차 쟁탈 사이 재정비 구간</td></tr>
+      <tr data-c="ok"><td class="name" style="--bar:var(--score)">교탈천공</td><td>관청 방어 수치 회복 속도 +100%</td><td class="num">300초</td><td>상대가 관청을 노릴 때</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="items" style="margin-top:20px">
+    <div class="item" data-c="ok">
+      <h4>공격·방어 +6%는 5분만 갑니다 — 과반 6분과 거의 같습니다 <span class="tag ok">확인</span></h4>
+      <p>맹호성 과반이 6분, 비룡성이 7.5분입니다. 횡소천군·견불가최를 진입 시점에 함께 켜면 맹호성 과반 구간 대부분을 덮습니다. 늦게 켜면 과반이 확정된 뒤 효과가 낭비되므로, <strong>"쟁탈 개시 = 책략 발동"</strong>을 대장 간 약속으로 정해두는 것이 좋습니다.</p>
+    </div>
+    <div class="item" data-c="none">
+      <h4>책략별 최대 사용 횟수·재사용 대기 <span class="tag none">미확인</span></h4>
+      <p>책략 목록에서 잔여/최대 횟수를 볼 수 있다고만 공지되었습니다. 횟수가 1회뿐이면 1차 쟁탈에 다 쓸지 2차를 위해 남길지가 핵심 결정이 됩니다. 대장 5명이 각자 쓸 수 있는지, 동맹 공용 횟수인지도 확인이 필요합니다.</p>
+    </div>
+  </div>
+</section>
+
 <!-- ===== 전장 건물 ===== -->
 <section id="buildings">
-  <h2><span class="n">04</span>전장 건물 5종</h2>
+  <h2><span class="n">05</span>전장 건물 5종</h2>
   <p class="lede">이벤트 성지는 <strong>정비 → 쟁탈 → 산출</strong> 3단계(맹호성·비룡성) 또는 <strong>정비 → 쟁탈</strong> 2단계(그 외 3종)를 반복합니다. 쟁탈 기간에만 뺏고 뺏길 수 있고, 나머지 기간은 결과가 확정된 채로 흘러갑니다. 매 휴전(정비) 진입 시 소속이 초기화되어 다음 쟁탈 기간에 처음부터 다시 다툽니다.</p>
+  <div class="key">
+    <p>모든 건물은 주둔 상한 30부대입니다.</p>
+    <p>재개 시즌에 확정된 규칙입니다. 주력군 전체를 한 건물에 몰아넣는 운영은 불가능하고, 30부대를 넘는 병력은 다른 건물로 나눠야 합니다. 같은 이름의 건물에는 이제 접미사가 붙어 전황 화면에서 구분됩니다(예: 맹호성 A/B — 실제 표기는 게임 확인 필요).</p>
+  </div>
 
   <div class="cards">
     <div class="card" data-c="ok" style="--bar:var(--c-mh)">
@@ -427,6 +523,7 @@ footer p{margin:0 0 6px;max-width:74ch}
         <ul>
           <li>정비→쟁탈→산출 3단계 순환. 산출 구간은 정확히 3분간 지속.</li>
           <li>이벤트 전체 등급 중 최상위(1급). 5종 중 초당 산출량이 가장 높습니다.</li>
+          <li><strong>신규: 포인트 가산 버프</strong> — 쟁탈 기간 중 <em>일부</em> 맹호성에 가산 버프가 붙고, 그 맹호성의 유효 동맹과 점령 동맹이 같을 때 산출 기간 초당 포인트가 늘어납니다. 전황 목록의 증가 아이콘으로 식별. 배율 <span class="tag none">미확인</span></li>
         </ul>
       </div>
     </div>
@@ -443,7 +540,9 @@ footer p{margin:0 0 6px;max-width:74ch}
         </div>
         <ul>
           <li>맹호성과 동일한 3단계 순환. 다만 동맹 점수는 맹호성보다 낮습니다(20→15).</li>
-          <li>대신 <strong>개인 포인트는 5종 중 가장 후합니다(초당 800)</strong> — 개인 랭킹을 노린다면 우선순위가 됩니다.</li>
+          <li>대신 <strong>개인 포인트는 5종 중 가장 후합니다(초당 800)</strong> — 개인 포인트 구간 보상을 노린다면 우선순위가 됩니다.</li>
+          <li>가산 기준은 맹호성과 동일하다고 공지(가산 버프 대상인지는 건물 정보에서 확인).</li>
+          <li><strong>신규: "지도 중앙 비룡성"이 3급으로 하향</strong>되고 이름·아이콘이 바뀝니다. 다만 현재 분포도 해석상 정중앙 큰 성은 맹호성으로 정리돼 있어 어느 건물인지 맞지 않습니다 <span class="tag none">미확인</span></li>
         </ul>
       </div>
     </div>
@@ -454,12 +553,13 @@ footer p{margin:0 0 6px;max-width:74ch}
         <h4><img class="bicon" src="images/icon-bandit.png" alt="">도적 거점</h4>
         <p class="role">대량 포인트 1회 · 승자독식</p>
         <div class="nums">
-          <div><dt style="font-size:10.5px;color:var(--ink-faint)">1회 지급</dt><dd style="font-family:'Noto Serif KR',serif;font-weight:700;font-size:15px">4,000점</dd></div>
+          <div><dt style="font-size:10.5px;color:var(--ink-faint)">1회 지급</dt><dd style="font-family:'Noto Serif KR',serif;font-weight:700;font-size:15px">4,000점↑</dd></div>
           <div><dt style="font-size:10.5px;color:var(--ink-faint)">개인점수</dt><dd style="font-family:'Noto Serif KR',serif;font-weight:700;font-size:15px">처치당 1</dd></div>
         </div>
         <ul>
           <li>정비·쟁탈 2단계뿐. 매 쟁탈 기간마다 4개 중 2개가 무작위로 활성화.</li>
-          <li>전원에게 공격 횟수가 부여되고(파견 1회=1회 소모), 정비 진입 시 피해량 최다측이 4,000점을 독식합니다.</li>
+          <li>전원에게 공격 횟수가 부여되고(파견 1회=1회 소모), 정비 진입 시 피해량 최다측이 포인트를 독식합니다.</li>
+          <li><strong>신규: 쟁탈 기간에 들어갈 때마다 획득 포인트가 점점 증가</strong>합니다. 4,000점은 이전 시즌 기준값이며 라운드별 수치는 <span class="tag none">미확인</span></li>
         </ul>
       </div>
     </div>
@@ -468,14 +568,15 @@ footer p{margin:0 0 6px;max-width:74ch}
       <img src="images/bld-dock.jpg" alt="조운 부두">
       <div class="cbody">
         <h4><img class="bicon" src="images/icon-dock.png" alt="">조운 부두</h4>
-        <p class="role">소량 포인트 · 도하 게이트</p>
+        <p class="role">1회성 소량 포인트 · 도하 게이트</p>
         <div class="nums">
-          <div><dt style="font-size:10.5px;color:var(--ink-faint)">기준 초과 시</dt><dd style="font-family:'Noto Serif KR',serif;font-weight:700;font-size:15px">400점</dd></div>
+          <div><dt style="font-size:10.5px;color:var(--ink-faint)">기준 초과 시</dt><dd style="font-family:'Noto Serif KR',serif;font-weight:700;font-size:15px">400점*</dd></div>
           <div><dt style="font-size:10.5px;color:var(--ink-faint)">개인점수</dt><dd style="font-family:'Noto Serif KR',serif;font-weight:700;font-size:15px">500/s</dd></div>
         </div>
         <ul>
           <li>누적 점령 시간이 기준을 넘기면 소량 포인트와 함께 <strong>섬 진입(장작영 접근) 자격</strong>을 얻습니다.</li>
           <li>기간 내 어느 쪽도 점령 못 하면 중립 유지, 양측 모두 포인트 없음.</li>
+          <li><strong>재개 시즌: 속성 증가 효과 폐지, 1회성 포인트만 제공.</strong> *포인트 값이 바뀌었는지는 <span class="tag none">미확인</span></li>
         </ul>
       </div>
     </div>
@@ -484,14 +585,14 @@ footer p{margin:0 0 6px;max-width:74ch}
       <img src="images/bld-camp.jpg" alt="장작영">
       <div class="cbody">
         <h4><img class="bicon" src="images/icon-camp.png" alt="">장작영</h4>
-        <p class="role">소량 포인트 · 전체 버프</p>
+        <p class="role">1회성 소량 포인트 (버프 폐지)</p>
         <div class="nums">
-          <div><dt style="font-size:10.5px;color:var(--ink-faint)">기준 초과 시</dt><dd style="font-family:'Noto Serif KR',serif;font-weight:700;font-size:15px">180점</dd></div>
+          <div><dt style="font-size:10.5px;color:var(--ink-faint)">기준 초과 시</dt><dd style="font-family:'Noto Serif KR',serif;font-weight:700;font-size:15px">180점*</dd></div>
           <div><dt style="font-size:10.5px;color:var(--ink-faint)">개인점수</dt><dd style="font-family:'Noto Serif KR',serif;font-weight:700;font-size:15px">500/s</dd></div>
         </div>
         <ul>
           <li>조운 부두를 거쳐야 접근 가능. 강 건너편에 있어 본대와 물리적으로 단절됩니다.</li>
-          <li>기준 초과 시 전체 동맹원에게 임시 속성 버프 부여. <strong>버프는 "지정된 시간" 동안만 유지되는 타이머형</strong>입니다.</li>
+          <li><strong>재개 시즌: 전체 동맹원 속성 버프가 폐지</strong>되고 1회성 포인트만 줍니다. 공격 화면의 이벤트 가산 표시·진입로도 숨김 처리됐습니다. *포인트 값 변경 여부는 <span class="tag none">미확인</span></li>
         </ul>
       </div>
     </div>
@@ -515,7 +616,7 @@ footer p{margin:0 0 6px;max-width:74ch}
 
 <!-- ===== 45분 타임라인 ===== -->
 <section id="timeline">
-  <h2><span class="n">05</span>45분 작전 시계표</h2>
+  <h2><span class="n">06</span>45분 작전 시계표</h2>
   <p class="lede">이전 문서 최대 미확인 항목이었던 "사이클 횟수·구간 길이"가 이번에 분 단위로 전부 확인되었습니다. 색은 게임 내 표기를 그대로 따릅니다 — <b style="color:var(--fight)">쟁탈(전투 가능)</b>, <b style="color:var(--score)">산출(포인트 생산, 3분 고정)</b>, <b style="color:var(--idle)">정비(대기, 재도전 불가)</b>.</p>
   <p style="margin:-4px 0 22px">
     <a href="simulate.html" target="_blank" rel="noopener" style="display:inline-block;font-size:13px;font-weight:700;color:var(--ink-soft);border:1px solid var(--rule);padding:7px 14px;border-radius:2px;text-decoration:none">▶ 45분 흐름 재생해보기 (시뮬레이션)</a>
@@ -589,7 +690,7 @@ footer p{margin:0 0 6px;max-width:74ch}
 
   <div class="tblwrap" style="margin-top:22px">
   <table>
-    <caption>쟁탈 기간 정확한 시각 (분 = 본전투 시작 21:00 기준 경과 시간)</caption>
+    <caption>쟁탈 기간 정확한 시각 (분 = 본전투 시작 21:30 기준 경과 시간 · 재개 시즌에도 구간이 동일한지는 미확인)</caption>
     <thead><tr><th>건물</th><th>1차 쟁탈</th><th>2차 쟁탈</th><th>비고</th></tr></thead>
     <tbody>
       <tr data-c="ok"><td class="name" style="--bar:var(--c-mh)"><img class="bicon-sm" src="images/icon-maengho.png" alt="">맹호성</td><td class="num">1~12분</td><td class="num">24~35분</td><td>쟁탈 종료 직후 3분간 산출 확정(방어 불필요)</td></tr>
@@ -608,7 +709,7 @@ footer p{margin:0 0 6px;max-width:74ch}
 
   <div class="key" style="margin-top:20px">
     <p>조운 부두 과반(4분) + 장작영 과반(3분) = 최소 7분. 12~19분 창의 여유와 거의 같습니다.</p>
-    <p>부두는 12분에 열리므로 아무리 빨리 이겨도 과반 확정은 16분입니다. 장작영은 부두를 먼저 뚫어야 들어갈 수 있는데 19분에 창이 닫혀 남는 시간은 3분뿐 — 과반 기준과 정확히 같습니다. <strong>이동 시간이 조금만 있어도 같은 사이클에 두 곳을 다 못 먹을 수 있습니다.</strong> 도하조는 부두를 4분보다 짧게 끝내야 장작영에 여유가 생깁니다. 이 창을 놓치면 다음 기회는 34~41분뿐입니다.</p>
+    <p>장작영은 부두를 먼저 뚫어야 들어갈 수 있어 같은 사이클에 두 곳을 다 먹기가 빠듯합니다. 이전 시즌에는 장작영 버프 때문에 이 빠듯한 동선을 감수할 가치가 있었지만, <strong>재개 시즌에는 버프가 폐지되어 얻는 것이 1회성 소량 포인트(부두 400 · 장작영 180, 이전 기준)뿐</strong>입니다. 주력 병력을 여기에 쓸 이유가 크게 줄었습니다.</p>
   </div>
 
   <div class="item" data-c="ok" style="margin-top:18px">
@@ -619,8 +720,8 @@ footer p{margin:0 0 6px;max-width:74ch}
 
 <!-- ===== 점수 시스템 ===== -->
 <section id="score">
-  <h2><span class="n">06</span>동맹 포인트 · 추격 메커니즘</h2>
-  <p class="lede">동맹 포인트로만 승패를 가립니다. 개인 포인트는 개인 랭킹 전용이며 승패에 영향을 주지 않습니다.</p>
+  <h2><span class="n">07</span>동맹 포인트 · 추격 메커니즘</h2>
+  <p class="lede">동맹 포인트로만 승패를 가립니다. 개인 포인트는 개인 구간 보상 전용이며 승패에 영향을 주지 않습니다.</p>
 
   <div class="tblwrap">
   <table>
@@ -629,16 +730,21 @@ footer p{margin:0 0 6px;max-width:74ch}
     <tbody>
       <tr data-c="ok"><td class="name" style="--bar:var(--c-mh)"><img class="bicon-sm" src="images/icon-maengho.png" alt="">맹호성</td><td class="num">20/s</td><td class="num"><strong>3,600</strong></td></tr>
       <tr data-c="ok"><td class="name" style="--bar:var(--c-br)"><img class="bicon-sm" src="images/icon-biryong.png" alt="">비룡성</td><td class="num">15/s</td><td class="num"><strong>2,700</strong></td></tr>
-      <tr data-c="ok"><td class="name" style="--bar:var(--c-bandit)"><img class="bicon-sm" src="images/icon-bandit.png" alt="">도적거점</td><td class="num">— (1회 지급)</td><td class="num"><strong>4,000</strong></td></tr>
-      <tr data-c="ok"><td class="name" style="--bar:var(--c-dock)"><img class="bicon-sm" src="images/icon-dock.png" alt="">조운부두</td><td class="num">— (기준 초과 시)</td><td class="num"><strong>400</strong></td></tr>
-      <tr data-c="ok"><td class="name" style="--bar:var(--c-camp)"><img class="bicon-sm" src="images/icon-camp.png" alt="">장작영</td><td class="num">— (기준 초과 시)</td><td class="num"><strong>180</strong></td></tr>
+      <tr data-c="ok"><td class="name" style="--bar:var(--c-bandit)"><img class="bicon-sm" src="images/icon-bandit.png" alt="">도적거점</td><td class="num">— (1회 지급)</td><td class="num"><strong>4,000↑</strong> <span class="tag guess">라운드마다 증가</span></td></tr>
+      <tr data-c="ok"><td class="name" style="--bar:var(--c-dock)"><img class="bicon-sm" src="images/icon-dock.png" alt="">조운부두</td><td class="num">— (기준 초과 시)</td><td class="num"><strong>400</strong> <span class="tag none">값 재확인</span></td></tr>
+      <tr data-c="ok"><td class="name" style="--bar:var(--c-camp)"><img class="bicon-sm" src="images/icon-camp.png" alt="">장작영</td><td class="num">— (기준 초과 시)</td><td class="num"><strong>180</strong> <span class="tag none">값 재확인</span></td></tr>
     </tbody>
   </table>
   </div>
 
   <div class="key" style="margin-top:18px">
-    <p>맹호성 3개(추정)를 두 사이클 모두 지키면 21,600점 — 단일 최대 화력입니다.</p>
-    <p>3,600×2사이클×3개 = 21,600점. 비룡성 4개를 두 사이클 지켜도 2,700×2×4=21,600점으로 총량은 비슷하지만, 건물 수가 많아 병력이 분산됩니다. <strong>맹호성 우선 확보가 병력 집중 효율 면에서 유리합니다.</strong></p>
+    <p>맹호성 3개를 두 사이클 모두 지키면 21,600점 — 여기에 가산 버프가 붙는 맹호성은 더 커집니다.</p>
+    <p>3,600×2사이클×3개 = 21,600점(가산 제외 기준). 비룡성 4개를 두 사이클 지켜도 2,700×2×4=21,600점으로 총량은 비슷하지만, 건물 수가 많아 병력이 더 분산됩니다. 주둔 상한이 30부대라 맹호성 3곳을 동시에 지키려면 최소 3개 조가 필요합니다. <strong>가산 버프가 붙은 맹호성 → 나머지 맹호성 → 비룡성</strong> 순으로 우선순위를 둡니다.</p>
+  </div>
+
+  <div class="item" data-c="ok" style="margin-top:18px">
+    <h4>가산 버프는 "유효 동맹 = 점령 동맹"일 때만 <span class="tag ok">확인</span></h4>
+    <p>쟁탈 기간 중 일부 맹호성에 가산 버프가 붙고, 전황 목록에 증가 아이콘이 뜹니다. 가산은 해당 맹호성의 유효 동맹과 실제 점령 동맹이 일치할 때만 적용되어 산출 기간 초당 포인트를 늘립니다. 정확한 배율과 "유효 동맹"의 판정 기준은 건물 정보 화면에서 확인해야 합니다 <span class="tag none">미확인</span></p>
   </div>
 
   <div class="items" style="margin-top:18px">
@@ -659,12 +765,23 @@ footer p{margin:0 0 6px;max-width:74ch}
 
 <!-- ===== 개인 포인트 ===== -->
 <section id="personal">
-  <h2><span class="n">07</span>개인 포인트</h2>
-  <p class="lede">동맹 승패와 무관하게 개인 랭킹 보상을 결정합니다. 주력군에 못 들어간 인원의 실질적인 참여 동기입니다.</p>
+  <h2><span class="n">08</span>개인 포인트</h2>
+  <p class="lede">재개 시즌부터 개인 랭킹은 폐지되고, 개인 포인트가 <strong>어느 구간에 도달했는지</strong>로 보상이 정해집니다. 남과 경쟁하는 것이 아니라 내 점수만 채우면 되는 구조입니다.</p>
 
-  <div class="tblwrap">
+  <div class="items">
+    <div class="item" data-c="ok">
+      <h4>구간 보상은 최고 달성 구간 1종만 <span class="tag ok">확인</span></h4>
+      <p>이벤트 종료 시 도달한 가장 높은 구간의 보상 하나만 받습니다(하위 구간 누적 지급 아님). 승리 측과 패배 측 보상표가 따로 있고, 시즌마다 달라집니다. 이벤트 화면의 <b>개인 보상</b> 탭을 열면 현재 포인트로 도달 가능한 구간으로 자동 이동합니다.</p>
+    </div>
+    <div class="item" data-c="ok">
+      <h4>주력군 승리가 개인 보상도 키웁니다 <span class="tag ok">확인</span></h4>
+      <p>같은 포인트라도 승리 측 보상표를 적용받습니다. 개인 포인트를 쌓는 것과 동맹이 이기는 것이 더 이상 따로 놀지 않습니다. 구간별 수치는 <span class="tag none">미확인</span></p>
+    </div>
+  </div>
+
+  <div class="tblwrap" style="margin-top:14px">
   <table>
-    <caption>개인 포인트 획득 조건</caption>
+    <caption>개인 포인트 획득 조건 (이전 시즌 기준 · 재개 패치에 변경 공지 없음)</caption>
     <thead><tr><th>행동</th><th class="num">포인트</th></tr></thead>
     <tbody>
       <tr data-c="ok"><td>적 병사 중상 (레벨 1~10 무관, 1명당)</td><td class="num">1</td></tr>
@@ -676,17 +793,17 @@ footer p{margin:0 0 6px;max-width:74ch}
     </tbody>
   </table>
   </div>
-  <p class="tnote">동맹 포인트 기준으로는 맹호성(20/s)이 비룡성(15/s)보다 높지만, 개인 포인트는 반대로 비룡성(800/s)이 맹호성(500/s)보다 후합니다. 개인 랭킹을 노리는 인원을 비룡성 쪽에 배치하는 것도 고려할 만합니다.</p>
+  <p class="tnote">동맹 포인트 기준으로는 맹호성(20/s)이 비룡성(15/s)보다 높지만, 개인 포인트는 반대로 비룡성(800/s)이 맹호성(500/s)보다 후합니다. 높은 구간 보상을 노리는 인원은 비룡성 주둔 시간을 늘리는 것이 가장 빠릅니다.</p>
 </section>
 
 <!-- ===== 보상 ===== -->
 <section id="reward">
-  <h2><span class="n">08</span>보상</h2>
-  <p class="lede">승패 보상은 참가 주력군의 승패에 따라 동맹 전체가 받고, 개인 포인트 보상은 개인 랭킹에 따라 개별 지급됩니다. 수치와 이미지를 담은 상세 페이지를 별도로 마련했습니다.</p>
+  <h2><span class="n">09</span>보상</h2>
+  <p class="lede">승패 보상은 참가 주력군의 승패에 따라 동맹 전체가 받고, 개인 포인트 구간 보상은 각자 도달한 구간에 따라 개별 지급됩니다. 둘 다 이벤트 종료 후 우편으로 함께 발송됩니다.</p>
 
   <div class="key">
-    <p>보석 1.7배, 자원 수레 2배 — 그래도 패배해도 절반 이상은 남습니다.</p>
-    <p>개인 포인트 랭킹은 100위까지 완만하게 보상이 이어지고, 임무 보상은 승패와 무관하게 확정으로 쌓입니다. 아이템 이미지와 전체 구간 표는 아래 링크에서 확인하세요.</p>
+    <p>승패 보상: 보석 1.7배, 자원 수레 2배 — 패배해도 절반 이상은 남습니다(이전 시즌 기준).</p>
+    <p>재개 시즌에 <strong>개인 랭킹 보상과 이벤트 임무 보상은 폐지</strong>되었습니다. 대신 개인 포인트 구간 보상이 승리/패배 측으로 나뉘어 지급됩니다. 이번 시즌 수치가 공지되면 보상 페이지에 반영합니다.</p>
   </div>
 
   <p style="margin-top:18px">
@@ -696,83 +813,86 @@ footer p{margin:0 0 6px;max-width:74ch}
 
 <!-- ===== 전략 ===== -->
 <section id="strategy">
-  <h2><span class="n">09</span>전략</h2>
-  <p class="lede">수치가 확정된 만큼 이전 판보다 사전 타임테이블을 훨씬 정교하게 짤 수 있습니다.</p>
+  <h2><span class="n">10</span>전략 <span class="tag guess">재개 시즌 초안</span></h2>
+  <p class="lede">재개 시즌 개편(주둔 상한 30부대, 장작영 버프 폐지, 분대 분리, 책략, 맹호성 가산, 도적거점 점증)을 반영해 다시 짠 초안입니다. 이전 시즌의 "도하조"는 존재 이유였던 장작영 버프가 사라져 폐지했습니다. 시각은 본전투 시작(21:30) 기준 경과 분이며, 첫 실전 후 다시 다듬습니다.</p>
 
   <div class="roster">
     <div class="row">
-      <div class="who">중앙 주력<small>주력군 상위 티어</small><span class="badge">개전 즉시 맹호성 → 비룡성</span></div>
-      <div class="task">맹호성과 비룡성 <b>둘 다 과반 점유</b>가 목표입니다. 점령은 쟁탈 종료 순간이 아니라 <b>누적 점유 시간이 과반을 먼저 채우는 순간</b> 확정되므로, <b>개전과 동시에</b> 맹호성에 진입해 끊기지 않게 버팁니다(6분 소요 시 6분에 확정). 확정되는 대로 비룡성으로 넘어가 같은 방식으로 7.5분을 채웁니다. 막판까지 기다리면 과반을 채울 시간 자체가 모자라집니다.</div>
+      <div class="who">맹호 A·B·C조<small>주력군 상위 티어 · 각 조 30부대 이내</small><span class="badge">개전 즉시 맹호성 3곳 동시</span></div>
+      <div class="task">주둔 상한이 30부대라 한 건물 몰빵이 불가능합니다. 주력을 <b>3개 조로 나눠 맹호성 3곳에 동시에</b> 들어가 과반(6분)을 채웁니다. <b>가산 버프가 붙은 맹호성</b>에 가장 강한 조를 배정합니다. 진입과 동시에 대장이 <b>횡소천군·견불가최</b>(공·방 +6%, 5분)를 켭니다. 과반 확정(~6분) 후 <b>급속 행군</b>으로 인접 비룡성으로 이동해 7.5분 과반을 채웁니다(~15분 확정). 2차 사이클(23분~)도 같은 순서로 반복합니다.</div>
     </div>
     <div class="row">
-      <div class="who">도하조<small>2티어</small><span class="badge">개전 즉시 출발 · 속도가 생명</span></div>
-      <div class="task">개전과 동시에 조운 부두로 진격합니다. 부두 과반(4분)+장작영 과반(3분)=최소 7분이 필요한데, <b>12~19분 창의 실제 여유는 그와 거의 같아 마진이 거의 없습니다.</b> 부두를 4분보다 짧게 끝낼수록 장작영에 여유가 생깁니다. 이 창을 놓치면 34~41분까지 재도전이 불가능합니다. 버프 지속시간이 불명이라 <b>늦어도 33분 전에는 재점령</b>해 끊기지 않게 갱신하는 게 안전합니다.</div>
+      <div class="who">거점조<small>주력군 중하위 티어</small><span class="badge">도적거점 · 2차 라운드 집중</span></div>
+      <div class="task">0~13분에는 맹호성 조의 <b>예비 병력</b>입니다 — 30부대 상한 때문에 건물 안에 못 들어가는 병력은 주변에서 교체·지원을 맡습니다. 13~23분 도적거점 1차(2곳 랜덤 개방)를 치고, 2차(35~45분)에 총력을 냅니다. <b>도적거점 포인트는 라운드마다 증가</b>하므로 2차가 1차보다 값어치가 큽니다. 맹호 조도 비룡성 2차를 확정(~38분)한 뒤 남은 시간에 도적거점 2차에 합류합니다.</div>
     </div>
     <div class="row">
-      <div class="who">파밍조<small>3티어 + 분대</small><span class="badge">도적거점 집중</span></div>
-      <div class="task">14~23분·36~45분 두 차례 열리는 도적거점(4곳 중 2곳 랜덤)에 집중합니다. 승자독식 4,000점은 단일 건물 최대 산출량(맹호성 20/s×180초=3,600)보다 큽니다. PvE 대상이라 상위 티어가 필요 없어 자원 효율이 가장 좋습니다. 개인 포인트를 노리는 인원은 비룡성 쪽으로 돌리는 것도 검토합니다.</div>
+      <div class="who">부두·장작영<small>여력이 있을 때만</small><span class="badge">별도 조 없음</span></div>
+      <div class="task">버프가 폐지되어 1회성 소량 포인트(이전 기준 부두 400 · 장작영 180)만 남았습니다. 맹호성 1곳(3,600)이나 도적거점(4,000↑)과 비교하면 작습니다. 전담 조를 두지 않고, 맹호·비룡이 이미 확정되어 남는 병력이 있을 때만 갑니다.</div>
     </div>
+  </div>
+
+  <div class="tblwrap" style="margin-top:22px">
+  <table>
+    <caption>동맹 책략 사용 계획 (초안 · 사용 횟수 미확인이라 횟수가 부족하면 1차 쟁탈 우선)</caption>
+    <thead><tr><th class="num">시점</th><th>책략</th><th>목적</th></tr></thead>
+    <tbody>
+      <tr data-c="guess" class="hl"><td class="num">0분</td><td><strong>횡소천군 + 견불가최</strong></td><td>맹호성 1차 과반(6분) 총력전</td></tr>
+      <tr data-c="guess"><td class="num">~6분</td><td>급속 행군</td><td>맹호성 → 비룡성 이동</td></tr>
+      <tr data-c="guess"><td class="num">~15분</td><td>묘수회춘</td><td>1·2차 사이 부상병 회복</td></tr>
+      <tr data-c="guess" class="hl"><td class="num">23분</td><td><strong>횡소천군 + 견불가최</strong></td><td>맹호성 2차 과반 총력전</td></tr>
+      <tr data-c="guess"><td class="num">~29분</td><td>급속 행군</td><td>맹호성 → 비룡성 2차 이동</td></tr>
+    </tbody>
+  </table>
   </div>
 
   <div class="items" style="margin-top:22px">
     <div class="item" data-c="ok">
       <h4>초반 23분이 사실상 승부처입니다 <span class="tag ok">확인</span></h4>
-      <p>맹호성·비룡성 모두 1차 산출은 15~23분 사이에 확정됩니다. 여기서 벌어진 격차는 추격 메커니즘(3종 중 1곳에만, 격차 비율만큼)으로는 완전히 메워지지 않습니다. 2차 쟁탈(24~42분)에 힘을 아끼기보다 1차 쟁탈에서 이기는 쪽이 훨씬 이득입니다.</p>
+      <p>맹호성·비룡성 모두 1차 산출은 15~23분 사이에 확정됩니다. 여기서 벌어진 격차는 추격 메커니즘(3종 중 1곳에만, 격차 비율만큼)으로는 완전히 메워지지 않습니다. 2차 쟁탈에 힘을 아끼기보다 1차 쟁탈에서 이기는 쪽이 훨씬 이득입니다. 이번 시즌에는 장작영 버프를 기다릴 필요도 없으니, 1차부터 책략을 걸고 바로 총력전입니다.</p>
     </div>
     <div class="item" data-c="ok">
       <h4>초반에 끊기지 않고 버티는 쪽이 이깁니다 <span class="tag ok">확인</span></h4>
-      <p>과반 누적 순간 즉시 확정되는 구조라, 쟁탈창 초반부터 진입해 지속적으로 주둔하는 쪽이 유리합니다. 뺏기더라도 누적 시간은 유지되니(재점령 시 이어서 누적) 계속 재탈환하면 됩니다. 다만 교전으로 병력을 잃으면 상대의 <b>개인 포인트(중상 1명당 1점)</b>를 채워주는 건 마찬가지이므로, 압도적 물량으로 빠르게 과반을 채워 교전 자체를 짧게 끝내는 것이 최선입니다.</p>
-    </div>
-    <div class="item" data-c="none">
-      <h4>1차 쟁탈은 사실상 버프 없이 치릅니다 <span class="tag none">미확인</span></h4>
-      <p>장작영 버프는 도하조가 처음 확보하는 시점(빨라야 18분경)에야 생깁니다. 그런데 중앙 주력의 맹호성·비룡성 1차 과반 확보 총력전은 0~15.5분 구간이라, <strong>1차 쟁탈은 버프 없이 순수 물량으로 치러야 합니다.</strong> 2차 쟁탈(맹호성 23~29분, 비룡성 31~38.5분)은 버프 지속시간에 따라 적용 여부가 갈립니다 — 지속시간이 짧으면 도하조의 2차 갱신(약 37분)을 기다려야 하는데, 이 경우 비룡성 2차 공격 후반부에나 겨우 걸립니다.</p>
+      <p>과반 누적 순간 즉시 확정되는 구조라, 쟁탈창 초반부터 진입해 지속적으로 주둔하는 쪽이 유리합니다. 뺏기더라도 누적 시간은 유지되니(재점령 시 이어서 누적) 계속 재탈환하면 됩니다. 병력을 잃으면 상대의 개인 포인트(중상 1명당 1점)를 채워주므로, 교전 자체를 짧게 끝내는 것이 최선입니다.</p>
     </div>
     <div class="item" data-c="ok">
-      <h4>장작영 버프는 "저축"이 아니라 "구독"입니다 <span class="tag ok">확인</span></h4>
-      <p>이전 판에서 가장 큰 변수였던 "휴전 시 버프 초기화 여부"는 질문 자체가 무의미해졌습니다. 버프는 정비 기간과 무관하게 <strong>지정된 시간이 지나면 자동 소멸</strong>합니다. 즉 한 번 점령해두고 잊는 자원이 아니라, 만료 전에 재점령해서 갱신해야 하는 자원입니다. 도하조는 전투조가 아니라 "버프 갱신 로테이션 운영조"로 재정의해야 합니다.</p>
-    </div>
-    <div class="item" data-c="none">
-      <h4>버프 지속시간·배율·중첩 여부는 전부 미확인 <span class="tag none">미확인</span></h4>
-      <p>몇 분간 유지되는지, 16개(추정) 중 몇 개를 확보하면 중첩되는지, 배율이 얼마인지 모두 게임 화면에 나오지 않습니다. 지속시간을 모르면 위 항목의 2차 쟁탈 버프 적용 여부 추정도 뒤집힐 수 있습니다 — 실전에서 도하조 조장이 버프 아이콘 유무를 직접 관찰해 보고하는 게 가장 확실합니다.</p>
+      <h4>30부대 상한은 상대에게도 같습니다 <span class="tag ok">확인</span></h4>
+      <p>상대도 한 건물에 30부대까지만 넣을 수 있으므로, 우리 조의 <b>부대 질(티어)</b>이 그대로 승부가 됩니다. 가장 강한 30부대를 가산 버프 맹호성에, 다음 30부대를 나머지 맹호성에 배치하는 순서가 중요합니다. 건물 밖에 남는 병력은 교체 투입과 공성 지원에 씁니다.</p>
     </div>
     <div class="item" data-c="ok">
       <h4>열세일 때는 상대의 과반 도달을 늦추는 것만으로 가치가 있습니다 <span class="tag ok">확인</span></h4>
-      <p>과반에 도달하기 전까지는 아무리 오래 점유해도 확정되지 않습니다. 점령이 어렵다면 상대가 과반(맹호성 6분·비룡성 7.5분)에 도달하지 못하도록 끊임없이 흔드는 것만으로 그 사이클의 산출(3,600 / 2,700점)을 무산시킬 수 있습니다. 쟁탈창이 닫힐 때까지 어느 쪽도 과반을 못 채우면 어떻게 되는지는 확인되지 않았습니다.</p>
+      <p>과반에 도달하기 전까지는 아무리 오래 점유해도 확정되지 않습니다. 점령이 어렵다면 상대가 과반(맹호성 6분·비룡성 7.5분)에 도달하지 못하도록 끊임없이 흔드는 것만으로 그 사이클의 산출을 무산시킬 수 있습니다. 상대가 횡소천군·견불가최를 켠 직후 5분은 피하고, 종료 후에 치는 것이 효율적입니다 — 적군 책략 현황이 전장에 표시됩니다.</p>
     </div>
     <div class="item" data-c="ok">
-      <h4>주력군은 자연히 개인 포인트도 따라옵니다 <span class="tag ok">확인</span></h4>
-      <p>개전 즉시 진입해 6~7.5분씩 지속 주둔하는 구조이므로, 맹호성·비룡성 점령 개인 포인트(500~800/s)가 자연스럽게 쌓입니다. 따로 개인 임무를 요구할 필요는 없고, 상위 랭킹은 오히려 자유롭게 움직이는 파밍조·분대가 노리는 편이 효율적입니다.</p>
+      <h4>개인 구간 보상은 주둔 시간을 따라옵니다 <span class="tag ok">확인</span></h4>
+      <p>맹호성·비룡성에 6~7.5분씩 주둔하면 점령 개인 포인트(500~800/s)가 자연스럽게 쌓입니다. 개인 랭킹이 없어져 남과 경쟁할 필요가 없으므로, 별도 개인 임무 없이 동맹 작전대로 움직이는 것이 곧 개인 보상 극대화입니다.</p>
+    </div>
+    <div class="item" data-c="none">
+      <h4>분대 전장은 별도 작전이 필요합니다 <span class="tag none">미확인</span></h4>
+      <p>분대는 이제 자기 전장에서 자기 상대와 싸웁니다. 분대 결과가 동맹 승패에 반영되는지에 따라 분대 작전의 무게가 달라집니다. 반영되지 않는다면 분대는 개인 포인트 구간 보상을 목표로 위와 같은 동선(맹호성 → 비룡성 → 도적거점)을 그대로 따르면 됩니다.</p>
     </div>
   </div>
 </section>
 
 <!-- ===== 확인 필요 ===== -->
 <section id="todo">
-  <h2><span class="n">10</span>본전투 전 남은 확인 사항</h2>
-  <p class="lede">이전 판의 12개 항목 중 대부분이 이번 규칙 공개로 해소되었습니다. 남은 것은 아래 3가지입니다.</p>
-  <ol style="list-style:none;counter-reset:q;padding:0;margin:0;border-top:2px solid var(--ink)">
-    <li style="counter-increment:q;padding:11px 0 11px 40px;border-bottom:1px solid var(--rule);position:relative;font-size:14.5px">
-      <span style="position:absolute;left:0;top:11px;font-family:'Noto Serif KR',serif;font-weight:900;font-size:16px;color:var(--c-bandit)">1</span>
-      장작영 버프의 배율과 중첩 여부
-      <span style="display:block;font-size:13px;color:var(--ink-faint);font-weight:300;margin-top:2px">만료 시간은 확인됐지만("지정된 시간 유지") 정확한 분·초와 배율, 여러 개 점령 시 중첩 여부는 비공개입니다.</span>
-    </li>
-    <li style="counter-increment:q;padding:11px 0 11px 40px;border-bottom:1px solid var(--rule);position:relative;font-size:14.5px">
-      <span style="position:absolute;left:0;top:11px;font-family:'Noto Serif KR',serif;font-weight:900;font-size:16px;color:var(--c-bandit)">2</span>
-      건물당 주둔 부대 수 상한 여부
-      <span style="display:block;font-size:13px;color:var(--ink-faint);font-weight:300;margin-top:2px">있다면 몰빵 전략이 무효가 되고 분산이 정답이 됩니다.</span>
-    </li>
-    <li style="counter-increment:q;padding:11px 0 11px 40px;border-bottom:1px solid var(--rule);position:relative;font-size:14.5px">
-      <span style="position:absolute;left:0;top:11px;font-family:'Noto Serif KR',serif;font-weight:900;font-size:16px;color:var(--c-bandit)">3</span>
-      지원 무장 강화 효과의 정확한 수치
-      <span style="display:block;font-size:13px;color:var(--ink-faint);font-weight:300;margin-top:2px">전법 2개 대여와 비교해 무엇이 유리한지는 준비 화면(토요일 09:00 이후)을 직접 열어야 판단할 수 있습니다.</span>
-    </li>
+  <h2><span class="n">11</span>재개 시즌 남은 확인 사항</h2>
+  <p class="lede">이전 판의 "건물당 주둔 상한"은 30부대로 확정되었고, "장작영 버프"는 폐지로 질문 자체가 사라졌습니다. 아래는 이번 패치 공지에 수치가 없어 게임 화면이나 첫 실전으로 확인해야 하는 항목입니다.</p>
+  <ol class="checklist">
+    <li><b>맹호성·비룡성 가산 버프</b> 배율, 대상 맹호성 선정 방식, "유효 동맹" 판정 기준</li>
+    <li><b>도적거점 라운드별 포인트</b>(점증 폭), 조운부두·장작영 1회 포인트 값 변경 여부</li>
+    <li><b>책략 최대 사용 횟수·재사용 대기</b> — 대장별인지 동맹 공용인지</li>
+    <li><b>주력군·분대 정원</b>, 신청 종료 시각, 분대 결과의 동맹 승패 반영 여부</li>
+    <li><b>"지도 중앙 비룡성"</b>이 어느 건물인지, 3급 하향 후 새 명칭·아이콘·산출량</li>
+    <li><b>개인 포인트 구간 보상표</b>(승리 측 / 패배 측)</li>
+    <li><b>45분 구간 시각</b>이 이전과 같은지(시작만 21:30으로 밀린 것인지), 성 이전 길 연결 규칙</li>
+    <li>지원 무장 강화 효과의 정확한 수치 (이전 판부터 미확인)</li>
   </ol>
 </section>
 
 <footer>
   <p>게임 내 "이벤트 규칙"(이벤트 규칙 · 이벤트 건물 · 단계 시간 · 개인 포인트 · 이벤트 보상) 전체 화면을 캡처해 재구성한 문서입니다. 캡처 시점: 2026-09-09.</p>
   <p>건물 배치·개수는 게임 내 "건물 분포" 화면 캡처로 확인했습니다(맹호성 3·비룡성 4·도적거점 4·조운부두 8·장작영 16, 총 35개). 이 배치도가 매 시즌 동일하게 유지되는지는 별도 확인이 필요합니다.</p>
-  <p>작성 기준 2026년 9월 9일</p>
+  <p>최초 작성 2026년 9월 9일 · 재개 시즌 패치 반영 2026년 10월 20일 (패치 공지 텍스트 기준, 수치 미공개 항목은 미확인 표기)</p>
 </footer>
 
 </div>
