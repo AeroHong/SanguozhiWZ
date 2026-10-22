@@ -138,9 +138,9 @@ button.btn.live[aria-pressed="true"]{background:var(--fight);color:#fff;border-c
   <a class="back" href="index.html">← 작전 브리핑으로 돌아가기</a>
   <a class="back" href="reward.html" target="_blank" rel="noopener">🎁 보상 총정리 보기</a>
   <h1>45분, 이렇게 흘러갑니다</h1>
-  <p class="sub">재생을 누르면 본전투 21:30~22:15가 압축 재생됩니다. 건물이 쟁탈→산출/정산→정비를 도는 흐름과, <b>주력 A·B·C조·거점조</b>가 그 시간에 맞춰 무엇을 해야 하는지를 함께 보여줍니다.</p>
-  <p class="warn">가정: <a href="guide.html#strategy">상세 작전서 "10 전략"</a>의 재개 시즌 초안이 <b>전부 성공한 경우</b>입니다 — 맹호성 4곳 + 비룡성 2곳 + 만상성 1곳을 두 사이클 모두 확보, 도적거점은 라운드마다 열리는 2곳을 모두 승리. 조운부두·장작영은 버프 폐지로 작전 대상에서 빠져 점수에 넣지 않았습니다. 맹호성 가산 버프와 도적거점 점증은 수치 미공개라 반영하지 않았습니다(실제 점수는 더 높아집니다). 비룡성·만상성 2차 생산은 45분 종료로 2분만 계산했습니다.</p>
-  <p class="warn">점령은 쟁탈 종료 시점의 최종 점유자가 아니라 <b>누적 점령 시간이 기준(맹호성 6분 · 비룡성·만상성 7분)에 먼저 닿은 쪽</b>이 가져갑니다. 둘 다 못 채우면 누적이 더 긴 쪽이 가져갑니다. 건물당 주둔 상한은 <b>30부대</b>라 성마다 조를 나눠 동시에 들어갑니다.</p>
+  <p class="sub">재생을 누르면 본전투 21:30~22:15가 압축 재생됩니다. 건물이 쟁탈→산출/정산→정비를 도는 흐름과, <b>투력별 기본 역할(최고·중간·낮은 투력)</b>이 그 시간에 맞춰 무엇을 해야 하는지를 함께 보여줍니다.</p>
+  <p class="warn">가정: <a href="guide.html#strategy">상세 작전서 "10 전략"</a>의 재개 시즌 초안이 <b>전부 성공한 경우</b>입니다 — 맹호성 4곳 + 비룡성 2곳 + 만상성 1곳을 두 사이클 모두 확보, 도적거점은 라운드마다 열리는 2곳을 모두 승리. 조운부두·장작영은 낮은 투력 인원이 라운드마다 1곳씩 잡는 것으로 계산했습니다(실제로는 더 많이 잡을 수 있음). 맹호성 가산 버프와 도적거점 점증은 수치 미공개라 반영하지 않았습니다(실제 점수는 더 높아집니다). 비룡성·만상성 2차 생산은 45분 종료로 2분만 계산했습니다.</p>
+  <p class="warn">점령은 쟁탈 종료 시점의 최종 점유자가 아니라 <b>누적 점령 시간이 기준(맹호성 6분 · 비룡성·만상성 7분)에 먼저 닿은 쪽</b>이 가져갑니다. 둘 다 못 채우면 누적이 더 긴 쪽이 가져갑니다. 건물당 주둔 상한은 <b>30부대</b>라 성마다 부대를 나눠 동시에 들어갑니다.</p>
   <p class="warn" style="border-left-style:solid">타임라인(아래 그래프) 아무 곳이나 클릭하거나 드래그하면 그 시점으로 바로 이동합니다.</p>
 
   <div class="panel">
@@ -171,8 +171,9 @@ button.btn.live[aria-pressed="true"]{background:var(--fight);color:#fff;border-c
     <div class="grow"><div class="glabel"><img class="bicon-sm" src="images/icon-dock.png" alt="">조운부두</div></div>
     <div class="grow"><div class="glabel"><img class="bicon-sm" src="images/icon-camp.png" alt="">장작영</div></div>
     <div class="gsection mid">부대 임무</div>
-    <div class="grow"><div class="glabel">주력 A·B·C</div></div>
-    <div class="grow"><div class="glabel">거점조</div></div>
+    <div class="grow"><div class="glabel">최고 투력</div></div>
+    <div class="grow"><div class="glabel">중간 투력</div></div>
+    <div class="grow"><div class="glabel">낮은 투력</div></div>
     <div class="gaxis">
       <div></div>
       <div class="marks">
@@ -210,7 +211,7 @@ const TOTAL = 45; // minutes
 
 // [type, start, end] in minutes, 0-indexed continuous timeline
 const BUILDINGS = [
-  // 맹호성 4곳: 주력 A·B·C조 3곳 + 거점조 1곳
+  // 맹호성 4곳: 개전 시 전원이 나눠 진입
   { key:'mh', name:'맹호성', color:'var(--c-mh)', icon:'images/icon-maengho.png', count:4, rate:15,
     segs:[['fight',0,12],['score',12,15],['idle',15,23],['fight',23,35],['score',35,38],['idle',38,45]] },
   // 비룡성·만상성: 같은 구간 · 2차 생산(44~46분)은 45분 종료로 2분만
@@ -222,11 +223,11 @@ const BUILDINGS = [
   { key:'bandit', name:'도적거점', color:'var(--c-bandit)', icon:'images/icon-bandit.png', count:2, rate:0,
     segs:[['idle',0,13],['fight',13,23],['idle',23,35],['fight',35,45]],
     payouts:[{t:23,amt:4000},{t:45,amt:4000}] },
-  // 조운부두·장작영: 버프 폐지로 작전 대상 제외(count:0) — 건물 흐름만 표시
-  { key:'dock', name:'조운부두', color:'var(--c-dock)', icon:'images/icon-dock.png', count:0, rate:0,
+  // 조운부두·장작영: 낮은 투력 인원이 라운드마다 최소 1곳씩
+  { key:'dock', name:'조운부두', color:'var(--c-dock)', icon:'images/icon-dock.png', count:1, rate:0,
     segs:[['idle',0,11],['fight',11,19],['idle',19,33],['fight',33,41],['idle',41,45]],
     payouts:[{t:19,amt:400},{t:41,amt:400}] },
-  { key:'camp', name:'장작영', color:'var(--c-camp)', icon:'images/icon-camp.png', count:0, rate:0,
+  { key:'camp', name:'장작영', color:'var(--c-camp)', icon:'images/icon-camp.png', count:1, rate:0,
     segs:[['idle',0,13],['fight',13,19],['idle',19,35],['fight',35,41],['idle',41,45]],
     payouts:[{t:19,amt:180},{t:41,amt:180}] },
 ];
@@ -235,25 +236,34 @@ const PHASE_LABEL = {fight:'쟁탈 중', score:'산출 중', idle:'정비/대기
 
 // 부대 운영 임무 — 작전 브리핑 "10 전략" 재개 시즌 초안을 시간표로 옮긴 것 (추정/독트린 기반)
 const SQUADS = [
-  { key:'main', name:'주력 A·B·C조', color:'#7A5C1E',
+  { key:'top', name:'최고 투력', color:'#5B3F7A',
     segs:[
-      {type:'fight', s:0,  e:6,  label:'급속 행군 · 맹호성 3곳 동시 진입 · 누적 6분 확보'},
-      {type:'idle',  s:6,  e:7,  label:'맹호성 확정 · 중앙 세로축(비룡성 2곳·만상성)으로 이동 · 횡소천군'},
-      {type:'fight', s:7,  e:14, label:'비룡성 2곳 + 만상성 누적 7분 확보 · 11분 견고불최'},
-      {type:'score', s:14, e:23, label:'1차 확정 · 16분 묘수회춘으로 재정비'},
+      {type:'fight', s:0,  e:6,  label:'급속 행군 · 맹호성 진입 · 누적 6분 확보'},
+      {type:'fight', s:6,  e:13, label:'만상성 개방 즉시 전체 동원 · 횡소천군 → 11분 견고불최 · 7분 확보'},
+      {type:'score', s:13, e:23, label:'만상성 확정 · 16분 묘수회춘으로 재정비'},
       {type:'fight', s:23, e:29, label:'맹호성 2차 · 누적 6분 확보'},
-      {type:'idle',  s:29, e:30, label:'맹호성 2차 확정 · 중앙 세로축으로 이동'},
-      {type:'fight', s:30, e:37, label:'비룡성·만상성 2차 누적 7분 확보'},
-      {type:'fight', s:37, e:45, label:'2차 확정 · 도적거점 2차 합류'},
+      {type:'fight', s:29, e:36, label:'만상성 2차 · 7분 확보'},
+      {type:'score', s:36, e:45, label:'만상성 2차 확정 · 도적거점 2차 지원'},
     ]},
-  { key:'farm', name:'거점조', color:'#9B2C25',
+  { key:'mid', name:'중간 투력', color:'#2E6B62',
     segs:[
-      {type:'fight', s:0,  e:6,  label:'4번째 맹호성 · 누적 6분 확보'},
-      {type:'idle',  s:6,  e:13, label:'도적거점 방면 이동 · 대기'},
+      {type:'fight', s:0,  e:6,  label:'맹호성 진입 · 누적 6분 확보'},
+      {type:'fight', s:6,  e:13, label:'비룡성 2곳 · 7분 확보'},
       {type:'fight', s:13, e:23, label:'도적거점 1차 (개방된 2곳) 피해량 경쟁'},
-      {type:'fight', s:23, e:29, label:'4번째 맹호성 2차 · 누적 6분 확보'},
-      {type:'score', s:29, e:35, label:'맹호성 확정 · 도적거점 방면 재정비'},
-      {type:'fight', s:35, e:45, label:'도적거점 2차 총력 (포인트 증가 라운드)'},
+      {type:'fight', s:23, e:29, label:'맹호성 2차 · 누적 6분 확보'},
+      {type:'fight', s:29, e:36, label:'비룡성 2차 · 7분 확보'},
+      {type:'fight', s:36, e:45, label:'도적거점 2차 총력 (포인트 증가 라운드)'},
+    ]},
+  { key:'low', name:'낮은 투력', color:'#3A5C77',
+    segs:[
+      {type:'fight', s:0,  e:6,  label:'맹호성 진입 지원 · 누적 6분 확보'},
+      {type:'idle',  s:6,  e:11, label:'강가 조운부두 방면 이동 · 대기'},
+      {type:'fight', s:11, e:19, label:'조운부두 → 섬 진입 → 장작영 (개인 포인트 초당 10,000)'},
+      {type:'fight', s:19, e:23, label:'도적거점 1차 피해량 보태기'},
+      {type:'fight', s:23, e:29, label:'맹호성 2차 지원'},
+      {type:'idle',  s:29, e:33, label:'조운부두 방면 이동 · 대기'},
+      {type:'fight', s:33, e:41, label:'조운부두 → 장작영 2차'},
+      {type:'fight', s:41, e:45, label:'도적거점 2차 합류'},
     ]},
 ];
 
