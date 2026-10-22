@@ -26,10 +26,6 @@
   --fight:#B3401C;
   --score:#2E6B62;
   --idle:#9E9784;
-
-  --ok:#2E6B62;
-  --guess:#A8801F;
-  --none:#8C4A44;
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
@@ -45,7 +41,7 @@ body{
   line-height:1.62;
   -webkit-font-smoothing:antialiased;
 }
-.wrap{max-width:1080px;margin:0 auto;padding:0 28px}
+.wrap{max-width:960px;margin:0 auto;padding:0 28px}
 
 /* ---------- hero ---------- */
 .hero{padding:40px 0 8px}
@@ -55,17 +51,16 @@ body{
   font-size:12px;letter-spacing:.22em;padding:5px 12px 4px;border-radius:2px;
   font-weight:700;margin-bottom:16px;
 }
-.stamp.live{border-color:var(--ok);color:var(--ok);margin-left:8px}
 h1{
   font-family:"Noto Serif KR",serif;font-weight:900;
   font-size:clamp(32px,6vw,52px);line-height:1.05;letter-spacing:-.03em;
   margin:0 0 14px;
 }
-.sub{font-size:15.5px;color:var(--ink-soft);max-width:66ch;margin:0 0 24px;font-weight:300}
+.sub{font-size:15.5px;color:var(--ink-soft);max-width:60ch;margin:0 0 24px;font-weight:300}
 
 .clock{
   display:flex;flex-wrap:wrap;gap:0;border-top:2px solid var(--ink);border-bottom:1px solid var(--rule);
-  margin-bottom:8px;
+  margin:0 0 24px;
 }
 .clock div{padding:12px 22px 11px;border-right:1px solid var(--rule);flex:1 1 auto}
 .clock div:last-child{border-right:0}
@@ -73,135 +68,54 @@ h1{
 .clock dd{margin:0;font-family:"Noto Serif KR",serif;font-weight:700;font-size:19px;letter-spacing:-.02em}
 .clock .big dd{color:var(--c-bandit);font-size:22px}
 
-/* ---------- confidence ---------- */
-.filter{
-  position:sticky;top:0;z-index:30;background:var(--paper);
-  border-bottom:1px solid var(--rule);padding:10px 0;margin-bottom:36px;
-  display:flex;gap:10px;align-items:center;flex-wrap:wrap;
+/* ---------- go buttons ---------- */
+.go{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:0 0 48px}
+.go a{
+  display:block;text-decoration:none;color:var(--ink);
+  border:1px solid var(--rule);border-radius:4px;padding:16px 18px;
+  background:rgba(255,255,255,.35);transition:border-color .15s,background .15s;
 }
-.filter b{font-size:12.5px;font-weight:500;color:var(--ink-faint);margin-right:4px}
-.fbtn{
-  font-family:inherit;font-size:13px;font-weight:500;cursor:pointer;
-  background:transparent;border:1px solid var(--rule);color:var(--ink-soft);
-  padding:5px 13px;border-radius:2px;transition:background .15s,color .15s,border-color .15s;
-}
-.fbtn:hover{border-color:var(--ink-soft)}
-.fbtn[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
-.fbtn:focus-visible{outline:2px solid var(--c-bandit);outline-offset:2px}
-
-.tag{
-  display:inline-block;vertical-align:2px;font-size:11px;font-weight:700;
-  padding:1px 7px;border-radius:2px;letter-spacing:.02em;margin-left:8px;white-space:nowrap;
-}
-.tag.ok{background:rgba(46,107,98,.15);color:var(--ok)}
-.tag.guess{background:rgba(168,128,31,.18);color:#7E5E10}
-.tag.none{background:rgba(140,74,68,.15);color:var(--none)}
-
-.item{padding-left:16px;border-left:3px solid transparent;margin-bottom:16px}
-.item[data-c="ok"]{border-left-color:var(--ok)}
-.item[data-c="guess"]{border-left-color:var(--guess);border-left-style:dashed}
-.item[data-c="none"]{border-left-color:var(--none);border-left-style:dotted}
-.item h4{margin:0 0 3px;font-size:16px;font-weight:700;font-family:"Noto Serif KR",serif}
-.item p{margin:0;font-size:14px;color:var(--ink-soft);font-weight:300;max-width:74ch}
-
-.items{display:grid;grid-template-columns:1fr 1fr;gap:2px 28px;margin-top:4px}
-.items .item{margin-bottom:14px}
-
-.warn{color:var(--none);font-weight:700}
-.tnote{font-size:12.5px;color:var(--ink-soft);font-weight:300;margin:8px 0 0;max-width:74ch}
-.notewarn{
-  font-size:13px;font-weight:500;color:#7E5E10;margin:10px 0 0;padding:8px 12px;
-  border-left:3px dashed var(--guess);background:rgba(168,128,31,.08);max-width:76ch;
-}
-
-body.only-ok .item[data-c="guess"],
-body.only-ok .item[data-c="none"],
-body.only-ok tr[data-c="guess"],
-body.only-ok tr[data-c="none"],
-body.only-ok .card[data-c="guess"]{display:none}
-body.only-ok .dim-when-filtered{opacity:.32}
+.go a:hover{border-color:var(--ink-soft);background:rgba(255,255,255,.55)}
+.go a.main{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.go a.main:hover{background:#2c352f}
+.go b{display:block;font-family:"Noto Serif KR",serif;font-weight:900;font-size:18px;letter-spacing:-.02em}
+.go span{display:block;font-size:12.5px;font-weight:300;margin-top:3px;opacity:.85}
 
 /* ---------- sections ---------- */
-section{margin-bottom:56px;scroll-margin-top:64px}
+section{margin-bottom:52px;scroll-margin-top:20px}
 h2{
-  font-family:"Noto Serif KR",serif;font-weight:900;font-size:clamp(22px,3vw,30px);
-  letter-spacing:-.035em;margin:0 0 5px;
+  font-family:"Noto Serif KR",serif;font-weight:900;font-size:clamp(22px,3vw,28px);
+  letter-spacing:-.035em;margin:0 0 14px;
 }
-h2 .n{color:var(--c-bandit);margin-right:8px;font-variant-numeric:tabular-nums}
-.lede{color:var(--ink-faint);font-size:14px;margin:0 0 18px;max-width:70ch;font-weight:300}
+.lede{color:var(--ink-faint);font-size:14px;margin:-8px 0 16px;font-weight:300}
 
-/* ---------- building cards ---------- */
-.cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px}
-.card{border:1px solid var(--rule);border-radius:4px;overflow:hidden;background:rgba(255,255,255,.28)}
-.card img{width:100%;height:150px;object-fit:cover;display:block;border-bottom:2px solid var(--bar,var(--ink))}
-.card img.mapimg{height:280px;object-fit:contain;background:rgba(28,35,31,.05);padding:10px}
-.cbody img.bicon{width:18px;height:18px;object-fit:contain;vertical-align:-4px;margin-right:6px;border:0}
-.bicon-sm{width:14px;height:14px;object-fit:contain;vertical-align:-2px;margin-right:4px}
-.cbody img.bicon-sm{width:14px;height:14px;object-fit:contain;vertical-align:-2px;margin-right:4px;border:0}
-.card .cbody{padding:14px 16px 16px}
-.card h4{margin:0 0 2px;font-family:"Noto Serif KR",serif;font-size:17px;font-weight:700;display:flex;align-items:center;gap:8px}
-.card .tier{font-size:11px;font-weight:700;color:var(--paper);background:var(--bar,var(--ink-faint));padding:1px 7px;border-radius:2px;letter-spacing:.02em}
-.card .role{font-size:12.5px;color:var(--bar,var(--ink-faint));font-weight:500;margin:2px 0 9px}
-.card ul{margin:0;padding-left:16px;font-size:13.5px;color:var(--ink-soft);font-weight:300}
-.card li{margin-bottom:4px}
-.card li.iconli{display:flex;align-items:center;gap:6px;flex-wrap:nowrap}
-.card li.iconli img.bicon-sm{margin-right:0;flex:none}
-.card .nums{display:flex;gap:14px;margin:10px 0 10px;padding:8px 0;border-top:1px dashed var(--rule);border-bottom:1px dashed var(--rule)}
-.card .nums div{flex:1}
-.card .nums dt{font-size:10.5px;color:var(--ink-faint);margin:0 0 2px}
-.card .nums dd{margin:0;font-family:"Noto Serif KR",serif;font-weight:700;font-size:15px;color:var(--ink)}
+/* ---------- must-know ---------- */
+.must{list-style:none;counter-reset:ck;padding:0;margin:0;border-top:2px solid var(--ink)}
+.must li{counter-increment:ck;position:relative;padding:12px 0 12px 38px;border-bottom:1px solid var(--rule);font-size:15px;color:var(--ink-soft);font-weight:300}
+.must li::before{content:counter(ck);position:absolute;left:2px;top:10px;font-family:"Noto Serif KR",serif;font-weight:900;font-size:19px;color:var(--c-bandit)}
+.must b{color:var(--ink);font-weight:700}
 
-/* ---------- table ---------- */
-table{width:100%;border-collapse:collapse;font-size:13.5px}
-caption{text-align:left;font-size:12.5px;color:var(--ink-faint);padding-bottom:8px;font-weight:300}
-th{
-  text-align:left;font-weight:700;font-size:12px;color:var(--ink-faint);
-  border-bottom:2px solid var(--ink);padding:0 12px 6px 0;
-}
-td{padding:8px 12px 8px 0;border-bottom:1px solid var(--rule);vertical-align:top;font-weight:300;color:var(--ink-soft)}
-td.name{font-weight:700;color:var(--ink);white-space:nowrap;position:relative;padding-left:14px}
-td.name::before{content:"";position:absolute;left:0;top:13px;width:5px;height:5px;border-radius:1px;background:var(--bar)}
-td strong{font-weight:700;color:var(--ink)}
-.num{font-variant-numeric:tabular-nums;white-space:nowrap}
-tr.hl td{background:rgba(255,255,255,.4)}
-tfoot td, .tfoot{font-size:12.5px;color:var(--ink-faint);font-weight:300;padding-top:8px;border-bottom:0}
-.tblwrap{overflow-x:auto}
+/* ---------- building tiles ---------- */
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.tile{border:1px solid var(--rule);border-top:4px solid var(--bar);border-radius:4px;padding:13px 15px 14px;background:rgba(255,255,255,.3)}
+.tile h3{margin:0;display:flex;align-items:center;gap:8px;font-family:"Noto Serif KR",serif;font-size:18px;font-weight:900;letter-spacing:-.02em}
+.tile h3 img{width:22px;height:22px;object-fit:contain;flex:none}
+.tile .tier{font-family:"Noto Sans KR",sans-serif;font-size:11px;font-weight:700;color:var(--paper);background:var(--bar);padding:1px 7px;border-radius:2px}
+.tile .role{font-size:13px;color:var(--bar);font-weight:700;margin:4px 0 8px}
+.tile dl{display:grid;grid-template-columns:auto 1fr;gap:3px 10px;margin:0;font-size:13px}
+.tile dt{color:var(--ink-faint);font-weight:500}
+.tile dd{margin:0;color:var(--ink);font-weight:500;font-variant-numeric:tabular-nums}
+.tile dd strong{color:var(--c-bandit)}
+.mapline{display:grid;grid-template-columns:240px 1fr;gap:18px;align-items:center;margin-top:16px}
+.mapline img{width:100%;height:auto;border-radius:4px;border:1px solid var(--rule)}
+.mapline p{margin:0;font-size:14px;color:var(--ink-soft);font-weight:300}
+.mapline b{color:var(--ink)}
 
-/* ---------- callout ---------- */
-.key{
-  border:2px solid var(--ink);border-radius:3px;padding:16px 20px;margin:18px 0;
-  background:rgba(255,255,255,.3);
-}
-.key p{margin:0;font-family:"Noto Serif KR",serif;font-size:17px;line-height:1.5;font-weight:500;letter-spacing:-.02em}
-.key p + p{margin-top:8px;font-family:"Noto Sans KR",sans-serif;font-size:13.5px;font-weight:300;color:var(--ink-soft);letter-spacing:0}
-
-/* ---------- fork / roster / trigger (재사용) ---------- */
-.fork{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
-.branch{border:1px solid var(--rule);border-radius:3px;padding:15px 18px;background:rgba(255,255,255,.24)}
-.branch.a{border-top:4px solid var(--ok)}
-.branch.b{border-top:4px solid var(--none)}
-.branch h4{margin:0 0 3px;font-family:"Noto Serif KR",serif;font-size:17px;font-weight:700}
-.branch .cond{font-size:12px;color:var(--ink-faint);margin:0 0 8px;font-weight:500}
-.branch p{margin:0;font-size:13.5px;color:var(--ink-soft);font-weight:300}
-
-.roster{border-top:2px solid var(--ink)}
-.row{display:grid;grid-template-columns:168px 1fr;gap:18px;padding:13px 0;border-bottom:1px solid var(--rule);align-items:start}
-.row .who{font-family:"Noto Serif KR",serif;font-weight:700;font-size:16px}
-.row .who small{display:block;font-family:"Noto Sans KR",sans-serif;font-size:12px;color:var(--ink-faint);font-weight:400;margin-top:2px}
-.row .who .badge{display:inline-block;margin-top:6px;font-family:"Noto Sans KR",sans-serif;font-size:11px;font-weight:700;color:var(--c-bandit);background:rgba(155,44,37,.1);padding:2px 8px;border-radius:2px;letter-spacing:.02em}
-.row .task{font-size:14px;color:var(--ink-soft);font-weight:300}
-.row .task b{color:var(--ink);font-weight:700}
-
-.trig{border-top:2px solid var(--ink)}
-.trig .t{display:grid;grid-template-columns:210px 1fr;gap:16px;padding:10px 0;border-bottom:1px solid var(--rule)}
-.trig .sig{font-weight:700;font-size:14px}
-.trig .act{font-size:14px;color:var(--ink-soft);font-weight:300}
-.trig .act b{color:var(--c-bandit);font-weight:700}
-
-/* ---------- gantt ---------- */
-.gantt{margin-top:20px;border:1px solid var(--rule);border-radius:3px;padding:16px 18px 12px;background:rgba(255,255,255,.24)}
+/* ---------- gantt (상세 작전서와 동일) ---------- */
+.gantt{border:1px solid var(--rule);border-radius:3px;padding:16px 18px 12px;background:rgba(255,255,255,.24)}
 .grow{display:grid;grid-template-columns:88px 1fr;gap:12px;align-items:center;margin-bottom:9px}
 .glabel{font-size:12.5px;font-weight:700;color:var(--ink)}
+.bicon-sm{width:14px;height:14px;object-fit:contain;vertical-align:-2px;margin-right:4px}
 .gbar{position:relative;display:flex;height:22px;border-radius:2px;overflow:hidden;border:1px solid rgba(0,0,0,.12)}
 .gbar span{display:block;height:100%}
 .gbar .fight{background:var(--fight)}
@@ -214,39 +128,44 @@ tfoot td, .tfoot{font-size:12.5px;color:var(--ink-faint);font-weight:300;padding
 }
 .gaxis{display:grid;grid-template-columns:88px 1fr;gap:12px;margin:2px 0 4px}
 .gaxis .marks{display:flex;justify-content:space-between;font-size:10.5px;color:var(--ink-faint);font-variant-numeric:tabular-nums}
-.glegend{display:flex;gap:16px;margin-top:12px;font-size:12px;color:var(--ink-soft)}
+.glegend{display:flex;gap:16px;margin-top:12px;font-size:12px;color:var(--ink-soft);flex-wrap:wrap}
 .glegend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+.more{display:inline-block;margin-top:12px;font-size:13.5px;font-weight:700;color:var(--ink);text-decoration:none;border-bottom:1.5px solid var(--c-bandit)}
 
-/* ---------- patch summary ---------- */
-.patch{
-  border:2px solid var(--c-bandit);border-radius:3px;padding:16px 20px 12px;margin:18px 0 8px;
-  background:rgba(155,44,37,.05);
-}
-.patch h3{margin:0 0 8px;font-family:"Noto Serif KR",serif;font-weight:900;font-size:18px;letter-spacing:-.02em;color:var(--c-bandit)}
-.patch ul{margin:0;padding-left:18px;font-size:14px;color:var(--ink-soft);font-weight:300}
-.patch li{margin-bottom:5px}
-.patch b{color:var(--ink);font-weight:700}
+/* ---------- squads ---------- */
+.squads{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.squad{border:1px solid var(--rule);border-radius:4px;padding:15px 17px;background:rgba(255,255,255,.3)}
+.squad h3{margin:0 0 2px;font-family:"Noto Serif KR",serif;font-size:18px;font-weight:900;letter-spacing:-.02em}
+.squad small{display:block;font-size:12px;color:var(--ink-faint);margin-bottom:8px}
+.squad ol{margin:0;padding-left:18px;font-size:14px;color:var(--ink-soft);font-weight:300}
+.squad li{margin-bottom:4px}
+.squad b{color:var(--ink);font-weight:700}
 
-.checklist{list-style:none;counter-reset:ck;padding:0;margin:18px 0 0;border-top:2px solid var(--ink)}
-.checklist li{counter-increment:ck;position:relative;padding:9px 0 9px 34px;border-bottom:1px solid var(--rule);font-size:14px;color:var(--ink-soft);font-weight:300}
-.checklist li::before{content:counter(ck);position:absolute;left:0;top:8px;font-family:"Noto Serif KR",serif;font-weight:900;font-size:15px;color:var(--c-bandit)}
-.checklist b{color:var(--ink);font-weight:700}
+/* ---------- reward strip ---------- */
+.reward{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.rbox{border:1px solid var(--rule);border-radius:4px;padding:15px 17px;background:rgba(255,255,255,.3)}
+.rbox h3{margin:0 0 6px;font-family:"Noto Serif KR",serif;font-size:17px;font-weight:900}
+.rbox p{margin:0;font-size:14px;color:var(--ink-soft);font-weight:300}
+.rbox b{color:var(--ink);font-weight:700}
 
 footer{border-top:1px solid var(--rule);padding:22px 0 50px;font-size:13px;color:var(--ink-faint);font-weight:300}
-footer p{margin:0 0 6px;max-width:74ch}
+footer p{margin:0 0 6px}
+footer a{color:var(--ink-soft)}
 
 @media (max-width:720px){
-  .wrap{padding:0 20px}
+  .wrap{padding:0 16px}
   .hero{padding-top:28px}
-  .clock div{flex:1 1 100%;border-right:0;border-bottom:1px solid var(--rule);padding:11px 0}
-  .clock div:last-child{border-bottom:0}
-  .items{grid-template-columns:1fr}
-  .cards{grid-template-columns:1fr}
-  .fork{grid-template-columns:1fr}
-  .row{grid-template-columns:1fr;gap:6px}
-  .trig .t{grid-template-columns:1fr;gap:4px}
-  table{font-size:12.5px}
+  .clock div{flex:1 1 50%;padding:10px 12px 9px 0}
+  .clock div:nth-child(2n){border-right:0}
+  .go{grid-template-columns:1fr}
+  .tiles{grid-template-columns:1fr 1fr}
+  .squads,.reward{grid-template-columns:1fr}
+  .mapline{grid-template-columns:1fr}
+  .mapline img{max-width:320px}
   .grow,.gaxis{grid-template-columns:64px 1fr}
+}
+@media (max-width:420px){
+  .tiles{grid-template-columns:1fr}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 
@@ -265,34 +184,6 @@ footer p{margin:0 0 6px;max-width:74ch}
   .visit-badge .vb-k{font-size:10px}
   .visit-badge .vb-v{font-size:13px}
 }
-
-/* ---------- side section nav ---------- */
-.sidenav{
-  position:fixed;left:12px;top:50%;transform:translateY(-50%);z-index:90;
-  display:flex;flex-direction:column;gap:5px;
-  opacity:.25;transition:opacity .25s;
-}
-.sidenav:hover{opacity:.96}
-.sidenav a{
-  display:block;width:24px;height:24px;line-height:24px;border-radius:50%;
-  text-align:center;text-decoration:none;
-  font-family:"Noto Serif KR",serif;font-weight:700;font-size:10.5px;
-  color:var(--ink-soft);background:rgba(255,255,255,.5);
-  transition:background .15s,color .15s;
-}
-.sidenav a:hover{background:var(--ink);color:var(--paper)}
-@media (max-width:900px){ .sidenav{display:none} }
-
-/* ---------- top nav ---------- */
-.topnav{display:flex;gap:10px;flex-wrap:wrap;padding-top:20px;margin-bottom:-4px}
-.topnav a{
-  display:inline-flex;align-items:center;gap:6px;
-  font-family:"Noto Sans KR",sans-serif;font-weight:700;font-size:12.5px;
-  color:var(--ink-soft);border:1px solid var(--rule);border-radius:20px;
-  padding:6px 14px;text-decoration:none;background:rgba(255,255,255,.35);
-  transition:border-color .15s,color .15s;
-}
-.topnav a:hover{border-color:var(--ink-soft);color:var(--ink)}
 </style>
 </head>
 <body>
@@ -302,346 +193,82 @@ footer p{margin:0 0 6px;max-width:74ch}
   <div class="vb-row"><span class="vb-k">오늘 방문</span><span class="vb-v" id="vToday">—</span></div>
 </div>
 
-<nav class="sidenav" aria-label="섹션 바로가기">
-  <a href="#join" title="참가 자격·신청">01</a>
-  <a href="#org" title="참가 조직 구조">02</a>
-  <a href="#prep" title="이벤트 준비·편성">03</a>
-  <a href="#tactics" title="이벤트 책략">04</a>
-  <a href="#buildings" title="전장 건물 6종">05</a>
-  <a href="#timeline" title="45분 작전 시계표">06</a>
-  <a href="#score" title="동맹 포인트·추격 메커니즘">07</a>
-  <a href="#personal" title="개인 포인트">08</a>
-  <a href="#reward" title="보상">09</a>
-  <a href="#strategy" title="전략">10</a>
-  <a href="#todo" title="남은 확인 사항">11</a>
-</nav>
-
 <div class="wrap">
-
-<nav class="topnav">
-  <a href="simulate.html" target="_blank" rel="noopener">▶ 45분 시뮬레이션</a>
-  <a href="reward.html" target="_blank" rel="noopener">🎁 보상 총정리</a>
-</nav>
 
 <header class="hero">
   <img class="heroart" src="images/hero-title.jpg" alt="용쟁호투 — 비룡성과 맹호성이 격돌하는 크로스서버 동맹 PVP 이벤트">
-  <span class="stamp">크로스서버 동맹 PVP · 게임 내 공식 규칙 반영판</span>
-  <span class="stamp live">개정 2026-10-22 · 재개 시즌 게임 내 규칙 화면 반영</span>
+  <span class="stamp">크로스서버 동맹 PVP · 재개 시즌</span>
   <h1>용쟁호투 작전 브리핑</h1>
-  <p class="sub">게임 내 "이벤트 규칙" 전체 화면(신청 조건부터 45분 타임라인, 산출 수치, 보상까지)을 캡처해 재구성한 자료에, 재개 시즌의 게임 내 규칙 화면(2026-10-22 캡처)으로 다시 맞췄습니다. 화면에도 수치가 없는 항목만 "미확인"으로 남겨두었습니다.</p>
+  <p class="sub">45분 동안 성을 오래 점령한 동맹이 이깁니다. 들어가기 전에 이 페이지만 보면 됩니다.</p>
 
   <dl class="clock">
-    <div><dt>신청 시작</dt><dd>매주 수 01:00</dd></div>
-    <div><dt>매칭 상대 공개</dt><dd>매주 토 09:00</dd></div>
-    <div class="big"><dt>본전투 시작</dt><dd>매주 일 21:30</dd></div>
-    <div><dt>교전 시간</dt><dd>45분 (22:15 종료)</dd></div>
+    <div><dt>신청</dt><dd>수 01:00~</dd></div>
+    <div><dt>매칭 공개</dt><dd>토 09:00</dd></div>
+    <div class="big"><dt>본전투</dt><dd>일 21:30</dd></div>
+    <div><dt>종료</dt><dd>22:15 (45분)</dd></div>
   </dl>
 </header>
 
-<aside class="patch" aria-labelledby="patch-h">
-  <h3 id="patch-h">재개 시즌, 무엇이 바뀌었나</h3>
-  <ul>
-    <li><b>시작 21:30</b>으로 30분 늦춰짐. 행군 속도는 원 서버 지도와 동일.</li>
-    <li><b>주력군·분대가 서로 다른 전장</b>에서 각자 매칭 상대와 싸웁니다. 분대는 더 이상 주력군 전장의 파밍 인력이 아닙니다.</li>
-    <li><b>조운부두·장작영 속성 버프 폐지</b>(패치 공지) — 이제 1회성 포인트만 줍니다. 버프 운영이 목적이던 도하조는 의미가 사라졌습니다.</li>
-    <li><b>건물당 주둔 상한 30부대</b>. 한 건물 몰빵이 불가능해져 분산 배치가 기본이 됩니다.</li>
-    <li><b>책략 시스템 개편</b> — 개인 책략 3종, 동맹 책략 5종(대장 사용), <b>책략마다 1회</b>. 대장은 <b>5명</b>.</li>
-    <li><b>정중앙 성이 3급 "만상성"으로 분리</b>(초당 23점, 성 중 최대). 맹호성은 1급 15점·4개, 비룡성은 2급 20점·2개입니다. <b>맹호성 포인트 가산 버프</b> 신설, <b>도적거점 포인트는 라운드마다 증가</b>.</li>
-    <li><b>개인 랭킹·이벤트 임무 폐지</b> → 개인 포인트 <b>구간 보상</b>(승리/패배 측 별도)으로 교체.</li>
-    <li><b>점령 판정은 고정 기준 시간</b> — 맹호성 6분, 비룡성·만상성 7분을 먼저 채운 쪽이 확정. 양쪽 다 못 채우면 누적이 더 긴 쪽이 가져갑니다.</li>
-    <li>그 외: 참가 관리 즉시 개방·자동 배정, 성 이전 시 길 연결 불필요, 공격 범위 제한 취소, 채팅·좌표 이동·미니맵 등 UI 개선.</li>
-  </ul>
-</aside>
+<nav class="go" aria-label="바로가기">
+  <a class="main" href="simulate.html"><b>▶ 45분 시뮬레이션</b><span>언제 어디로 가는지 재생해서 보기</span></a>
+  <a href="reward.html"><b>🎁 보상 총정리</b><span>승패 보상 · 개인 포인트 구간 보상</span></a>
+  <a href="guide.html"><b>📜 상세 작전서</b><span>지휘부·대장용 — 규칙 전문과 근거</span></a>
+</nav>
 
-<div class="filter">
-  <b>표시</b>
-  <button class="fbtn" id="f-all" aria-pressed="true">전체</button>
-  <button class="fbtn" id="f-ok" aria-pressed="false">확인된 규칙만</button>
-</div>
-
-<!-- ===== 참가 조건 ===== -->
-<section id="join">
-  <h2><span class="n">01</span>참가 자격 · 신청</h2>
-  <p class="lede">신청은 동맹 단위입니다. 조건을 넘기지 못하면 애초에 대회 명단에 오르지 못합니다.</p>
-
-  <div class="items">
-    <div class="item" data-c="ok">
-      <h4>신청 조건 3가지 <span class="tag ok">확인</span></h4>
-      <p>동맹 생성일 15일 초과, 서버 랭킹 상위 20위 이내, 최소 동맹원 40명. 세 조건을 모두 충족해야 동맹 관리자(맹주·부맹주)가 수요일 01:00부터 신청할 수 있습니다. 신청이 완료되면 조건과 무관하게 <strong>모든 동맹원이 참가 가능</strong>합니다.</p>
-    </div>
-    <div class="item" data-c="ok">
-      <h4>참가 관리·이벤트 준비는 신청 즉시 열립니다 <span class="tag ok">확인</span></h4>
-      <p>예전에는 토요일 09:00 매칭 공개 후에야 열렸지만, 이제는 <strong>동맹 신청이 완료되는 즉시</strong> 참가 관리(인원 배정)와 이벤트 준비(편성 복제, 지원 무장·전법·매 선택) 화면에 들어갈 수 있습니다. 매칭 상대는 여전히 토요일 09:00에 공개됩니다.</p>
-    </div>
-    <div class="item" data-c="ok">
-      <h4>전시 기간은 종료 후 1일 <span class="tag ok">확인</span></h4>
-      <p>일요일 22:15 종료 직후 승패 보상과 개인 포인트 구간 보상이 우편 발송됩니다(부전승 보상도 종료 후 발송). 이벤트 데이터(전투 기록·상대 전략)는 종료 후 1일간 전시되며 <strong>화요일 01:00</strong> 이후에는 볼 수 없습니다.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ===== 조직 구조 ===== -->
-<section id="org">
-  <h2><span class="n">02</span>참가 조직 구조</h2>
-  <p class="lede">맹주·부맹주가 인원을 어떻게 나누느냐가 승패를 직접 결정합니다. 이번 시즌부터 주력군과 분대는 <strong>서로 다른 전장</strong>에서 싸우고, <strong>분대가 이겨도 주력군이 지면 동맹은 패배</strong>입니다. 단, 분대원의 개인 구간 보상은 분대 전장 결과를 따릅니다.</p>
-
-  <div class="key">
-    <p>주력군과 분대는 별도의 매칭 풀에서 각자 다른 상대를 만납니다.</p>
-    <p>분대 매칭 로직은 주력군과 동일하고, 두 전장의 주공은 같은 지도에 나타나지 않습니다. 따라서 <strong>주력군 전장의 모든 임무는 주력군 인원만으로</strong> 수행해야 합니다. 게임 규칙 화면에 <strong>"주력군의 승패가 동맹의 최종 승패를 직접 결정"</strong>한다고 명시되어 있습니다. 주력군에 들어가지 못한 인원이 분대로 참가합니다.</p>
-  </div>
-
-  <div class="items">
-    <div class="item" data-c="ok">
-      <h4>대장은 5명 <span class="tag ok">확인</span></h4>
-      <p>주력군·분대 모두 기본적으로 <strong>팀 내 번영도 상위 5명</strong>이 대장을 맡습니다. 대장만 지휘 기능과 <a href="#tactics">동맹 책략</a>을 사용할 수 있으므로, 번영도보다 실제 전투 감각이 있는 인원으로 바꿔 두는 것이 유효합니다.</p>
-    </div>
-    <div class="item" data-c="ok">
-      <h4>신청 종료 5분 전 자동 배정 · 잠금 <span class="tag ok">확인</span></h4>
-      <p>미배정 인원은 번영도 순으로 주력군에 먼저 채워지고, 넘치면 분대로 갑니다. 미배정 인원이 없는데 주력군이 미달이면 분대 인원이 번영도 순으로 주력군에 끌어올려집니다. <strong>이 시점에 인원이 최종 잠금</strong>되어 이후 재배정이 불가능합니다.</p>
-    </div>
-    <div class="item" data-c="ok">
-      <h4>분대 배정은 동맹 인원 35명 이상일 때만 <span class="tag ok">확인</span></h4>
-      <p>맹주·부맹주는 구성원을 주력군 또는 분대 전장에 배정할 수 있지만, <strong>동맹 인원이 35명 이상</strong>이어야 분대 전장으로 인원을 보낼 수 있습니다. 배정한 인원은 맹주·부맹주가 다시 "미배정"으로 되돌릴 수 있고, 미배정 인원이 남아 있으면 관리자 화면에 레드닷이 뜹니다.</p>
-    </div>
-    <div class="item" data-c="none">
-      <h4>주력군·분대 정원과 신청 종료 시각 <span class="tag none">미확인</span></h4>
-      <p>각 팀의 정원 상한과 신청 종료 시각(=자동 배정·잠금 시각의 기준)이 공지에 없습니다. 참가 관리 화면에서 확인해야 합니다.</p>
-    </div>
-  </div>
-
-  <ol class="checklist">
-    <li><b>신청 직후</b> 참가 관리에서 주력군 인원부터 수동 배정 — 자동 배정은 번영도순이라 실전 감각과 다를 수 있습니다.</li>
-    <li><b>대장 5명</b> 인선 — 동맹 책략을 쓸 사람들입니다.</li>
-    <li><b>신청 종료 5분 전까지</b> 배정 확정 — 이후 잠금.</li>
-    <li>본전투 입장 시 <b>전장 전환 버튼</b>으로 본인 소속 전장(주력군/분대)에 들어왔는지 확인.</li>
+<section id="must">
+  <h2>꼭 알아야 할 5가지</h2>
+  <ol class="must">
+    <li><b>동맹 포인트가 많은 쪽이 승리</b>합니다. 동맹 승패는 <b>주력군 결과</b>로만 정해집니다(분대원의 개인 보상은 분대 결과).</li>
+    <li>성은 <b>누적 점령 시간</b>으로 가져갑니다 — <b>맹호성 6분, 비룡성·만상성 7분</b>을 먼저 채우면 확정. 둘 다 못 채우면 더 오래 버틴 쪽.</li>
+    <li>한 건물에 <b>최대 30부대</b>까지만 들어갑니다. 조를 나눠 여러 곳에 동시에 들어갑니다.</li>
+    <li>휴전에 들어갈 때마다 건물 소속이 초기화됩니다. 성은 <b>두 번</b> 다시 싸웁니다.</li>
+    <li>개인 보상은 <b>개인 포인트 350만~600만+ 6개 구간</b>. 건물에 주둔한 시간이 곧 개인 포인트라 성·부두에 들어가기만 하면 금방 넘깁니다.</li>
   </ol>
 </section>
 
-<!-- ===== 이벤트 준비 ===== -->
-<section id="prep">
-  <h2><span class="n">03</span>이벤트 준비 · 편성</h2>
-  <p class="lede">평소의 스펙 격차 대부분이 전장에 들어오는 순간 사라집니다. 무엇이 지워지고 무엇이 남는지가 전략의 출발점입니다.</p>
-
-  <div class="tblwrap">
-  <table>
-    <caption>전장 진입 시 적용되는 조건</caption>
-    <thead>
-      <tr><th>항목</th><th>처리</th><th class="num">신뢰도</th></tr>
-    </thead>
-    <tbody>
-      <tr data-c="ok"><td>무장 레벨 · 고유 전법 · 전법 레벨</td><td>이벤트 내 동일 레벨로 통일</td><td class="num"><span class="tag ok">확인</span></td></tr>
-      <tr data-c="ok"><td>이벤트 속성 보정</td><td>모든 참가 주공에게 50% 적용</td><td class="num"><span class="tag ok">확인</span></td></tr>
-      <tr data-c="ok"><td>원래 지도의 버프 · 디버프</td><td>적용되지 않음</td><td class="num"><span class="tag ok">확인</span></td></tr>
-      <tr data-c="ok"><td>전투 판정</td><td>"부대 방어·3" 이후의 수학 전투 속성만 반영</td><td class="num"><span class="tag ok">확인</span></td></tr>
-      <tr data-c="ok" class="hl"><td><strong>장비</strong></td><td><strong>원 서버의 것을 그대로 사용</strong></td><td class="num"><span class="tag ok">확인</span></td></tr>
-      <tr data-c="ok" class="hl"><td><strong>전투매</strong></td><td><strong>원 서버의 것을 그대로 사용</strong></td><td class="num"><span class="tag ok">확인</span></td></tr>
-      <tr data-c="ok"><td>지원 장비 · 지원 전투매</td><td>이벤트 내에서만 쓸 수 있는 별도 지원품 제공</td><td class="num"><span class="tag ok">확인</span></td></tr>
-      <tr data-c="ok"><td>편성 정보</td><td>원클릭 복제. 이벤트 편성에서 수정해도 원본은 영향 없음</td><td class="num"><span class="tag ok">확인</span></td></tr>
-      <tr data-c="ok"><td>무장 상세정보 · 레벨업 · 초기화</td><td>이벤트 편성 내에서는 불가능</td><td class="num"><span class="tag ok">확인</span></td></tr>
-      <tr data-c="ok" class="hl"><td><strong>행군 속도</strong></td><td><strong>원 서버 지도와 동일</strong> (재개 시즌 변경)</td><td class="num"><span class="tag ok">확인</span></td></tr>
-      <tr data-c="ok"><td>공격 범위 제한</td><td>취소됨 (재개 시즌 변경)</td><td class="num"><span class="tag ok">확인</span></td></tr>
-      <tr data-c="ok"><td>성 이전</td><td>모든 부대가 관청에 있지 않아도 가능. 이전 완료 시 관청 밖 부대는 자동 복귀</td><td class="num"><span class="tag ok">확인</span></td></tr>
-      <tr data-c="ok" class="hl"><td><strong>성 이전 위치</strong></td><td><strong>길 연결 없이</strong> 이벤트 건물 인근 타일 또는 기타 비보호 구역 타일로 이전 가능</td><td class="num"><span class="tag ok">확인</span></td></tr>
-    </tbody>
-  </table>
-  </div>
-  <p class="tnote">장비와 전투매는 통일 대상이 아닙니다. 완전 평준화를 원했다면 이것도 통일했을 텐데 남겨뒀다는 건, 축적분의 가치를 일부 유지하려는 의도로 보입니다.</p>
-
-  <div class="items" style="margin-top:20px">
-    <div class="item" data-c="ok">
-      <h4>도감이 빈약할수록 빌릴 수 있는 폭이 넓습니다 <span class="tag ok">확인</span></h4>
-      <p>지원 무장 1명, 지원 전법 2개, 지원 매 4마리를 선택할 수 있습니다. 선택 범위는 <strong>주공님 도감에 보유하지 않은</strong> 무장·전법으로 제한됩니다. 도감에 빈자리가 없으면 무장 1명의 능력치 강화로 대체됩니다. 이벤트 선택 내용은 이번 시즌 한정입니다.</p>
-    </div>
-    <div class="item" data-c="none">
-      <h4>강화 효과의 크기는 여전히 비공개 <span class="tag none">미확인</span></h4>
-      <p>공지는 "구체적인 강화 효과는 이벤트 선택 화면에 따름"이라고만 합니다. 전법 2개를 빌리는 쪽과 무장 1명을 강화하는 쪽 중 무엇이 유리한지는 준비 화면을 직접 열어봐야 판단할 수 있습니다.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ===== 책략 ===== -->
-<section id="tactics">
-  <h2><span class="n">04</span>이벤트 책략</h2>
-  <p class="lede">재개 시즌에 전면 개편되었습니다. <strong>개인 책략</strong>은 각자 자기 부대에, <strong>동맹 책략</strong>은 대장(5명)이 전체 동맹원에게 씁니다. 개인·동맹 모두 <strong>책략마다 1회만</strong> 쓸 수 있고, 한 번에 1종씩, 책략 사이에는 5분 간격이 있습니다. 아군·적군의 책략 사용 현황(발동 중 잔여 시간 / 종료 / 미사용)이 전장에 표시되므로, 상대가 언제 무엇을 썼는지 보고 대응할 수 있습니다.</p>
-
-  <div class="tblwrap">
-  <table>
-    <caption>개인 책략 — 3종 각 1회 · 한 번에 1종 · 사용 간격 5분</caption>
-    <thead><tr><th>책략</th><th>효과</th><th>쓰는 때</th></tr></thead>
-    <tbody>
-      <tr data-c="ok"><td class="name" style="--bar:var(--ink-soft)">구사부상</td><td>이벤트 의원의 부상병 치료 즉시 100% 완료</td><td>총력전 직후 병력 즉시 복구</td></tr>
-      <tr data-c="ok"><td class="name" style="--bar:var(--ink-soft)">귀부신공</td><td>성 방어도 즉시 100% 회복</td><td>관청이 집중 공격받을 때</td></tr>
-      <tr data-c="ok"><td class="name" style="--bar:var(--ink-soft)">계일정공</td><td>현재 성 이전 시간 즉시 100% 단축</td><td>목표 건물 근처로 즉시 전진 배치</td></tr>
-    </tbody>
-  </table>
-  </div>
-
-  <div class="tblwrap" style="margin-top:22px">
-  <table>
-    <caption>동맹 책략 — 대장 사용 · 5종 각 1회 · 한 번에 1종 · 사용 간격 5분</caption>
-    <thead><tr><th>책략</th><th>효과</th><th class="num">지속</th><th>쓰는 때</th></tr></thead>
-    <tbody>
-      <tr data-c="ok" class="hl"><td class="name" style="--bar:var(--fight)">횡소천군</td><td>참가 부대 공격 속성 +5%</td><td class="num">300초</td><td>비룡성·만상성 1차 쟁탈 진입(7분) 총력전</td></tr>
-      <tr data-c="ok" class="hl"><td class="name" style="--bar:var(--fight)">견고불최</td><td>참가 부대 방어 속성 +5%</td><td class="num">300초</td><td>횡소천군 5분 뒤 — 7분 기준을 채우는 막바지 버티기</td></tr>
-      <tr data-c="ok"><td class="name" style="--bar:var(--c-dock)">급속 행군</td><td>행군 속도 +50%</td><td class="num">300초</td><td>개전 직후 전진, 도적거점·부두로의 이동</td></tr>
-      <tr data-c="ok"><td class="name" style="--bar:var(--score)">묘수회춘</td><td>이벤트 의원 치료 속도 +100%</td><td class="num">180초</td><td>1·2차 쟁탈 사이 재정비 구간</td></tr>
-      <tr data-c="ok"><td class="name" style="--bar:var(--score)">교탈천공</td><td>성 방어도 회복 속도 +100%</td><td class="num">300초</td><td>상대가 관청을 노릴 때</td></tr>
-    </tbody>
-  </table>
-  </div>
-
-  <div class="items" style="margin-top:20px">
-    <div class="item" data-c="ok">
-      <h4>책략은 전부 1회용 — 공격·방어는 나눠 켜야 합니다 <span class="tag ok">확인</span></h4>
-      <p>동맹 책략은 <strong>한 번에 1종, 책략 사이 5분 간격</strong>이라 횡소천군과 견고불최를 동시에 켤 수 없습니다. 둘 다 300초짜리이므로 <strong>횡소천군 → 5분 뒤 견고불최</strong>로 이어 켜면 10분 동안 공격·방어 보정이 끊기지 않습니다. 비룡성·만상성의 7분 기준 구간을 거의 그대로 덮는 길이입니다. 각 1회뿐이므로 1차·2차 쟁탈 중 어디에 쓸지는 미리 정해 두어야 합니다 — 1차에서 격차를 만드는 쪽을 권합니다(<a href="#strategy">10 전략</a>).</p>
-    </div>
-    <div class="item" data-c="ok">
-      <h4>상대 책략 현황이 보입니다 <span class="tag ok">확인</span></h4>
-      <p>아군·적군 책략의 발동 중 잔여 시간 / 종료 / 미사용이 전장에 표시됩니다. 상대도 각 1회뿐이므로, 상대가 공격 책략을 이미 썼는지 확인하고 남은 쪽이 언제 나올지 계산할 수 있습니다.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ===== 전장 건물 ===== -->
 <section id="buildings">
-  <h2><span class="n">05</span>전장 건물 6종</h2>
-  <p class="lede">이벤트 성지는 <strong>정비 → 쟁탈 → 산출</strong> 3단계(맹호성·비룡성·만상성) 또는 <strong>정비 → 쟁탈</strong> 2단계(그 외 3종)를 반복합니다. 쟁탈 기간에만 뺏고 뺏길 수 있고, 나머지 기간은 결과가 확정된 채로 흘러갑니다. 매 휴전(정비) 진입 시 소속이 초기화되어 다음 쟁탈 기간에 처음부터 다시 다툽니다.</p>
-  <div class="key">
-    <p>모든 건물은 주둔 상한 30부대입니다.</p>
-    <p>재개 시즌에 확정된 규칙입니다. 주력군 전체를 한 건물에 몰아넣는 운영은 불가능하고, 30부대를 넘는 병력은 다른 건물로 나눠야 합니다. 같은 이름의 건물에는 이제 접미사가 붙어 전황 화면에서 구분됩니다(예: 맹호성 A/B — 실제 표기는 게임 확인 필요). 맹호성·비룡성·도적거점은 쟁탈·휴전 진입 <strong>20초 전</strong> 미니맵에 알림 이펙트가 뜨고, 아군이 점령한 건물은 미니맵에서 파란색, 아니면 빨간색으로 표시됩니다.</p>
+  <h2>건물 6종 한눈에</h2>
+  <p class="lede">쟁탈 시각은 본전투 시작(21:30) 기준 경과 분 · 동맹 포인트는 1회 획득량 · 개인 포인트는 점령 중 초당</p>
+  <div class="tiles">
+    <div class="tile" style="--bar:var(--c-mh)">
+      <h3><img src="images/icon-maengho.png" alt="">맹호성 <span class="tier">1급</span></h3>
+      <p class="role">4곳 · 개전하자마자 열리는 성</p>
+      <dl><dt>쟁탈</dt><dd>1~12분 · 24~35분</dd><dt>확정</dt><dd>누적 6분</dd><dt>동맹</dt><dd>2,700</dd><dt>개인</dt><dd>3,000/s</dd></dl>
+    </div>
+    <div class="tile" style="--bar:var(--c-br)">
+      <h3><img src="images/icon-biryong.png" alt="">비룡성 <span class="tier">2급</span></h3>
+      <p class="role">2곳 · 중앙 세로축 위·아래</p>
+      <dl><dt>쟁탈</dt><dd>7~21분 · 29~43분</dd><dt>확정</dt><dd>누적 7분</dd><dt>동맹</dt><dd>3,600</dd><dt>개인</dt><dd>5,000/s</dd></dl>
+    </div>
+    <div class="tile" style="--bar:var(--c-ms)">
+      <h3><img src="images/icon-mansang.png" alt="">만상성 <span class="tier">3급</span></h3>
+      <p class="role">1곳 · 정중앙 · 성 중 최대</p>
+      <dl><dt>쟁탈</dt><dd>7~21분 · 29~43분</dd><dt>확정</dt><dd>누적 7분</dd><dt>동맹</dt><dd>4,140</dd><dt>개인</dt><dd>6,000/s</dd></dl>
+    </div>
+    <div class="tile" style="--bar:var(--c-bandit)">
+      <h3><img src="images/icon-bandit.png" alt="">도적거점</h3>
+      <p class="role">4곳 중 2곳 개방 · 피해량 승자독식</p>
+      <dl><dt>쟁탈</dt><dd>14~23분 · 36~45분</dd><dt>판정</dt><dd>피해량 최다</dd><dt>동맹</dt><dd>4,000 (점점 증가)</dd><dt>개인</dt><dd>처치당 0.001</dd></dl>
+    </div>
+    <div class="tile" style="--bar:var(--c-dock)">
+      <h3><img src="images/icon-dock.png" alt="">조운부두</h3>
+      <p class="role">8곳 · 강 위 · 장작영 가는 길</p>
+      <dl><dt>쟁탈</dt><dd>12~19분 · 34~41분</dd><dt>판정</dt><dd>누적 기준 시간</dd><dt>동맹</dt><dd>400</dd><dt>개인</dt><dd><strong>10,000/s</strong></dd></dl>
+    </div>
+    <div class="tile" style="--bar:var(--c-camp)">
+      <h3><img src="images/icon-camp.png" alt="">장작영</h3>
+      <p class="role">16곳 · 맵 가장자리 · 부두 거쳐 진입</p>
+      <dl><dt>쟁탈</dt><dd>14~19분 · 36~41분</dd><dt>판정</dt><dd>누적 기준 시간</dd><dt>동맹</dt><dd>180</dd><dt>개인</dt><dd><strong>10,000/s</strong></dd></dl>
+    </div>
   </div>
-
-  <div class="cards">
-    <div class="card" data-c="ok" style="--bar:var(--c-mh)">
-      <img src="images/bld-maenghosung.jpg" alt="맹호성">
-      <div class="cbody">
-        <h4><img class="bicon" src="images/icon-maengho.png" alt="">맹호성 <span class="tier">1급</span></h4>
-        <p class="role">동맹 점수 · 4곳 · 가장 먼저 열림</p>
-        <div class="nums">
-          <div><dt style="font-size:10.5px;color:var(--ink-faint)">초당 산출</dt><dd style="font-family:'Noto Serif KR',serif;font-weight:700;font-size:15px">15점</dd></div>
-          <div><dt style="font-size:10.5px;color:var(--ink-faint)">1회 획득 총량</dt><dd style="font-family:'Noto Serif KR',serif;font-weight:700;font-size:15px">2,700점</dd></div>
-          <div><dt style="font-size:10.5px;color:var(--ink-faint)">확정 기준</dt><dd style="font-family:'Noto Serif KR',serif;font-weight:700;font-size:15px">누적 6분</dd></div>
-        </div>
-        <ul>
-          <li>휴전→쟁탈→생산 3단계 순환. 개전과 동시에 쟁탈(1~12분)이 열리는 유일한 성입니다.</li>
-          <li>누적 점령 6분을 먼저 채우면 최종 귀속권 확정. 지도 네 모서리에 4개. 개인 포인트 초당 3,000.</li>
-          <li><strong>신규: 포인트 가산 버프</strong> — 쟁탈 기간 중 <em>일부</em> 맹호성에 가산 버프가 붙고, 그 맹호성의 유효 동맹과 점령 동맹이 같을 때 산출 기간 초당 포인트가 늘어납니다. 전황 목록의 증가 아이콘으로 식별. 배율 <span class="tag none">미확인</span></li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="card" data-c="ok" style="--bar:var(--c-br)">
-      <img src="images/bld-biryongsung.jpg" alt="비룡성">
-      <div class="cbody">
-        <h4><img class="bicon" src="images/icon-biryong.png" alt="">비룡성 <span class="tier">2급</span></h4>
-        <p class="role">동맹 점수 · 2곳</p>
-        <div class="nums">
-          <div><dt style="font-size:10.5px;color:var(--ink-faint)">초당 산출</dt><dd style="font-family:'Noto Serif KR',serif;font-weight:700;font-size:15px">20점</dd></div>
-          <div><dt style="font-size:10.5px;color:var(--ink-faint)">1회 획득 총량</dt><dd style="font-family:'Noto Serif KR',serif;font-weight:700;font-size:15px">3,600점</dd></div>
-          <div><dt style="font-size:10.5px;color:var(--ink-faint)">확정 기준</dt><dd style="font-family:'Noto Serif KR',serif;font-weight:700;font-size:15px">누적 7분</dd></div>
-        </div>
-        <ul>
-          <li>맹호성과 같은 3단계 순환이지만 처음 6분은 휴전이고 <strong>7~21분</strong>에 쟁탈이 열립니다(15분, 5종 중 최장).</li>
-          <li>지도 중앙 세로축의 위·아래 2곳. 만상성과 구간이 완전히 같습니다.</li>
-          <li>개인 포인트 <strong>초당 5,000</strong> (맹호성 3,000 · 만상성 6,000).</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="card" data-c="ok" style="--bar:var(--c-ms)">
-      <img src="images/bld-mansangsung.jpg" alt="만상성">
-      <div class="cbody">
-        <h4><img class="bicon" src="images/icon-mansang.png" alt="">만상성 <span class="tier">3급</span></h4>
-        <p class="role">신규 · 정중앙 1곳 · 성 중 최대 산출</p>
-        <div class="nums">
-          <div><dt style="font-size:10.5px;color:var(--ink-faint)">초당 산출</dt><dd style="font-family:'Noto Serif KR',serif;font-weight:700;font-size:15px">23점</dd></div>
-          <div><dt style="font-size:10.5px;color:var(--ink-faint)">1회 획득 총량</dt><dd style="font-family:'Noto Serif KR',serif;font-weight:700;font-size:15px">4,140점</dd></div>
-          <div><dt style="font-size:10.5px;color:var(--ink-faint)">확정 기준</dt><dd style="font-family:'Noto Serif KR',serif;font-weight:700;font-size:15px">누적 7분</dd></div>
-        </div>
-        <ul>
-          <li>재개 시즌에 지도 정중앙 성이 3급 "만상성"으로 분리되었습니다. 단계 시간·확정 기준(7분)은 비룡성과 동일합니다.</li>
-          <li><strong>한 곳에서 4,140점</strong> — 맹호성 1곳(2,700)의 1.5배로, 성 하나로는 가장 큽니다.</li>
-          <li>개인 포인트 <strong>초당 6,000</strong> — 성 3종 중 가장 높습니다.</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="card" data-c="ok" style="--bar:var(--c-bandit)">
-      <img src="images/bld-bandit.jpg" alt="도적 거점">
-      <div class="cbody">
-        <h4><img class="bicon" src="images/icon-bandit.png" alt="">도적 거점</h4>
-        <p class="role">대량 포인트 1회 · 승자독식</p>
-        <div class="nums">
-          <div><dt style="font-size:10.5px;color:var(--ink-faint)">1회 지급</dt><dd style="font-family:'Noto Serif KR',serif;font-weight:700;font-size:15px">4,000점↑</dd></div>
-          <div><dt style="font-size:10.5px;color:var(--ink-faint)">개인점수</dt><dd style="font-family:'Noto Serif KR',serif;font-weight:700;font-size:15px">처치당 0.001</dd></div>
-        </div>
-        <ul>
-          <li>정비·쟁탈 2단계뿐. 매 쟁탈 기간마다 4개 중 2개가 무작위로 활성화.</li>
-          <li>전원에게 공격 횟수가 부여되고(파견 1회=1회 소모), 정비 진입 시 피해량 최다측이 포인트를 독식합니다.</li>
-          <li><strong>신규: 쟁탈 기간에 들어갈 때마다 획득 포인트가 점점 증가</strong>합니다. 건물 분포 화면에는 4,000점으로 표기되어 있고, 라운드별 증가 폭은 <span class="tag none">미확인</span></li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="card" data-c="ok" style="--bar:var(--c-dock)">
-      <img src="images/bld-dock.jpg" alt="조운 부두">
-      <div class="cbody">
-        <h4><img class="bicon" src="images/icon-dock.png" alt="">조운 부두</h4>
-        <p class="role">1회성 소량 포인트 · 도하 게이트</p>
-        <div class="nums">
-          <div><dt style="font-size:10.5px;color:var(--ink-faint)">기준 초과 시</dt><dd style="font-family:'Noto Serif KR',serif;font-weight:700;font-size:15px">400점</dd></div>
-          <div><dt style="font-size:10.5px;color:var(--ink-faint)">개인점수</dt><dd style="font-family:'Noto Serif KR',serif;font-weight:700;font-size:15px">10,000/s</dd></div>
-        </div>
-        <ul>
-          <li>누적 점령 시간이 기준을 넘기면 소량 포인트와 함께 <strong>섬 진입(장작영 접근) 자격</strong>을 얻습니다.</li>
-          <li>기간 내 어느 쪽도 점령 못 하면 중립 유지, 양측 모두 포인트 없음.</li>
-          <li><strong>재개 시즌: 속성 증가 효과 폐지, 1회성 포인트만 제공.</strong> 포인트 값은 이전과 같은 400점(건물 분포 화면 확인). 필요한 누적 시간("지정된 기준 시간")은 <span class="tag none">미확인</span></li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="card" data-c="ok" style="--bar:var(--c-camp)">
-      <img src="images/bld-camp.jpg" alt="장작영">
-      <div class="cbody">
-        <h4><img class="bicon" src="images/icon-camp.png" alt="">장작영</h4>
-        <p class="role">1회성 소량 포인트 (버프 폐지)</p>
-        <div class="nums">
-          <div><dt style="font-size:10.5px;color:var(--ink-faint)">기준 초과 시</dt><dd style="font-family:'Noto Serif KR',serif;font-weight:700;font-size:15px">180점</dd></div>
-          <div><dt style="font-size:10.5px;color:var(--ink-faint)">개인점수</dt><dd style="font-family:'Noto Serif KR',serif;font-weight:700;font-size:15px">10,000/s</dd></div>
-        </div>
-        <ul>
-          <li>조운 부두를 거쳐야 접근 가능. 강 건너편에 있어 본대와 물리적으로 단절됩니다.</li>
-          <li><strong>재개 시즌: 전체 동맹원 속성 버프가 폐지</strong>되고 1회성 포인트만 준다고 패치 공지됐습니다. 다만 게임 내 건물 설명에는 아직 "임시 속성 버프 획득" 문구가 남아 있습니다 <span class="tag none">공지와 충돌</span></li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="card" data-c="ok" style="--bar:var(--ink-soft)">
-      <img class="mapimg" src="images/map-distribution.jpg" alt="건물 분포도 — 게임 내 화면 캡처">
-      <div class="cbody">
-        <h4>배치·개수 <span class="tag ok">확인</span></h4>
-        <p class="role" style="color:var(--ink-soft)">게임 내 "건물 분포" 화면 캡처</p>
-        <ul>
-          <li class="iconli"><img class="bicon-sm" src="images/icon-maengho.png" alt="">맹호성 <b>4개</b> — 중앙 사각형의 네 모서리</li>
-          <li class="iconli"><img class="bicon-sm" src="images/icon-biryong.png" alt="">비룡성 <b>2개</b> — 정중앙 세로축의 위·아래</li>
-          <li class="iconli"><img class="bicon-sm" src="images/icon-mansang.png" alt="">만상성 <b>1개</b> — 지도 정중앙</li>
-          <li class="iconli"><img class="bicon-sm" src="images/icon-bandit.png" alt="">도적 거점 <b>4개</b> — 만상성을 둘러싼 대각선(안쪽 마름모)</li>
-          <li class="iconli"><img class="bicon-sm" src="images/icon-dock.png" alt="">조운 부두 <b>8개</b> — 남북 강 위에 4개씩</li>
-          <li class="iconli"><img class="bicon-sm" src="images/icon-camp.png" alt="">장작영 <b>16개</b> — 맵 맨 위·아래 가장자리에 8개씩</li>
-        </ul>
-      </div>
-    </div>
+  <div class="mapline">
+    <img src="images/map-distribution.jpg" alt="건물 분포도 — 게임 내 화면 캡처">
+    <p><b>가운데가 승부처입니다.</b> 정중앙 만상성과 위·아래 비룡성 2곳(합계 11,340점)이 모서리 맹호성 4곳(10,800점)보다 큽니다. 조운부두·장작영은 동맹 포인트는 작지만 <b>개인 포인트가 가장 높습니다</b>.</p>
   </div>
 </section>
 
-<!-- ===== 45분 타임라인 ===== -->
-<section id="timeline">
-  <h2><span class="n">06</span>45분 작전 시계표</h2>
-  <p class="lede">재개 시즌 게임 내 "단계 시간" 화면 기준입니다. 맹호성·도적거점·조운부두·장작영은 이전과 같고, <strong>비룡성은 1분씩 늦춰졌으며</strong>(7~21분 쟁탈) 만상성이 같은 구간으로 추가되었습니다. 색은 게임 내 표기를 그대로 따릅니다 — <b style="color:var(--fight)">쟁탈(전투 가능)</b>, <b style="color:var(--score)">산출(포인트 생산, 3분 고정)</b>, <b style="color:var(--idle)">정비(대기, 재도전 불가)</b>.</p>
-  <p style="margin:-4px 0 22px">
-    <a href="simulate.html" target="_blank" rel="noopener" style="display:inline-block;font-size:13px;font-weight:700;color:var(--ink-soft);border:1px solid var(--rule);padding:7px 14px;border-radius:2px;text-decoration:none">▶ 45분 흐름 재생해보기 (시뮬레이션)</a>
-  </p>
-
+<section id="flow">
+  <h2>45분 흐름</h2>
   <div class="gantt">
     <div class="grow">
       <div class="glabel"><img class="bicon-sm" src="images/icon-maengho.png" alt="">맹호성</div>
@@ -718,241 +345,66 @@ footer p{margin:0 0 6px;max-width:74ch}
       <span><i style="background:var(--idle)"></i>정비/대기</span>
     </div>
   </div>
-
-  <div class="tblwrap" style="margin-top:22px">
-  <table>
-    <caption>쟁탈 기간 정확한 시각 (분 = 본전투 시작 21:30 기준, 게임 화면의 1부터 세는 분 표기 그대로)</caption>
-    <thead><tr><th>건물</th><th>1차 쟁탈</th><th>2차 쟁탈</th><th>비고</th></tr></thead>
-    <tbody>
-      <tr data-c="ok"><td class="name" style="--bar:var(--c-mh)"><img class="bicon-sm" src="images/icon-maengho.png" alt="">맹호성</td><td class="num">1~12분</td><td class="num">24~35분</td><td>개전 즉시 열림. 쟁탈 종료 직후 3분간 생산(방어 불필요)</td></tr>
-      <tr data-c="ok"><td class="name" style="--bar:var(--c-br)"><img class="bicon-sm" src="images/icon-biryong.png" alt="">비룡성</td><td class="num">7~21분</td><td class="num">29~43분</td><td>최초 6분은 휴전. 쟁탈창 15분으로 가장 김. 2차 생산(44~46분)은 45분 종료로 잘림</td></tr>
-      <tr data-c="ok"><td class="name" style="--bar:var(--c-ms)"><img class="bicon-sm" src="images/icon-mansang.png" alt="">만상성</td><td class="num">7~21분</td><td class="num">29~43분</td><td>비룡성과 완전히 같은 구간</td></tr>
-      <tr data-c="ok"><td class="name" style="--bar:var(--c-bandit)"><img class="bicon-sm" src="images/icon-bandit.png" alt="">도적거점</td><td class="num">14~23분</td><td class="num">36~45분</td><td>매 라운드 4곳 중 2곳만 랜덤 개방</td></tr>
-      <tr data-c="ok"><td class="name" style="--bar:var(--c-dock)"><img class="bicon-sm" src="images/icon-dock.png" alt="">조운부두</td><td class="num">12~19분</td><td class="num">34~41분</td><td>이 창에서 확보해야 장작영 진입 가능</td></tr>
-      <tr data-c="ok" class="hl"><td class="name" style="--bar:var(--c-camp)"><img class="bicon-sm" src="images/icon-camp.png" alt="">장작영</td><td class="num"><strong>14~19분</strong></td><td class="num">36~41분</td><td>쟁탈창이 6종 중 가장 짧음(6분)</td></tr>
-    </tbody>
-  </table>
-  </div>
-
-  <div class="key" style="margin-top:20px">
-    <p>누적 점령 시간이 기준(맹호성 6분 · 비룡성·만상성 7분)에 먼저 닿는 쪽이 최종 귀속권을 가져갑니다.</p>
-    <p>부대가 주둔하면 그 동맹에 임시 귀속되어 시간이 쌓이고, 뺏기면 멈췄다가 재점령 시 <strong>기존 누적에 이어서</strong> 쌓입니다. 기준에 닿는 <strong>그 순간</strong> 확정이므로 이후에는 뺏겨도 생산 포인트는 확정한 쪽이 받습니다. <strong>양쪽 모두 기준에 못 미친 채 생산 기간에 들어가면 누적 시간이 더 긴 쪽</strong>이 포인트를 가져가고, 같으면 그 시간에 먼저 도달한 쪽이 가져갑니다 — 어느 경우든 포인트가 사라지지는 않습니다. 도적거점은 시간이 아니라 피해량 기준입니다.</p>
-  </div>
-
-  <div class="key" style="margin-top:20px">
-    <p>조운부두·장작영의 기준 시간은 화면에 "지정된 기준 시간"이라고만 되어 있습니다.</p>
-    <p>장작영은 부두를 먼저 뚫어야 들어갈 수 있어 같은 사이클에 두 곳을 다 먹기가 빠듯합니다(부두 12~19분 · 장작영 14~19분). 재개 시즌에는 장작영 버프가 폐지되어 얻는 것이 <strong>1회성 소량 포인트(부두 400 · 장작영 180)</strong>뿐이므로, 주력 병력을 여기에 쓸 이유가 크게 줄었습니다. 기준 시간 <span class="tag none">미확인</span></p>
-  </div>
-
-  <div class="item" data-c="ok" style="margin-top:18px">
-    <h4>막판 스틸이 아니라 초반 지속 점유가 핵심입니다 <span class="tag ok">확인</span></h4>
-    <p>기준 시간을 먼저 채우는 쪽이 그 순간 이기므로, 쟁탈창 막판에 몰아쳐서 뒤집는 전략은 성립하지 않습니다. <strong>개전과 동시에 진입해 최대한 끊기지 않고 버티는 쪽</strong>이 유리하며, 뺏겨도 누적 시간은 유지되므로 계속 재탈환하는 것도 유효합니다. 기준을 못 채워도 누적이 더 길면 포인트를 가져가므로, 열세여도 주둔 시간을 1초라도 더 쌓는 것이 의미가 있습니다.</p>
-  </div>
+  <a class="more" href="simulate.html">▶ 시간대별로 재생해서 보기</a>
 </section>
 
-<!-- ===== 점수 시스템 ===== -->
-<section id="score">
-  <h2><span class="n">07</span>동맹 포인트 · 추격 메커니즘</h2>
-  <p class="lede">동맹 포인트로만 승패를 가립니다. 점령권을 가진 쪽이 생산 기간에 포인트를 얻고, 종료 시 누적 동맹 포인트가 많은 쪽이 이깁니다. 개인 포인트는 개인 구간 보상 전용입니다.</p>
-
-  <div class="tblwrap">
-  <table>
-    <caption>건물 유형별 동맹 포인트 산출 (점령 1회 기준, 게임 내 수치)</caption>
-    <thead><tr><th>건물</th><th class="num">초당 산출</th><th class="num">1회 총생산량</th></tr></thead>
-    <tbody>
-      <tr data-c="ok"><td class="name" style="--bar:var(--c-mh)"><img class="bicon-sm" src="images/icon-maengho.png" alt="">맹호성 ×4</td><td class="num">15/s</td><td class="num"><strong>2,700</strong></td></tr>
-      <tr data-c="ok"><td class="name" style="--bar:var(--c-br)"><img class="bicon-sm" src="images/icon-biryong.png" alt="">비룡성 ×2</td><td class="num">20/s</td><td class="num"><strong>3,600</strong></td></tr>
-      <tr data-c="ok" class="hl"><td class="name" style="--bar:var(--c-ms)"><img class="bicon-sm" src="images/icon-mansang.png" alt="">만상성 ×1</td><td class="num">23/s</td><td class="num"><strong>4,140</strong></td></tr>
-      <tr data-c="ok"><td class="name" style="--bar:var(--c-bandit)"><img class="bicon-sm" src="images/icon-bandit.png" alt="">도적거점</td><td class="num">— (1회 지급)</td><td class="num"><strong>4,000</strong> <span class="tag guess">라운드마다 증가</span></td></tr>
-      <tr data-c="ok"><td class="name" style="--bar:var(--c-dock)"><img class="bicon-sm" src="images/icon-dock.png" alt="">조운부두</td><td class="num">— (기준 초과 시)</td><td class="num"><strong>400</strong></td></tr>
-      <tr data-c="ok"><td class="name" style="--bar:var(--c-camp)"><img class="bicon-sm" src="images/icon-camp.png" alt="">장작영</td><td class="num">— (기준 초과 시)</td><td class="num"><strong>180</strong></td></tr>
-    </tbody>
-  </table>
-  </div>
-
-  <div class="key" style="margin-top:18px">
-    <p>성 7곳을 한 사이클 모두 지키면 22,140점 — 그중 비룡성 2곳 + 만상성이 11,340점으로 절반이 넘습니다.</p>
-    <p>맹호성 2,700×4 = 10,800점, 비룡성 3,600×2 = 7,200점, 만상성 4,140점. 맹호성은 4곳에 흩어져 있어 병력이 많이 들지만, 비룡성·만상성 3곳은 중앙 세로축에 모여 있고 한 곳당 값도 큽니다. 다만 <strong>2차 사이클의 비룡성·만상성 생산(44~46분)은 45분 종료로 2분만 진행</strong>되어 2/3(비룡 2,400 · 만상 2,760)만 들어오는 것으로 보입니다 <span class="tag none">미확인</span>. 주둔 상한이 30부대라 3곳을 동시에 지키려면 최소 3개 조가 필요합니다.</p>
-  </div>
-
-  <div class="item" data-c="ok" style="margin-top:18px">
-    <h4>가산 버프는 "유효 동맹 = 점령 동맹"일 때만 <span class="tag ok">확인</span></h4>
-    <p>쟁탈 기간 중 일부 맹호성에 가산 버프가 붙고, 전황 목록에 증가 아이콘이 뜹니다. 가산은 해당 맹호성의 유효 동맹과 실제 점령 동맹이 일치할 때만 적용되어 산출 기간 초당 포인트를 늘립니다. 정확한 배율과 "유효 동맹"의 판정 기준은 건물 정보 화면에서 확인해야 합니다 <span class="tag none">미확인</span></p>
-  </div>
-
-  <div class="items" style="margin-top:18px">
-    <div class="item" data-c="ok">
-      <h4>추격 메커니즘: 격차 50% 초과 시 발동 <span class="tag ok">확인</span></h4>
-      <p>양측 동맹 포인트 격차가 50%를 넘으면 열세 측에 추격 보정이 걸립니다. 대상은 <strong>맹호성·비룡성·도적거점 3종뿐</strong>이며(만상성은 규칙 문구에 없음), 이 3종 중 점령 중인 건물 <strong>단 1곳에서만</strong> 발동합니다.</p>
+<section id="squads">
+  <h2>내 조는 무엇을?</h2>
+  <div class="squads">
+    <div class="squad">
+      <h3>주력 A·B·C조</h3>
+      <small>주력군 상위 · 조당 30부대</small>
+      <ol>
+        <li>개전 즉시 <b>맹호성 3곳</b> 진입, 6분 채우기</li>
+        <li>확정되면 중앙으로 — <b>A조 만상성, B·C조 비룡성</b>, 7분 채우기</li>
+        <li>23분부터 같은 순서로 2차, 끝나면 도적거점 합류</li>
+      </ol>
     </div>
-    <div class="item" data-c="ok">
-      <h4>계산 예시 (게임 공식 예시를 실제 수치로 환산) <span class="tag ok">확인</span></h4>
-      <p>게임 예시: A가 B보다 60% 앞선 상황에서 B가 같은 종류 성 2곳을 점령 중이면, 그중 <strong>1곳만</strong> 산출량이 격차 비율만큼(60%) 올라 초당 100점→160점이 되고 나머지 1곳은 그대로입니다. 실제 수치로 바꾸면 맹호성 15→24점, 비룡성 20→32점입니다. 열세 측이라도 벌어진 차이를 단번에 뒤집기는 어렵다는 뜻이므로, 초반 사이클(1~24분)에서 격차를 만들지 않는 것이 후반 추격보다 훨씬 중요합니다.</p>
+    <div class="squad">
+      <h3>거점조</h3>
+      <small>주력군 중하위</small>
+      <ol>
+        <li>개전 시 <b>4번째 맹호성</b> 6분 채우기</li>
+        <li>14~23분 · 36~45분 <b>도적거점</b> 피해량 경쟁</li>
+        <li>도적거점은 개인 포인트가 거의 없음 — 빈 시간에 <b>조운부두</b>로 개인 포인트 보충</li>
+      </ol>
     </div>
-    <div class="item" data-c="none">
-      <h4>어느 건물에서 발동할지 결정 기준은 비공개 <span class="tag none">미확인</span></h4>
-      <p>3종 중 "1곳에서만" 발동한다고만 되어 있을 뿐, 어떤 건물이 선택되는지(점령 순서·산출량 기준 등)는 명시되지 않았습니다.</p>
+    <div class="squad">
+      <h3>분대</h3>
+      <small>주력군에 못 들어간 인원 · 별도 전장</small>
+      <ol>
+        <li>주력군과 다른 지도·다른 상대</li>
+        <li>같은 동선(맹호성 → 비룡성·만상성)</li>
+        <li><b>분대가 이기면 분대원 개인 보상이 커집니다</b> (동맹 승패와는 무관)</li>
+      </ol>
     </div>
   </div>
+  <a class="more" href="guide.html#strategy">📜 책략 사용 순서·세부 작전은 상세 작전서에서</a>
 </section>
 
-<!-- ===== 개인 포인트 ===== -->
-<section id="personal">
-  <h2><span class="n">08</span>개인 포인트</h2>
-  <p class="lede">재개 시즌부터 개인 랭킹은 폐지되고, 개인 포인트가 <strong>어느 구간에 도달했는지</strong>로 보상이 정해집니다. 남과 경쟁하는 것이 아니라 내 점수만 채우면 되는 구조입니다.</p>
-
-  <div class="items">
-    <div class="item" data-c="ok">
-      <h4>구간 보상은 최고 달성 구간 1종만 <span class="tag ok">확인</span></h4>
-      <p>이벤트 종료 시 도달한 가장 높은 구간의 보상 하나만 받습니다(하위 구간 누적 지급 아님). 승리 측과 패배 측 보상표가 따로 있고, 시즌마다 달라집니다. 이벤트 화면의 <b>개인 보상</b> 탭을 열면 현재 포인트로 도달 가능한 구간으로 자동 이동합니다.</p>
-    </div>
-    <div class="item" data-c="ok">
-      <h4>내 전장의 승리가 개인 보상도 키웁니다 <span class="tag ok">확인</span></h4>
-      <p>같은 구간이라도 승리 측 보상표가 더 큽니다(최상위 600만+ 구간: 보석 20만 vs 15만). 주력군 인원은 주력군 결과, <strong>분대 인원은 분대 전장 결과</strong>로 승·패 표가 정해집니다. 개인 포인트를 쌓는 것과 내 전장이 이기는 것이 더 이상 따로 놀지 않습니다. 구간별 수치는 <a href="reward.html#tier">보상 페이지</a>에 정리했습니다.</p>
-    </div>
-  </div>
-
-  <div class="tblwrap" style="margin-top:14px">
-  <table>
-    <caption>개인 포인트 획득 조건 (재개 시즌 게임 화면 기준)</caption>
-    <thead><tr><th>행동</th><th class="num">포인트</th></tr></thead>
-    <tbody>
-      <tr data-c="ok"><td>적 병사 중상 1명당 (레벨 무관)</td><td class="num">1</td></tr>
-      <tr data-c="ok"><td>도적거점 성방군(NPC) 처치 1명당</td><td class="num">0.001</td></tr>
-      <tr data-c="ok" class="hl"><td><strong>조운부두 점령 후 1초마다</strong></td><td class="num"><strong>10,000</strong></td></tr>
-      <tr data-c="ok" class="hl"><td><strong>장작영 점령 후 1초마다</strong></td><td class="num"><strong>10,000</strong></td></tr>
-      <tr data-c="ok"><td>만상성 점령 후 1초마다</td><td class="num">6,000</td></tr>
-      <tr data-c="ok"><td>비룡성 점령 후 1초마다</td><td class="num">5,000</td></tr>
-      <tr data-c="ok"><td>맹호성 점령 후 1초마다</td><td class="num">3,000</td></tr>
-    </tbody>
-  </table>
-  </div>
-  <p class="tnote">재개 시즌에 점령 개인 포인트가 크게 올랐고(이전 시즌 500~800), 도적거점 처치 포인트는 1 → 0.001로 사실상 없어졌습니다. 성끼리는 동맹 포인트와 순서가 같지만, <strong>동맹 포인트가 거의 없는 조운부두·장작영이 초당 10,000으로 가장 높습니다</strong>. 성은 만상성 6,000 &gt; 비룡성 5,000 &gt; 맹호성 3,000입니다. 화면 문구가 "점령 후 1초마다"이므로 동맹 포인트(생산 기간 3분만)와 달리 점령하고 있는 동안 계속 쌓이는 것으로 봅니다.</p>
-
-  <div class="key" style="margin-top:18px">
-    <p>개인 구간 보상은 "어디에 얼마나 오래 주둔했나"로 거의 결정됩니다.</p>
-    <p>맹호성 6분 = 108만, 비룡성 7분 = 210만, 만상성 7분 = 252만, 조운부두 1분 = 60만. 교전(중상 1명당 1)과 도적거점(처치당 0.001)은 비교가 안 될 만큼 작습니다. 따라서 <strong>도적거점만 도는 인원은 개인 보상이 크게 낮아집니다</strong> — 작전 배치 시 개인 보상 격차도 함께 고려해야 합니다(<a href="reward.html#tier">보상 페이지 추정표</a>).</p>
-  </div>
-</section>
-
-<!-- ===== 보상 ===== -->
 <section id="reward">
-  <h2><span class="n">09</span>보상</h2>
-  <p class="lede">승패 보상은 참가 주력군의 승패에 따라 동맹 전체가 받고, 개인 포인트 구간 보상은 각자 도달한 구간에 따라 개별 지급됩니다. 둘 다 이벤트 종료 후 우편으로 함께 발송됩니다.</p>
-
-  <div class="key">
-    <p>승패 보상: 보석 1.7배, 자원 수레 2배 — 패배해도 절반 이상은 남습니다.</p>
-    <p>재개 시즌 승패 보상은 보석 50만/30만, 자원 수레 150/75 ×3종, 보물 상자 20/10, 계란 10/5, 서책 2/1입니다. 이전 시즌에 있던 <strong>군량(600/400)은 승패 보상에서 빠지고 개인 구간 보상으로</strong> 옮겨졌습니다. 개인 랭킹·이벤트 임무 보상은 폐지되었고, 개인 포인트 구간 보상이 승리/패배 측으로 나뉘어 지급됩니다(최상위 600만+ 구간 확인).</p>
-  </div>
-
-  <p style="margin-top:18px">
-    <a href="reward.html" target="_blank" rel="noopener" style="display:inline-block;font-family:'Noto Serif KR',serif;font-weight:700;font-size:15px;color:var(--paper);background:var(--ink);padding:11px 22px;border-radius:3px;text-decoration:none">보상 총정리 페이지 열기 →</a>
-  </p>
-</section>
-
-<!-- ===== 전략 ===== -->
-<section id="strategy">
-  <h2><span class="n">10</span>전략 <span class="tag guess">재개 시즌 초안</span></h2>
-  <p class="lede">재개 시즌 게임 화면(성 7곳 · 6/7분 확정 기준 · 책략 각 1회 · 주둔 상한 30부대)에 맞춰 다시 짠 초안입니다. 이전 시즌의 "도하조"는 존재 이유였던 장작영 버프가 사라져 폐지했습니다. 시각은 본전투 시작(21:30) 기준 경과 분이며, 첫 실전 후 다시 다듬습니다.</p>
-
-  <div class="roster">
-    <div class="row">
-      <div class="who">주력 A·B·C조<small>주력군 상위 티어 · 각 조 30부대 이내</small><span class="badge">맹호성 → 비룡성·만상성</span></div>
-      <div class="task">개전 즉시 <b>급속 행군</b>으로 모서리 <b>맹호성 3곳</b>에 동시에 들어가 누적 6분을 채웁니다(가산 버프가 붙은 맹호성에 가장 강한 조). 6분에 비룡성·만상성 쟁탈이 열리므로 확정 즉시 중앙 세로축으로 이동해 <b>A조 만상성(4,140) · B·C조 비룡성 2곳(3,600씩)</b>에 들어갑니다. 진입과 동시에 <b>횡소천군</b>, 5분 뒤 <b>견고불최</b>를 이어 켜서 7분 기준을 채웁니다(~14분 확정). 2차 사이클(23분~)도 같은 순서로 반복하되 공·방 책략은 이미 소진된 상태입니다.</div>
+  <h2>무엇을 받나</h2>
+  <div class="reward">
+    <div class="rbox">
+      <h3>🏆 승패 보상 (동맹 전체)</h3>
+      <p>이기면 <b>옥재 50만</b>, 자원 수레 150×3종 등. 지면 옥재 30만과 나머지 절반 — 수레·상자·매알·구현령은 <b>정확히 2배 차이</b>.</p>
     </div>
-    <div class="row">
-      <div class="who">거점조<small>주력군 중하위 티어</small><span class="badge">4번째 맹호성 · 도적거점</span></div>
-      <div class="task">개전 시 <b>남은 맹호성 1곳</b>을 맡아 6분을 채웁니다(맹호성 4곳 2,700×4). 이후 도적거점 방면으로 이동해 13~23분 <b>도적거점 1차</b>(2곳 랜덤 개방)를 치고, 23분부터 다시 4번째 맹호성 2차를 맡습니다. 35~45분 <b>도적거점 2차</b>에 총력을 냅니다 — 포인트가 라운드마다 증가하므로 2차가 더 값집니다.</div>
-    </div>
-    <div class="row">
-      <div class="who">부두·장작영<small>여력이 있을 때만</small><span class="badge">별도 조 없음</span></div>
-      <div class="task">버프가 폐지되어 1회성 소량 포인트(부두 400 · 장작영 180)만 남았습니다. 맹호성 1곳(2,700)이나 도적거점(4,000)과 비교하면 작습니다. 전담 조를 두지 않고, 성이 이미 확정되어 남는 병력이 있을 때만 갑니다.</div>
+    <div class="rbox">
+      <h3>개인 포인트 구간 보상</h3>
+      <p><b>350만부터 50만 단위 6개 구간</b>, 600만 이상이 최상위. 주력군은 성 두 바퀴만 돌아도 600만 이상입니다.</p>
     </div>
   </div>
-
-  <div class="tblwrap" style="margin-top:22px">
-  <table>
-    <caption>동맹 책략 사용 계획 (초안 · 5종 각 1회 · 한 번에 1종 · 간격 5분)</caption>
-    <thead><tr><th class="num">시점</th><th>책략</th><th>목적</th></tr></thead>
-    <tbody>
-      <tr data-c="guess"><td class="num">0분</td><td>급속 행군</td><td>맹호성 4곳 동시 진입 — 누적 6분을 한시라도 먼저</td></tr>
-      <tr data-c="guess" class="hl"><td class="num">6분</td><td><strong>횡소천군</strong></td><td>비룡성·만상성 진입 총력전(공격 +5%, 5분)</td></tr>
-      <tr data-c="guess" class="hl"><td class="num">11분</td><td><strong>견고불최</strong></td><td>7분 기준을 채우는 막바지 버티기(방어 +5%, 5분)</td></tr>
-      <tr data-c="guess"><td class="num">16분</td><td>묘수회춘</td><td>1차 확정 후 부상병 회복, 2차(23분) 대비</td></tr>
-      <tr data-c="guess"><td class="num">상황</td><td>교탈천공</td><td>상대가 관청을 노릴 때 성 방어도 회복 — 2차용 예비</td></tr>
-    </tbody>
-  </table>
-  </div>
-
-  <div class="items" style="margin-top:22px">
-    <div class="item" data-c="ok">
-      <h4>1차 사이클이 사실상 승부처입니다 <span class="tag ok">확인</span></h4>
-      <p>2차 사이클의 비룡성·만상성 생산은 44~46분이라 45분 종료로 2분만 진행됩니다. 1차의 성 7곳(22,140점)이 2차(최대 18,360점)보다 크고, 책략도 각 1회뿐입니다. 1차에서 벌어진 격차는 추격 메커니즘(3종 중 1곳만, 격차 비율만큼)으로 완전히 메워지지 않으므로, <strong>공·방 책략은 1차에 쓰고 1차를 이기는 쪽</strong>이 낫습니다.</p>
-    </div>
-    <div class="item" data-c="ok">
-      <h4>중앙 세로축 3곳이 맹호성 4곳보다 값집니다 <span class="tag ok">확인</span></h4>
-      <p>비룡성 2곳 + 만상성 = 11,340점으로 맹호성 4곳(10,800점)보다 많고, 세 곳이 한 줄로 붙어 있어 서로 지원하기도 쉽습니다. 병력이 부족하면 맹호성 1~2곳을 포기하더라도 중앙 세로축 3곳에 가장 강한 조를 둡니다.</p>
-    </div>
-    <div class="item" data-c="ok">
-      <h4>기준을 못 채워도 더 오래 버틴 쪽이 가져갑니다 <span class="tag ok">확인</span></h4>
-      <p>양쪽 모두 6분/7분 기준에 못 미치면 누적 시간이 더 긴 쪽이 생산 포인트를 받습니다. 그래서 "흔들어서 상대 산출을 무산시키기"는 통하지 않고, <strong>우리 누적을 상대보다 길게</strong> 만드는 것만 의미가 있습니다. 뺏겨도 누적은 유지되니 계속 재탈환합니다.</p>
-    </div>
-    <div class="item" data-c="ok">
-      <h4>30부대 상한은 상대에게도 같습니다 <span class="tag ok">확인</span></h4>
-      <p>상대도 한 건물에 30부대까지만 넣을 수 있으므로, 우리 조의 <b>부대 질(티어)</b>이 그대로 승부가 됩니다. 가장 강한 30부대를 만상성에, 다음을 비룡성·가산 버프 맹호성에 배치하는 순서가 중요합니다. 건물 밖에 남는 병력은 교체 투입과 공성 지원에 씁니다.</p>
-    </div>
-    <div class="item" data-c="ok">
-      <h4>상대 책략 현황을 보고 움직입니다 <span class="tag ok">확인</span></h4>
-      <p>상대도 횡소천군·견고불최를 각 1회만 씁니다. 상대가 켠 직후 5분은 정면 교전을 피하고, 둘 다 소진된 뒤에 치는 것이 효율적입니다 — 적군 책략 현황이 전장에 표시됩니다.</p>
-    </div>
-    <div class="item" data-c="ok">
-      <h4>개인 구간 보상은 주둔 시간을 따라옵니다 <span class="tag ok">확인</span></h4>
-      <p>주력 A·B·C조는 맹호성 6분(108만) + 비룡성·만상성 7분(210만·252만)을 두 사이클 돌면 확정 기준만으로 <strong>636만~720만</strong>으로 최상위 600만+ 구간에 닿습니다. 반면 <strong>거점조는 맹호성 2회(216만)뿐</strong>이고 도적거점 처치는 0.001점이라 개인 보상이 크게 낮습니다. 도적거점 1차(14~23분)와 겹치지 않는 시간에 조운부두(초당 10,000, 12~19·34~41분)를 일부 인원이 맡으면 개인 포인트를 보충할 수 있습니다 — 동맹 포인트(400)는 작아도 개인에게는 1분에 60만입니다.</p>
-    </div>
-    <div class="item" data-c="ok">
-      <h4>분대가 이겨도 주력군이 지면 동맹은 패배입니다 <span class="tag ok">확인</span></h4>
-      <p>주력군과 분대는 서로 다른 전장에서 각자 다른 상대와 싸우고, <strong>동맹 최종 승패와 승패 보상은 주력군 결과로만</strong> 정해집니다. 분대 전장의 결과는 동맹 승패를 바꾸지 못하므로, 가장 강한 인원은 반드시 주력군에 배정해야 합니다. 분대는 개인 포인트 구간 보상을 목표로 위와 같은 동선(맹호성 → 비룡성·만상성, 남는 시간에 조운부두·장작영)을 따르면 됩니다.</p>
-    </div>
-    <div class="item" data-c="ok">
-      <h4>분대원의 개인 구간 보상은 분대 결과를 따릅니다 <span class="tag ok">확인</span></h4>
-      <p><strong>동맹 승패 보상은 주력군 결과</strong>로, <strong>분대원의 개인 구간 보상은 분대 전장 결과</strong>로 승리 측·패배 측 표가 정해집니다. 동맹 승패에는 영향이 없어도 분대가 이기면 분대원 개인 보상이 커지므로, 분대도 자기 전장에서 이기는 작전을 따로 세울 가치가 있습니다.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ===== 확인 필요 ===== -->
-<section id="todo">
-  <h2><span class="n">11</span>재개 시즌 남은 확인 사항</h2>
-  <p class="lede">재개 시즌 게임 화면으로 책략 횟수, 대장 기본값, 성 이전 규칙, 단계 시간, 중앙 성(만상성), 승패·구간 보상이 확인되었습니다. 아래는 화면에도 수치가 없어 첫 실전으로 확인해야 하는 항목입니다.</p>
-  <ol class="checklist">
-    <li><b>맹호성 가산 버프</b> 배율, 대상 맹호성 선정 방식, "유효 동맹" 판정 기준</li>
-    <li><b>도적거점 라운드별 포인트</b>(점증 폭) — 분포 화면은 4,000으로 표기</li>
-    <li><b>조운부두·장작영 기준 시간</b>, 장작영 "임시 속성 버프" 문구가 실제로 남아 있는지(패치 공지는 폐지)</li>
-    <li><b>비룡성·만상성 2차 생산</b>이 45분 종료로 2분만 진행되는지</li>
-    <li><b>점령 개인 포인트가 주둔한 주공 전원에게 각각</b> 쌓이는지, 확정 후 생산 기간에도 계속 쌓이는지</li>
-    <li><b>개인 구간 보상 하위 구간</b>(550만 미만) 수치</li>
-    <li><b>주력군·분대 정원</b>과 신청 종료 시각</li>
-    <li>지원 무장 강화 효과의 정확한 수치 (이전 판부터 미확인)</li>
-  </ol>
+  <a class="more" href="reward.html">🎁 보상 총정리 보기</a>
 </section>
 
 <footer>
-  <p>게임 내 "이벤트 규칙"(이벤트 규칙 · 이벤트 건물 · 단계 시간 · 개인 포인트 · 이벤트 보상) 전체 화면을 캡처해 재구성한 문서입니다. 캡처 시점: 2026-09-09(이전 시즌), 2026-10-22(재개 시즌).</p>
-  <p>건물 배치·개수는 게임 내 "건물 분포" 화면 캡처로 확인했습니다(맹호성 4·비룡성 2·만상성 1·도적거점 4·조운부두 8·장작영 16, 총 35개). 성 아이콘과 이름의 대응은 등급(1급 15/s → 2급 20/s → 3급 23/s)과 패치 공지의 "지도 중앙 비룡성" 표현으로 판단했습니다.</p>
-  <p>최초 작성 2026년 9월 9일 · 재개 시즌 패치 반영 2026년 10월 20일 · 재개 시즌 게임 화면 반영 2026년 10월 22일</p>
+  <p>게임 내 "이벤트 규칙·이벤트 보상" 화면(재개 시즌 2026-10-22 캡처)을 기준으로 정리했습니다. 규칙 전문·근거·미확인 항목은 <a href="guide.html">상세 작전서</a>에 있습니다.</p>
+  <p>개정 2026-10-22</p>
 </footer>
 
 </div>
 
 <script>
-const all=document.getElementById("f-all"), ok=document.getElementById("f-ok");
-function mode(v){
-  document.body.classList.toggle("only-ok",v);
-  all.setAttribute("aria-pressed",String(!v)); ok.setAttribute("aria-pressed",String(v));
-}
-all.addEventListener("click",()=>mode(false));
-ok.addEventListener("click",()=>mode(true));
-
 /* ---------- visitor counter (CounterAPI.dev v2, public counter) ---------- */
 (function(){
   const WORKSPACE="aerohongs-team-5448";
