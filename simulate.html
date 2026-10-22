@@ -17,6 +17,7 @@
 
   --c-mh:#A8461F;
   --c-br:#2E6B62;
+  --c-ms:#5B3F7A;
   --c-bandit:#9B2C25;
   --c-dock:#3A5C77;
   --c-camp:#A8801F;
@@ -137,11 +138,10 @@ button.btn.live[aria-pressed="true"]{background:var(--fight);color:#fff;border-c
   <a class="back" href="index.html">← 작전 브리핑으로 돌아가기</a>
   <a class="back" href="reward.html" target="_blank" rel="noopener">🎁 보상 총정리 보기</a>
   <h1>45분, 이렇게 흘러갑니다</h1>
-  <p class="sub">재생을 누르면 본전투 21:30~22:15가 압축 재생됩니다. 건물이 쟁탈→산출/정산→정비를 도는 흐름과, <b>맹호 A·B·C조·거점조</b>가 그 시간에 맞춰 무엇을 해야 하는지를 함께 보여줍니다.</p>
-  <p class="warn">가정: 작전 브리핑 "10 전략"의 재개 시즌 초안이 <b>전부 성공한 경우</b>입니다 — 맹호성 3곳 + 비룡성 3곳을 두 사이클 모두 확보, 도적거점은 라운드마다 열리는 2곳을 모두 승리. 조운부두·장작영은 버프 폐지로 작전 대상에서 빠져 점수에 넣지 않았습니다. 맹호성 가산 버프와 도적거점 점증은 수치 미공개라 반영하지 않았습니다(실제 점수는 더 높아집니다).</p>
-  <p class="warn">점령은 쟁탈 종료 시점의 최종 점유자가 아니라 <b>누적 점유 시간이 과반을 먼저 채운 쪽</b>이 가져갑니다(맹호성 6분·비룡성 7.5분·조운부두 4분·장작영 3분). 건물당 주둔 상한은 <b>30부대</b>라 맹호성 3곳에 조를 나눠 동시에 들어갑니다.</p>
+  <p class="sub">재생을 누르면 본전투 21:30~22:15가 압축 재생됩니다. 건물이 쟁탈→산출/정산→정비를 도는 흐름과, <b>주력 A·B·C조·거점조</b>가 그 시간에 맞춰 무엇을 해야 하는지를 함께 보여줍니다.</p>
+  <p class="warn">가정: 작전 브리핑 "10 전략"의 재개 시즌 초안이 <b>전부 성공한 경우</b>입니다 — 맹호성 4곳 + 비룡성 2곳 + 만상성 1곳을 두 사이클 모두 확보, 도적거점은 라운드마다 열리는 2곳을 모두 승리. 조운부두·장작영은 버프 폐지로 작전 대상에서 빠져 점수에 넣지 않았습니다. 맹호성 가산 버프와 도적거점 점증은 수치 미공개라 반영하지 않았습니다(실제 점수는 더 높아집니다). 비룡성·만상성 2차 생산은 45분 종료로 2분만 계산했습니다.</p>
+  <p class="warn">점령은 쟁탈 종료 시점의 최종 점유자가 아니라 <b>누적 점령 시간이 기준(맹호성 6분 · 비룡성·만상성 7분)에 먼저 닿은 쪽</b>이 가져갑니다. 둘 다 못 채우면 누적이 더 긴 쪽이 가져갑니다. 건물당 주둔 상한은 <b>30부대</b>라 성마다 조를 나눠 동시에 들어갑니다.</p>
   <p class="warn" style="border-left-style:solid">타임라인(아래 그래프) 아무 곳이나 클릭하거나 드래그하면 그 시점으로 바로 이동합니다.</p>
-  <p class="warn">⚠ 재개 시즌에도 45분 구간 시각이 이전과 같다고 가정했습니다(시작만 21:30으로 이동). 공지로 바뀐 것이 확인되면 갱신합니다.</p>
 
   <div class="panel">
     <div class="toprow">
@@ -166,11 +166,12 @@ button.btn.live[aria-pressed="true"]{background:var(--fight);color:#fff;border-c
     <div class="gsection">건물 상태</div>
     <div class="grow"><div class="glabel"><img class="bicon-sm" src="images/icon-maengho.png" alt="">맹호성</div></div>
     <div class="grow"><div class="glabel"><img class="bicon-sm" src="images/icon-biryong.png" alt="">비룡성</div></div>
+    <div class="grow"><div class="glabel"><img class="bicon-sm" src="images/icon-mansang.png" alt="">만상성</div></div>
     <div class="grow"><div class="glabel"><img class="bicon-sm" src="images/icon-bandit.png" alt="">도적거점</div></div>
     <div class="grow"><div class="glabel"><img class="bicon-sm" src="images/icon-dock.png" alt="">조운부두</div></div>
     <div class="grow"><div class="glabel"><img class="bicon-sm" src="images/icon-camp.png" alt="">장작영</div></div>
     <div class="gsection mid">부대 임무</div>
-    <div class="grow"><div class="glabel">맹호 A·B·C</div></div>
+    <div class="grow"><div class="glabel">주력 A·B·C</div></div>
     <div class="grow"><div class="glabel">거점조</div></div>
     <div class="gaxis">
       <div></div>
@@ -209,11 +210,14 @@ const TOTAL = 45; // minutes
 
 // [type, start, end] in minutes, 0-indexed continuous timeline
 const BUILDINGS = [
-  { key:'mh', name:'맹호성', color:'var(--c-mh)', icon:'images/icon-maengho.png', count:3, rate:20,
+  // 맹호성 4곳: 주력 A·B·C조 3곳 + 거점조 1곳
+  { key:'mh', name:'맹호성', color:'var(--c-mh)', icon:'images/icon-maengho.png', count:4, rate:15,
     segs:[['fight',0,12],['score',12,15],['idle',15,23],['fight',23,35],['score',35,38],['idle',38,45]] },
-  // 맹호 A·B·C조가 맹호성 확정 후 비룡성 3곳으로 이동 — 4번째(중앙, 3급 하향)는 작전 대상 아님
-  { key:'br', name:'비룡성', color:'var(--c-br)', icon:'images/icon-biryong.png', count:3, rate:15,
-    segs:[['idle',0,5],['fight',5,20],['score',20,23],['idle',23,27],['fight',27,42],['score',42,45]] },
+  // 비룡성·만상성: 같은 구간 · 2차 생산(44~46분)은 45분 종료로 2분만
+  { key:'br', name:'비룡성', color:'var(--c-br)', icon:'images/icon-biryong.png', count:2, rate:20,
+    segs:[['idle',0,6],['fight',6,21],['score',21,24],['idle',24,28],['fight',28,43],['score',43,45]] },
+  { key:'ms', name:'만상성', color:'var(--c-ms)', icon:'images/icon-mansang.png', count:1, rate:23,
+    segs:[['idle',0,6],['fight',6,21],['score',21,24],['idle',24,28],['fight',28,43],['score',43,45]] },
   // 라운드마다 2곳 개방 · 포인트 점증(수치 미공개 → 이전 4,000으로 계산)
   { key:'bandit', name:'도적거점', color:'var(--c-bandit)', icon:'images/icon-bandit.png', count:2, rate:0,
     segs:[['idle',0,13],['fight',13,23],['idle',23,35],['fight',35,45]],
@@ -231,23 +235,24 @@ const PHASE_LABEL = {fight:'쟁탈 중', score:'산출 중', idle:'정비/대기
 
 // 부대 운영 임무 — 작전 브리핑 "10 전략" 재개 시즌 초안을 시간표로 옮긴 것 (추정/독트린 기반)
 const SQUADS = [
-  { key:'main', name:'맹호 A·B·C조', color:'#7A5C1E',
+  { key:'main', name:'주력 A·B·C조', color:'#7A5C1E',
     segs:[
-      {type:'fight', s:0,    e:6,    label:'맹호성 3곳 동시 진입 · 횡소천군+견불가최 · 과반(6분) 총력전'},
-      {type:'idle',  s:6,    e:7.5,  label:'맹호성 확정 · 급속 행군으로 비룡성 이동'},
-      {type:'fight', s:7.5,  e:15,   label:'비룡성 3곳 과반(7.5분) 확보 총력전'},
-      {type:'score', s:15,   e:23,   label:'1차 확정 · 묘수회춘으로 재정비'},
-      {type:'fight', s:23,   e:29,   label:'맹호성 2차 · 책략 재발동 · 과반 총력전'},
-      {type:'idle',  s:29,   e:30.5, label:'맹호성 2차 확정 · 급속 행군으로 비룡성 이동'},
-      {type:'fight', s:30.5, e:38,   label:'비룡성 2차 과반(7.5분) 확보 총력전'},
-      {type:'fight', s:38,   e:45,   label:'비룡성 2차 확정 · 도적거점 2차 합류'},
+      {type:'fight', s:0,  e:6,  label:'급속 행군 · 맹호성 3곳 동시 진입 · 누적 6분 확보'},
+      {type:'idle',  s:6,  e:7,  label:'맹호성 확정 · 중앙 세로축(비룡성 2곳·만상성)으로 이동 · 횡소천군'},
+      {type:'fight', s:7,  e:14, label:'비룡성 2곳 + 만상성 누적 7분 확보 · 11분 견고불최'},
+      {type:'score', s:14, e:23, label:'1차 확정 · 16분 묘수회춘으로 재정비'},
+      {type:'fight', s:23, e:29, label:'맹호성 2차 · 누적 6분 확보'},
+      {type:'idle',  s:29, e:30, label:'맹호성 2차 확정 · 중앙 세로축으로 이동'},
+      {type:'fight', s:30, e:37, label:'비룡성·만상성 2차 누적 7분 확보'},
+      {type:'fight', s:37, e:45, label:'2차 확정 · 도적거점 2차 합류'},
     ]},
   { key:'farm', name:'거점조', color:'#9B2C25',
     segs:[
-      {type:'fight', s:0,  e:6,  label:'맹호성 예비 병력 · 30부대 밖에서 교체 투입'},
+      {type:'fight', s:0,  e:6,  label:'4번째 맹호성 · 누적 6분 확보'},
       {type:'idle',  s:6,  e:13, label:'도적거점 방면 이동 · 대기'},
       {type:'fight', s:13, e:23, label:'도적거점 1차 (개방된 2곳) 피해량 경쟁'},
-      {type:'score', s:23, e:35, label:'재정비 · 비룡성 2차 예비'},
+      {type:'fight', s:23, e:29, label:'4번째 맹호성 2차 · 누적 6분 확보'},
+      {type:'score', s:29, e:35, label:'맹호성 확정 · 도적거점 방면 재정비'},
       {type:'fight', s:35, e:45, label:'도적거점 2차 총력 (포인트 증가 라운드)'},
     ]},
 ];
@@ -325,9 +330,9 @@ function squadPhaseAt(sq,t){
 // events for log (건물 + 부대 임무 통합)
 const EVENTS = [{t:0, text:'개전! 45분 전투 시작'}];
 BUILDINGS.forEach(b=>{
-  b.segs.forEach(([type,s])=>{
+  b.segs.forEach(([type,s,e])=>{
     if(type==='fight') EVENTS.push({t:s, text:`<b>${b.name}</b> 쟁탈전 개시`});
-    if(type==='score') EVENTS.push({t:s, text:`<b>${b.name}</b> 산출 확정 — 초당 ${(b.rate*b.count).toLocaleString()}점 × 3분`});
+    if(type==='score') EVENTS.push({t:s, text:`<b>${b.name}</b> 생산 시작 — 초당 ${(b.rate*b.count).toLocaleString()}점 × ${e-s}분`});
   });
   if(b.count) (b.payouts||[]).forEach(p=> EVENTS.push({t:p.t, text:`<b>${b.name}</b> 정산 — <b>+${(p.amt*b.count).toLocaleString()}점</b>`}));
 });
