@@ -1,0 +1,12 @@
+record_date,category,item,value,status,source_conversation,notes
+2026-10-23,currency,implementation_orders,420,current_snapshot,삼국지 왕전 덱 컨설팅,"현재 보유량"
+2026-10-22,resource_item,wood,95.91M,current_snapshot,가속 아이템 계산,"가방 자원 아이템 확인값"
+2026-10-22,resource_item,stone,94.64M,current_snapshot,가속 아이템 계산,"가방 자원 아이템 확인값"
+2026-10-22,resource_item,food,112.4M,current_snapshot,가속 아이템 계산,"가방 자원 아이템 확인값"
+2026-10-22,research,troop_defense_3,started,in_progress,연구 우선순위 비교,"연구는 동시에 하나만 가능"
+2026-10-22,pickup_rule,selected_generals,2,confirmed_rule,무장 픽업 기록 예측,"선택 가능 인원"
+2026-10-22,pickup_rule,guarantee,1_within_100_orders,confirmed_rule,무장 픽업 기록 예측,"선택 무장 한 명 보장"
+2026-10-22,pickup_rule,two_selected_maximum,200_orders,confirmed_rule,무장 픽업 기록 예측,"두 선택 무장 확보의 최대 구현령"
+2026-09-24,deck_history,gongsunzan_3_star,100_orders_spent,historical,시즌4 맹 재편 이야기,"135장 시작, 35장 잔여"
+2026-10-16,pickup_decision,yuan_shao,held,historical,패키지 가성비 분석,"586장 보유 당시 한 장 확보 가능성 때문에 보류"
+2026-10-20,operation_goal,gihyeon_level_5_reward,capture_goal,historical,탈환 작전 계획,"당시 작전의 최종 목표"
