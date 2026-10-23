@@ -1,0 +1,4 @@
+record_id,period_start,period_end,record_type,status,implementation_orders,source,overlap_rule,notes
+balance-2026-10-23,2026-10-23,2026-10-23,balance,actual,420,unconfirmed,not_applicable,"사용자 확인 보유량"
+gain-week-2026-10-19-23,2026-10-19,2026-10-23,gain_aggregate,actual,61,unconfirmed,do_not_sum_with_overlapping_aggregates,"주간 순증; 개별 획득처 미분해"
+gain-fri-2026-10-23,2026-10-23,2026-10-23,gain_aggregate,actual,16,unconfirmed,may_overlap_with_weekly_aggregate,"금요일 순증; 주간 +61에 포함될 수 있음"
